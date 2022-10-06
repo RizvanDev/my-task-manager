@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/tasks-book/static/css/main.8fae6c35.css",
+    "main.js": "/tasks-book/static/js/main.cf7b8bb2.js",
+    "static/media/logo.svg": "/tasks-book/static/media/logo.87eaf00f76d587ed0c3e.svg",
+    "index.html": "/tasks-book/index.html",
+    "main.8fae6c35.css.map": "/tasks-book/static/css/main.8fae6c35.css.map",
+    "main.cf7b8bb2.js.map": "/tasks-book/static/js/main.cf7b8bb2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8fae6c35.css",
+    "static/js/main.cf7b8bb2.js"
+  ]
+}

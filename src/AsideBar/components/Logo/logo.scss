@@ -1,0 +1,25 @@
+@import '../../../helpStyles/variables.scss';
+
+.asideBar__logo  {
+  position: relative;
+  display: block;
+  width: 50px;
+  padding-top: 5px;
+  padding-left: 64px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.03em;
+  color: $main-color;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 54px;
+    height: 54px;
+    background: url('../../../assets/icons/logo.svg') no-repeat;
+    background-size: contain;
+  }
+}

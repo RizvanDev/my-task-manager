@@ -1,0 +1,49 @@
+@import '../../helpStyles/variables.scss';
+
+.addItem__input {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.6s ease 0s;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  max-height: 20px;
+}
+
+.addItem__close {
+  margin-right: 10px;
+  background-color: transparent;
+  font-size: 22px;
+  color: $main-color;
+}
+
+.addItem__addItem {
+  position: absolute;
+  right: 38px;
+  top: 2px;
+  background-color: transparent;
+}
+
+.addItem__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.025em;
+  color: $main-color;
+}
+
+.invisible {
+  visibility: hidden;
+}

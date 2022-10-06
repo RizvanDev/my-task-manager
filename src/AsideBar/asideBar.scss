@@ -1,0 +1,13 @@
+.asideBar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 231px;
+  height: 100%;
+  padding: 20px 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 60px;
+  background-color: #fff;
+  filter: drop-shadow(0px 10px 25px rgba(29, 52, 54, 0.08));
+}
