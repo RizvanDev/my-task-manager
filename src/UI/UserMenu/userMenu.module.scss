@@ -1,0 +1,48 @@
+@import '../../helpStyles/variables.scss';
+
+.userMenu__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+  background-color: transparent;
+}
+
+.userMenu__name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  transition: all 0.3s linear 0s;
+}
+
+.userMenu__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.userMenu__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  box-shadow: 0px 10px 25px rgba(29, 52, 54, 0.08);
+  transition: all 0.3s linear 0s;
+  svg {
+    transition: all 0.3s linear 0s;
+  }
+}
+
+.darkModeBtn {
+  background-color: rgba(44, 52, 64, 1);
+}
+
+.darkModeText {
+  color: $darkModeColorText;
+}
+
+.rotate {
+  transform: rotate(-180deg);
+}

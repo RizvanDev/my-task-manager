@@ -1,6 +1,6 @@
 @import '../../../helpStyles/variables.scss';
 
-.asideBar__logo  {
+.asideBar__logo {
   position: relative;
   display: block;
   width: 50px;
@@ -11,7 +11,7 @@
   font-size: 18px;
   line-height: 22px;
   letter-spacing: 0.03em;
-  color: $main-color;
+  color: $main-color !important;
   &::before {
     content: '';
     position: absolute;

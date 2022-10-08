@@ -27,6 +27,7 @@ const AddItem = ({ listItems, setListItem }) => {
   return (
     <div>
       <InputContainer
+        placeholder='add category'
         addNewCategory={addNewCategory}
         inputValue={inputValue}
         setInputValue={setInputValue}
@@ -57,7 +58,7 @@ const AddItem = ({ listItems, setListItem }) => {
             strokeLinejoin='round'
           />
         </svg>
-        <span>add category</span>
+        <span>new category</span>
       </button>
     </div>
   )

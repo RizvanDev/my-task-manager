@@ -11,6 +11,7 @@ const InputContainer = props => {
   return (
     <div className={props.inputContainer.join(' ')}>
       <Input
+        placeholder={props.placeholder}
         style={inputStyles}
         value={props.inputValue}
         onChange={e => props.setInputValue(e.target.value)}

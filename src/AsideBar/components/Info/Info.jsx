@@ -3,14 +3,14 @@ import './info.scss'
 import MyTitle from '../../../MyTitle/MyTitle'
 import ListItem from '../ListItem/ListItem'
 
-const Info = () => {
+const Info = ({ darkMode }) => {
   return (
     <div className='asideBar__info'>
       <MyTitle fontSize='24px' lineHeight='33px' letterSpacing='0.03em'>
         My data
       </MyTitle>
       <ul className='info__list'>
-        <ListItem>
+        <ListItem darkMode={darkMode}>
           <svg width='18px' height='18px' fill='none'>
             <path
               d='M13.5 15V7.5'
@@ -36,7 +36,7 @@ const Info = () => {
           </svg>
           <span>Statistics</span>
         </ListItem>
-        <ListItem>
+        <ListItem darkMode={darkMode}>
           <svg width='18' height='18' fill='none'>
             <path
               d='M17.25 4.5L10.125 11.625L6.375 7.875L0.75 13.5'

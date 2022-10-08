@@ -1,13 +1,18 @@
+@import '../helpStyles/variables.scss';
+
 .asideBar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 231px;
-  height: 100%;
+  flex: 0 1 231px;
+  height: 100vh;
   padding: 20px 0 20px 20px;
   display: flex;
   flex-direction: column;
   row-gap: 60px;
   background-color: #fff;
+  color: $lightModeColorText !important;
   filter: drop-shadow(0px 10px 25px rgba(29, 52, 54, 0.08));
+  transition: all 0.3s linear 0s;
+  &.darkMode {
+    background-color: #2c3440;
+    color: #f9f9f9 !important;
+  }
 }
