@@ -1,0 +1,30 @@
+@import '../../../helpStyles/variables.scss';
+
+.mainBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  border-radius: 8px;
+  background-color: $main-color;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease 0s;
+  &:active {
+    transform: scale(0.97);
+  }
+  & svg {
+    transition: all 0.2s ease 0s;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mainBtn:hover svg {
+    opacity: 0.6;
+  }
+  .mainBtn:hover {
+    text-shadow: 0 0 1px snow;
+  }
+}
