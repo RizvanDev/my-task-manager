@@ -4,6 +4,7 @@ import Input from '../Input/Input'
 
 const InputContainer = props => {
   const inputStyles = {
+    width: '180px',
     padding: '7px 30px 7px 5px',
     fontSize: '14px',
   }
@@ -11,7 +12,7 @@ const InputContainer = props => {
   return (
     <div className={props.inputContainer.join(' ')}>
       <Input
-        placeholder={props.placeholder}
+        placeholder='add category'
         style={inputStyles}
         value={props.inputValue}
         onChange={e => props.setInputValue(e.target.value)}

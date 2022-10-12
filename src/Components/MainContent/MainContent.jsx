@@ -10,7 +10,7 @@ const MainContent = ({ darkMode, setDarkMode, setTaskModal }) => {
       <MainTop darkMode={darkMode} setDarkMode={setDarkMode} setTaskModal={setTaskModal} />
       <main className='mainContent__main'>
         <Tasks />
-        <Time />
+        <Time darkMode={darkMode} />
       </main>
     </div>
   )

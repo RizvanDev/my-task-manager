@@ -11,12 +11,14 @@ const UserModal = ({ darkMode, setDarkMode, userModal }) => {
     lineHeight: '15px',
   }
 
+  const userModalClasses = [cl.userModal]
+
+  if (userModal) userModalClasses.push(cl.open)
+  if (darkMode) userModalClasses.push(cl.darkMode)
+
   return (
-    <div className={userModal ? [cl.userModal, cl.open].join(' ') : cl.userModal}>
-      <div
-        className={
-          darkMode ? [cl.userModal__container, cl.darkMode].join(' ') : cl.userModal__container
-        }>
+    <div className={userModalClasses.join(' ')}>
+      <div className={cl.userModal__container}>
         <a href='#' className={cl.userModal__item}>
           <svg width='18' height='18' fill='none'>
             <path

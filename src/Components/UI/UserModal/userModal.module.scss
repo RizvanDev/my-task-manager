@@ -3,16 +3,23 @@
 .userModal {
   position: absolute;
   top: 50px;
-  right: -35px;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 170px;
+  width: 160px;
   height: 190px;
+  border: 1px solid grey;
+  border-radius: 8px;
+  background-color: #e5e5e5;
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s linear 0s;
   z-index: 2;
+}
+
+.darkMode {
+  background-color: #222831;
 }
 
 .open {
@@ -30,7 +37,7 @@
   color: $lightModeColorText;
 }
 
-.darkMode {
+.userModal.darkMode .userModal__container {
   color: $darkModeColorText;
   svg path {
     stroke: #f9f9f9;
