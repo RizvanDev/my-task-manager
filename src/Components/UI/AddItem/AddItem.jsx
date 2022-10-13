@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import cl from './addItem.module.scss'
 import InputContainer from './InputContainer'
 

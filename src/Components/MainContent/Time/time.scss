@@ -5,6 +5,7 @@
   padding: 20px;
   border-radius: 10px;
   background-color: #fff;
+  transition: all 0.3s linear 0s;
   &.darkMode {
     background-color: $darkModeBgElement;
   }

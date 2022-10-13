@@ -5,7 +5,7 @@ import CategoryList from './CategoryList/CategoryList'
 import Info from './Info/Info'
 import LogOut from '../UI/LogOut/LogOut'
 
-const AsideBar = ({ darkMode, listItems, setListItem }) => {
+const AsideBar = ({ darkMode, listItems, setListItem, tab, setTab }) => {
   const logOutStyles = {
     position: 'absolute',
     bottom: '20px',
@@ -17,7 +17,7 @@ const AsideBar = ({ darkMode, listItems, setListItem }) => {
   return (
     <aside className={darkMode ? 'asideBar darkMode' : 'asideBar'}>
       <Logo />
-      <CategoryList listItems={listItems} setListItem={setListItem} />
+      <CategoryList listItems={listItems} setListItem={setListItem} tab={tab} setTab={setTab} />
       <Info darkMode={darkMode} />
       <LogOut style={logOutStyles} darkMode={darkMode} />
     </aside>
