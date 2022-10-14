@@ -17,7 +17,7 @@ const CategoryList = ({ listItems, setListItem, tab, setTab }) => {
           </li>
         ))}
       </ul>
-      <AddItem listItems={listItems} setListItem={setListItem} />
+      <AddItem listItems={listItems} setListItem={setListItem} setTab={setTab} />
     </div>
   )
 }

@@ -9,6 +9,8 @@ const InputContainer = props => {
     fontSize: '14px',
   }
 
+  const enterKeyUp = e => (e.code === 'Enter' ? props.addNewCategory() : false)
+
   return (
     <div className={props.inputContainer.join(' ')}>
       <Input
@@ -16,6 +18,7 @@ const InputContainer = props => {
         style={inputStyles}
         value={props.inputValue}
         onChange={e => props.setInputValue(e.target.value)}
+        onKeyUp={enterKeyUp}
       />
       <button type='button' className={cl.addItem__addItem} onClick={props.addNewCategory}>
         <svg width='18' height='18' fill='none'>
