@@ -2,7 +2,7 @@ import React from 'react'
 import cl from './addItem.module.scss'
 import Input from '../Input/Input'
 
-const InputContainer = props => {
+const InputContainer = React.forwardRef((props, ref) => {
   const inputStyles = {
     width: '180px',
     padding: '7px 30px 7px 5px',
@@ -17,8 +17,9 @@ const InputContainer = props => {
         placeholder='add category'
         style={inputStyles}
         value={props.inputValue}
-        onChange={e => props.setInputValue(e.target.value)}
+        onChange={props.setInputValue}
         onKeyUp={enterKeyUp}
+        ref={ref}
       />
       <button type='button' className={cl.addItem__addItem} onClick={props.addNewCategory}>
         <svg width='18' height='18' fill='none'>
@@ -48,11 +49,11 @@ const InputContainer = props => {
       <button
         type='button'
         className={cl.addItem__close}
-        onClick={() => props.setState({ invisible: false, visible: false })}>
+        onClick={() => props.showInputContainer(false, false)}>
         X
       </button>
     </div>
   )
-}
+})
 
 export default InputContainer
