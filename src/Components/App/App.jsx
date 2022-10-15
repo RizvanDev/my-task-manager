@@ -4,7 +4,7 @@ import AsideBar from '../AsideBar/AsideBar'
 import MainContent from '../MainContent/MainContent'
 import TaskModal from '../TaskModal/TaskModal'
 
-const defaultListItems = ['Home', 'Family', 'Work', 'Sport']
+const defaultListItems = ['Home', 'Work', 'Sport']
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false)

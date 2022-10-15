@@ -1,8 +1,8 @@
 import React from 'react'
 import cl from './userModal.module.scss'
 import LogOut from '../LogOut/LogOut'
-import moon from '../../../assets/icons/mode/moon.png'
-import sun from '../../../assets/icons/mode/sun.png'
+import moon from '../../../assets/icons/mode/moon.svg'
+import sun from '../../../assets/icons/mode/sun.svg'
 
 const UserModal = ({ darkMode, setDarkMode, userModal }) => {
   const logOutStyles = {
