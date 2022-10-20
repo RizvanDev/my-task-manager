@@ -1,0 +1,79 @@
+@import '../.../../../../../helpStyles/variables.scss';
+
+.category__container {
+  position: relative;
+  display: none;
+  flex-direction: column;
+  height: 0;
+  padding: 20px;
+  visibility: hidden;
+  &.active {
+    display: flex;
+    height: 100%;
+    visibility: visible;
+  }
+}
+
+.category__title {
+  font-family: 'Roboto' serif;
+  flex: 0 1 10%;
+  font-size: 30px;
+  font-weight: 700;
+  color: grey;
+}
+
+.category__activeTasks,
+.category__completedTasks {
+  padding: 0 15px;
+}
+
+.category__activeTasks {
+  flex: 1 1 55%;
+}
+
+.category__completedTasks {
+  flex: 1 1 35%;
+}
+
+.activeTasksContainer,
+.completedTasksContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  margin: 20px 0;
+  padding-right: 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $main-color #f6f6f6;
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f6f6f6;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-color;
+  }
+}
+.activeTasksContainer {
+  max-height: 320px;
+}
+
+.completedTasksContainer {
+  max-height: 250px;
+}
+
+.category__configBtn {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  display: flex;
+  column-gap: 5px;
+  background-color: transparent;
+  span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: grey;
+  }
+}

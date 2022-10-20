@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import cl from './addItem.module.scss'
 import InputContainer from './InputContainer'
 
-const AddItem = ({ listItems, setListItem, setTab }) => {
+const AddItem = ({ tabItems, setTabItem, setTab }) => {
   const [state, setState] = useState({ invisible: false, visible: false })
   const [inputValue, setInputValue] = useState('')
   const inputRef = useRef(null)
@@ -26,7 +26,7 @@ const AddItem = ({ listItems, setListItem, setTab }) => {
   const addNewCategory = () => {
     if (inputValue) {
       setInputValue('')
-      setListItem([...listItems, inputValue])
+      setTabItem([...tabItems, { title: inputValue, data: [] }])
       setState({ invisible: false, visible: false })
       return setTab(inputValue)
     }
@@ -37,7 +37,7 @@ const AddItem = ({ listItems, setListItem, setTab }) => {
         addNewCategory={addNewCategory}
         showInputContainer={showInputContainer}
         inputValue={inputValue}
-        setInputValue={setInputValue}
+        setInputValue={e => setInputValue(e.target.value)}
         inputContainer={classes.inputContainer}
         ref={inputRef}
       />

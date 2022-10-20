@@ -1,24 +1,28 @@
 import React from 'react'
-import CategoryTask from './CategoryTask'
+import CategoriesTab from './CategoriesTab/CategoriesTab'
 import './tasks.scss'
 
-const Tasks = ({ darkMode, listItems, setListItem, tab, setTab }) => {
-  const classes = ['mainContent__tasksContainer']
+const Tasks = props => {
+  const classes = ['mainContent__tabsContainer']
 
-  if (darkMode) classes.push('darkMode')
+  if (props.darkMode) classes.push('darkMode')
 
-  if (listItems.length) {
+  if (props.tabItems.length) {
     return (
       <div className={classes.join(' ')}>
-        {listItems.map((category, idx) => (
-          <CategoryTask
-            key={category}
+        {props.tabItems.map((category, idx) => (
+          <CategoriesTab
+            darkMode={props.darkMode}
+            key={category.title}
             category={category}
             idx={idx}
-            tab={tab}
-            setTab={setTab}
-            listItems={listItems}
-            setListItem={setListItem}
+            tab={props.tab}
+            setTab={props.setTab}
+            tabItems={props.tabItems}
+            setTabItem={props.setTabItem}
+            deleteTask={props.deleteTask}
+            checkTask={props.checkTask}
+            editTask={props.editTask}
           />
         ))}
       </div>

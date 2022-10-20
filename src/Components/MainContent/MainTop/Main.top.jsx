@@ -4,12 +4,13 @@ import MainBtn from '../../UI/MainBtn/MainBtn'
 import UserMenu from '../../UI/UserMenu/UserMenu'
 import UserModal from '../../UI/UserModal/UserModal'
 
-const MainTop = ({ darkMode, setDarkMode, setTaskModal }) => {
+const MainTop = ({ darkMode, setDarkMode, tabItems, setTaskModal }) => {
   const [userModal, setUserModal] = useState(false)
 
   const btnStyles = {
     padding: '10px 25px',
     color: '#fafafa',
+    visibility: tabItems.length ? 'visible' : 'hidden',
   }
 
   return (
