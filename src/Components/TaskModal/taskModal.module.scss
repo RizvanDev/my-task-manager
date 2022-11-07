@@ -8,7 +8,7 @@
   height: 100%;
   visibility: hidden;
   opacity: 0;
-  background-color: #0003;
+  background-color: #0005;
   transition: all 0.2s ease 0s;
   z-index: 3;
 }
@@ -50,21 +50,6 @@
   line-height: 19px;
   letter-spacing: 0.02em;
   margin-bottom: 10px;
-}
-
-.taskModal__section {
-  width: 200px;
-  padding: 8px 15px;
-  border: 1px solid rgba(40, 40, 70, 0.1);
-  border-radius: 8px;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 19px;
-  letter-spacing: 0.02em;
-  option {
-    font-size: 16px;
-    color: #666;
-  }
 }
 
 .taskModal__btnContainer {

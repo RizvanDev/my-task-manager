@@ -11,15 +11,15 @@ const defaultItems = [
 ]
 
 const App = () => {
-  // state
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(true)
   const [tabItems, setTabItem] = useState(defaultItems)
   const [tab, setTab] = useState(defaultItems[0].title)
   const [taskModal, setTaskModal] = useState(false)
+  const [task, setTask] = useState({ input: '', select: tabItems[0].title })
 
   // create task
-  const createTask = (task, setTask) => {
-    setTask({ input: '', select: '' })
+  const createTask = () => {
+    setTask({ input: '', select: task.select })
     setTaskModal(false)
     setTab(task.select)
 
@@ -81,6 +81,8 @@ const App = () => {
           setTabItem={setTabItem}
           tab={tab}
           setTab={setTab}
+          task={task}
+          setTask={setTask}
         />
         <MainContent
           darkMode={darkMode}
@@ -100,6 +102,8 @@ const App = () => {
           setTaskModal={setTaskModal}
           tabItems={tabItems}
           createTask={createTask}
+          task={task}
+          setTask={setTask}
         />
       </div>
     </div>

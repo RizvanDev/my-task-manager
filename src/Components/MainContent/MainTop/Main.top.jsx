@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
 import './mainTop.scss'
 import MainBtn from '../../UI/MainBtn/MainBtn'
-import UserMenu from '../../UI/UserMenu/UserMenu'
-import UserModal from '../../UI/UserModal/UserModal'
+import UserMenu from './UserMenu/UserMenu'
+import UserModal from './UserModal/UserModal'
 
 const MainTop = ({ darkMode, setDarkMode, tabItems, setTaskModal }) => {
   const [userModal, setUserModal] = useState(false)
 
   const btnStyles = {
     padding: '10px 25px',
+    background: '#29a19c',
     color: '#fafafa',
+    columnGap: '10px',
+    borderRadius: '8px',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '22px',
+    letterSpacing: '0.01em',
     visibility: tabItems.length ? 'visible' : 'hidden',
   }
 

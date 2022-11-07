@@ -22,6 +22,8 @@ const AsideBar = props => {
         setTabItem={props.setTabItem}
         tab={props.tab}
         setTab={props.setTab}
+        task={props.task}
+        setTask={props.setTask}
       />
       <Info darkMode={props.darkMode} />
       <LogOut style={logOutStyles} darkMode={props.darkMode} />

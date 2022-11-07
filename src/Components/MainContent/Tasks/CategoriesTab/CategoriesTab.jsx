@@ -8,9 +8,10 @@ const CategoriesTab = props => {
   const [modal, setModal] = useState(false)
 
   const removeCategory = () => {
-    props.setTab(
-      props.tabItems.length > 1 ? (props.tabItems[props.idx - 1] || props.tabItems[1]).title : '',
-    )
+    const checkingTabs = props.tabItems[props.idx - 1] || props.tabItems[1]
+
+    props.setTab(props.tabItems.length > 1 ? checkingTabs.title : false)
+
     return props.setTabItem(props.tabItems.filter(e => e.title !== props.category.title))
   }
 
