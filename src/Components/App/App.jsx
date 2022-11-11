@@ -1,113 +1,46 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './App.scss'
 import AsideBar from '../AsideBar/AsideBar'
 import MainContent from '../MainContent/MainContent'
 import TaskModal from '../TaskModal/TaskModal'
+import { withApp } from '../../hoc/withApp'
 
-const defaultItems = [
-  { title: 'Home', data: [] },
-  { title: 'Work', data: [] },
-  { title: 'Sport', data: [] },
-]
-
-const App = () => {
-  const [darkMode, setDarkMode] = useState(true)
-  const [tabItems, setTabItem] = useState(defaultItems)
-  const [tab, setTab] = useState(defaultItems[0].title)
-  const [taskModal, setTaskModal] = useState(false)
-  const [task, setTask] = useState({ input: '', select: tabItems[0].title })
-
-  // create task
-  const createTask = () => {
-    setTask({ input: '', select: task.select })
-    setTaskModal(false)
-    setTab(task.select)
-
-    tabItems.forEach(tab => {
-      if (tab.title === task.select) {
-        tab.data = [...tab.data, { task: task.input, date: new Date(), completed: false }]
-      }
-    })
-
-    return setTabItem([...tabItems])
-  }
-
-  //  delete task
-  const deleteTask = (title, currentTask) => {
-    tabItems.forEach(tab => {
-      if (title === tab.title) {
-        tab.data = tab.data.filter(task => task.task !== currentTask.task)
-      }
-    })
-
-    return setTabItem([...tabItems])
-  }
-
-  // checked task
-  const checkTask = (title, currentTask, complete) => {
-    tabItems.forEach(tab => {
-      if (title === tab.title) {
-        tab.data.forEach(task => {
-          if (currentTask.task === task.task) task.completed = !complete
-        })
-      }
-    })
-
-    return setTabItem(tabItems => [...tabItems])
-  }
-
-  // edit task
-  const editTask = (event, title, currentTask, newValue) => {
-    event.target.style.borderBottom = `1px solid ${event.target.value ? 'transparent' : 'red'}`
-    event.target.readOnly = event.code === 'Enter' && event.target.value
-
-    tabItems.forEach(tab => {
-      if (title === tab.title) {
-        tab.data.forEach(task => {
-          if (currentTask.task === task.task) task.task = newValue
-        })
-      }
-    })
-
-    return setTabItem(tabItems => [...tabItems])
-  }
-
+const App = props => {
   return (
-    <div className={darkMode ? 'App darkMode' : 'App'}>
+    <div className={props.darkMode ? 'App darkMode' : 'App'}>
       <div className='app__container'>
         <AsideBar
-          darkMode={darkMode}
-          tabItems={tabItems}
-          setTabItem={setTabItem}
-          tab={tab}
-          setTab={setTab}
-          task={task}
-          setTask={setTask}
+          darkMode={props.darkMode}
+          tabItems={props.tabItems}
+          setTabItem={props.setTabItem}
+          tab={props.tab}
+          setTab={props.setTab}
+          setCategory={props.setCategory}
         />
         <MainContent
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-          setTaskModal={setTaskModal}
-          tabItems={tabItems}
-          setTabItem={setTabItem}
-          deleteTask={deleteTask}
-          checkTask={checkTask}
-          editTask={editTask}
-          tab={tab}
-          setTab={setTab}
+          darkMode={props.darkMode}
+          setDarkMode={props.setDarkMode}
+          setTaskModal={props.setTaskModal}
+          tabItems={props.tabItems}
+          setTabItem={props.setTabItem}
+          deleteTask={props.deleteTask}
+          checkTask={props.checkTask}
+          editTask={props.editTask}
+          tab={props.tab}
+          setTab={props.setTab}
         />
         <TaskModal
-          darkMode={darkMode}
-          taskModal={taskModal}
-          setTaskModal={setTaskModal}
-          tabItems={tabItems}
-          createTask={createTask}
-          task={task}
-          setTask={setTask}
+          darkMode={props.darkMode}
+          taskModal={props.taskModal}
+          setTaskModal={props.setTaskModal}
+          tabItems={props.tabItems}
+          createTask={props.createTask}
+          category={props.category}
+          selectOnChange={props.selectOnChange}
         />
       </div>
     </div>
   )
 }
 
-export default App
+export default withApp(App)

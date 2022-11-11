@@ -7,7 +7,7 @@ import ListItem from '../ListItem/ListItem'
 const CategoryList = props => {
   const chooseCategory = e => {
     props.setTab(e.target.innerText)
-    props.setTask({ ...props.task, select: e.target.innerText })
+    props.setCategory(e.target.innerText)
   }
 
   return (
@@ -24,7 +24,12 @@ const CategoryList = props => {
           ))}
         </ul>
       </div>
-      <AddItem tabItems={props.tabItems} setTabItem={props.setTabItem} setTab={props.setTab} />
+      <AddItem
+        tabItems={props.tabItems}
+        setTabItem={props.setTabItem}
+        setTab={props.setTab}
+        setCategory={props.setCategory}
+      />
     </div>
   )
 }

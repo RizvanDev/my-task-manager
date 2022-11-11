@@ -2,7 +2,7 @@ import React from 'react'
 import './mainContent.scss'
 import MainTop from './MainTop/Main.top'
 import Tasks from './Tasks/Tasks'
-import Time from './Time/Time'
+import DateContainer from './DateContainer/DateContainer'
 
 const MainContent = props => {
   return (
@@ -24,7 +24,7 @@ const MainContent = props => {
           checkTask={props.checkTask}
           editTask={props.editTask}
         />
-        <Time darkMode={props.darkMode} />
+        <DateContainer darkMode={props.darkMode} />
       </main>
     </div>
   )

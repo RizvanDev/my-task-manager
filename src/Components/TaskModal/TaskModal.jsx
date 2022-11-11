@@ -4,8 +4,19 @@ import MyTitle from '../MyTitle/MyTitle'
 import Input from '../UI/Input/Input'
 import MainBtn from '../UI/MainBtn/MainBtn'
 import Select from '../UI/Select/Select'
+import useValue from '../../hooks/useValue'
 
 const TaskModal = props => {
+  const [inputValue, setInputValue, inputOnChange] = useValue('')
+
+  const addTask = () => inputValue && props.createTask(inputValue, setInputValue)
+
+  const onKeyUp = e => {
+    if (e.code === 'Enter' && inputValue) {
+      return props.createTask(inputValue, setInputValue)
+    }
+  }
+
   const classes = { modal: [cl.taskModal], modalContainer: [cl.taskModal__container] }
 
   if (props.taskModal) classes.modal.push(cl.open)
@@ -48,18 +59,6 @@ const TaskModal = props => {
     },
   }
 
-  // functions
-  const selectFunc = e => props.setTask({ ...props.task, select: e.target.value })
-  const inputFunc = e => props.setTask({ ...props.task, input: e.target.value })
-
-  const addTask = () => (props.task.input && props.task.select ? props.createTask() : false)
-
-  const onKeyUp = e => {
-    const condition = e.code === 'Enter' && props.task.input && props.task.select
-
-    return condition ? props.createTask() : false
-  }
-
   return (
     <div className={classes.modal.join(' ')} onClick={() => props.setTaskModal(false)}>
       <div className={classes.modalContainer.join(' ')} onClick={e => e.stopPropagation()}>
@@ -72,8 +71,8 @@ const TaskModal = props => {
             <Select
               styles={styleObj.selectStyles}
               options={props.tabItems}
-              value={props.task.select}
-              onChange={selectFunc}
+              value={props.category}
+              onChange={props.selectOnChange}
             />
           </div>
           <div>
@@ -81,8 +80,8 @@ const TaskModal = props => {
             <Input
               style={styleObj.inputStyles}
               placeholder='What should I do?'
-              value={props.task.input}
-              onChange={inputFunc}
+              value={inputValue}
+              onChange={inputOnChange}
               onKeyUp={onKeyUp}
             />
           </div>

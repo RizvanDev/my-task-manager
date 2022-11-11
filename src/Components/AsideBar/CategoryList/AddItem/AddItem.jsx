@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react'
 import cl from './addItem.module.scss'
 import InputContainer from './InputContainer'
+import useValue from '../../../../hooks/useValue'
 
-const AddItem = ({ tabItems, setTabItem, setTab }) => {
+const AddItem = ({ tabItems, setTabItem, setTab, setCategory }) => {
   const [state, setState] = useState({ invisible: false, visible: false })
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue, onChange] = useValue('')
   const inputRef = useRef(null)
 
   const classes = {
@@ -28,6 +29,7 @@ const AddItem = ({ tabItems, setTabItem, setTab }) => {
       setInputValue('')
       setTabItem([...tabItems, { title: inputValue, data: [] }])
       setState({ invisible: false, visible: false })
+      setCategory(inputValue)
       return setTab(inputValue)
     }
   }
@@ -37,7 +39,7 @@ const AddItem = ({ tabItems, setTabItem, setTab }) => {
         addNewCategory={addNewCategory}
         showInputContainer={showInputContainer}
         inputValue={inputValue}
-        setInputValue={e => setInputValue(e.target.value)}
+        setInputValue={onChange}
         inputContainer={classes.inputContainer}
         ref={inputRef}
       />

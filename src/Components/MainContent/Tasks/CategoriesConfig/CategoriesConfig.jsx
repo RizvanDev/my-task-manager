@@ -1,10 +1,10 @@
 import React from 'react'
-import { useState } from 'react'
 import Select from '../../../UI/Select/Select'
 import './categoriesConfig.scss'
+import useValue from '../../../../hooks/useValue'
 
 const CategoriesConfig = ({ modal, removeCategory }) => {
-  const [selected, setSelect] = useState('newest first')
+  const [selectValue, , selectOnChange] = useValue('newest first')
 
   const clConfigBtn = ['category__configModal']
 
@@ -18,8 +18,6 @@ const CategoriesConfig = ({ modal, removeCategory }) => {
     cursor: 'pointer',
   }
 
-  const selectFunc = e => setSelect(e.target.value)
-
   return (
     <div className={clConfigBtn.join(' ')}>
       <div className='category__filter'>
@@ -27,8 +25,8 @@ const CategoriesConfig = ({ modal, removeCategory }) => {
         <Select
           styles={selectStyles}
           options={[{ title: 'newest first' }, { title: 'oldest first' }]}
-          value={selected}
-          onChange={selectFunc}
+          value={selectValue}
+          onChange={selectOnChange}
         />
       </div>
       <button
