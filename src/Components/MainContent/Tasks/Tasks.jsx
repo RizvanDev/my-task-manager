@@ -1,15 +1,18 @@
 import React from 'react'
 import CategoriesTab from './CategoriesTab/CategoriesTab'
 import './tasks.scss'
+import Loader from '../../Loader/Loader'
 
 const Tasks = props => {
-  const classes = ['mainContent__tabsContainer']
-
-  if (props.darkMode) classes.push('darkMode')
-
   if (props.tabItems.length) {
     return (
-      <div className={classes.join(' ')}>
+      <div
+        className={
+          props.darkMode
+            ? 'mainContent__tabsContainer darkMode'
+            : 'mainContent__tabsContainer'
+        }>
+        <Loader tabLoader={props.tabLoader} />
         {props.tabItems.map((category, idx) => (
           <CategoriesTab
             darkMode={props.darkMode}

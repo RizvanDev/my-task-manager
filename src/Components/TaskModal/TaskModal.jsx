@@ -61,8 +61,14 @@ const TaskModal = props => {
 
   return (
     <div className={classes.modal.join(' ')} onClick={() => props.setTaskModal(false)}>
-      <div className={classes.modalContainer.join(' ')} onClick={e => e.stopPropagation()}>
-        <MyTitle fontWeight='700' fontSize='20px' lineHeight='27px' letterSpacing='0.02em'>
+      <div
+        className={classes.modalContainer.join(' ')}
+        onClick={e => e.stopPropagation()}>
+        <MyTitle
+          fontWeight='700'
+          fontSize='20px'
+          lineHeight='27px'
+          letterSpacing='0.02em'>
           Add new task
         </MyTitle>
         <div className={cl.taskModal__inputsContainer}>
@@ -87,7 +93,9 @@ const TaskModal = props => {
           </div>
         </div>
         <div className={cl.taskModal__btnContainer}>
-          <MainBtn styles={styleObj.cancelBtnStyles} onClick={() => props.setTaskModal(false)}>
+          <MainBtn
+            styles={styleObj.cancelBtnStyles}
+            onClick={() => props.setTaskModal(false)}>
             Cancel
           </MainBtn>
           <MainBtn styles={styleObj.addBtnStyles} onClick={addTask}>

@@ -1,17 +1,36 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import './task.scss'
+import useValue from '../../../../hooks/useValue'
 
 const Task = ({ ...props }) => {
-  const [taskValue, setNewTaskValue] = useState(props.children)
+  const [taskValue, , taskOnChange] = useValue(props.children)
   const ref = useRef(null)
+
+  const completeTask = () => {
+    return props.checkTask(props.tabTitle, props.currentTask, props.completed)
+  }
+
+  const editingTask = () => {
+    ref.current.focus()
+    ref.current.readOnly = false
+  }
+
+  const onKeyUpInput = e => {
+    return props.editTask(e, props.tabTitle, props.currentTask, taskValue)
+  }
+
+  const deletingTask = () => props.deleteTask(props.tabTitle, props.currentTask)
 
   return (
     <div className='task'>
       <button
         type='button'
         className={props.completed ? 'taskCheckbox checked' : 'taskCheckbox'}
-        onClick={() => props.checkTask(props.tabTitle, props.currentTask, props.completed)}>
-        <svg width={props.completed ? '14' : '0'} height='9' xmlns='http://www.w3.org/2000/svg'>
+        onClick={completeTask}>
+        <svg
+          width={props.completed ? '14' : '0'}
+          height='9'
+          xmlns='http://www.w3.org/2000/svg'>
           <path
             d='M13.2857 0.692383L5.42855 8.30777L1.85712 4.84623'
             stroke='#29A19C'
@@ -26,17 +45,14 @@ const Task = ({ ...props }) => {
         value={taskValue}
         readOnly={true}
         ref={ref}
-        onChange={e => setNewTaskValue(e.target.value)}
-        onKeyUp={e => props.editTask(e, props.tabTitle, props.currentTask, taskValue)}
+        onChange={taskOnChange}
+        onKeyUp={onKeyUpInput}
         className={props.completed ? 'taskName checked' : 'taskName'}
       />
       <button
         type='button'
         className={props.completed ? 'taskEdit checked' : 'taskEdit'}
-        onClick={() => {
-          ref.current.focus()
-          ref.current.readOnly = false
-        }}>
+        onClick={editingTask}>
         <svg width='18' height='18' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path
             fillRule='evenodd'
@@ -55,7 +71,7 @@ const Task = ({ ...props }) => {
       <button
         type='button'
         className={props.completed ? 'taskDelete checked' : 'taskDelete'}
-        onClick={() => props.deleteTask(props.tabTitle, props.currentTask)}>
+        onClick={deletingTask}>
         <svg width='18' height='18' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path
             fillRule='evenodd'

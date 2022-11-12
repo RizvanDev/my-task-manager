@@ -8,6 +8,9 @@ const CategoryList = props => {
   const chooseCategory = e => {
     props.setTab(e.target.innerText)
     props.setCategory(e.target.innerText)
+    if (props.tab !== e.target.innerText) {
+      props.tabLoading()
+    }
   }
 
   return (

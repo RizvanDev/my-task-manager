@@ -15,6 +15,7 @@ const App = props => {
           setTabItem={props.setTabItem}
           tab={props.tab}
           setTab={props.setTab}
+          tabLoading={props.tabLoading}
           setCategory={props.setCategory}
         />
         <MainContent
@@ -28,6 +29,7 @@ const App = props => {
           editTask={props.editTask}
           tab={props.tab}
           setTab={props.setTab}
+          tabLoader={props.tabLoader}
         />
         <TaskModal
           darkMode={props.darkMode}

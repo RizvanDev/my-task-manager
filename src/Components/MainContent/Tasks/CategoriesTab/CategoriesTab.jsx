@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './categoriesTab.scss'
 import MyTitle from '../../../MyTitle/MyTitle'
 import CategoriesConfig from '../CategoriesConfig/CategoriesConfig'
 import Task from '../Task/Task'
+import useValue from '../../../../hooks/useValue'
 
 const CategoriesTab = props => {
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useValue(false)
 
   const removeCategory = () => {
     const checkingTabs = props.tabItems[props.idx - 1] || props.tabItems[1]
@@ -18,14 +19,19 @@ const CategoriesTab = props => {
   return (
     <div
       className={
-        props.tab === props.category.title ? 'category__container active' : 'category__container'
+        props.tab === props.category.title
+          ? 'category__container active'
+          : 'category__container'
       }>
       <div className='category__title'>{props.category.title}</div>
       <div className='category__activeTasks'>
         <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
           Active tasks
         </MyTitle>
-        <div className={props.darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'}>
+        <div
+          className={
+            props.darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'
+          }>
           {props.category.data
             .filter(task => !task.completed)
             .map(uncompletedTask => (
@@ -49,7 +55,9 @@ const CategoriesTab = props => {
         </MyTitle>
         <div
           className={
-            props.darkMode ? 'completedTasksContainer darkMode' : 'completedTasksContainer'
+            props.darkMode
+              ? 'completedTasksContainer darkMode'
+              : 'completedTasksContainer'
           }>
           {props.category.data
             .filter(task => task.completed)
