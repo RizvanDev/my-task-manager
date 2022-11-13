@@ -25,3 +25,34 @@
   padding: 5px 20px;
   transform: scaleX(-1);
 }
+
+.listItem-enter {
+  animation: pop-up 2s forwards;
+}
+.listItem-enter-active {
+  animation: pop-up 2s forwards;
+}
+.listItem-exit {
+  animation: pop-out 1s forwards;
+}
+.listItem-exit-active {
+  animation: pop-out 1s forwards;
+}
+
+@keyframes pop-up {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

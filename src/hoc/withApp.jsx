@@ -1,9 +1,10 @@
+import { createRef } from 'react'
 import useValue from '../hooks/useValue'
 
 const defaultItems = [
-  { title: 'Home', data: [] },
-  { title: 'Work', data: [] },
-  { title: 'Sport', data: [] },
+  { title: 'Home', data: [], nodeRef: createRef() },
+  { title: 'Work', data: [], nodeRef: createRef() },
+  { title: 'Sport', data: [], nodeRef: createRef() },
 ]
 
 const withApp = Component => {
@@ -12,26 +13,24 @@ const withApp = Component => {
       [taskModal, setTaskModal] = useValue(false),
       [tabItems, setTabItem] = useValue(defaultItems),
       [tab, setTab] = useValue(defaultItems[0].title),
-      [tabLoader, setTabLoader] = useValue(false),
       [category, setCategory, selectOnChange] = useValue(defaultItems[0].title)
-
-    const tabLoading = () => {
-      setTabLoader(true)
-      setTimeout(() => setTabLoader(false), 600)
-    }
 
     const taskMethods = {
       createTask: (inputValue, setInputValue) => {
         setInputValue('')
         setTaskModal(false)
-        if (tab !== category) tabLoading()
         setTab(category)
 
         tabItems.forEach(tab => {
           if (tab.title === category) {
             tab.data = [
               ...tab.data,
-              { task: inputValue, date: new Date(), completed: false },
+              {
+                task: inputValue,
+                date: new Date(),
+                completed: false,
+                nodeRef: createRef(),
+              },
             ]
           }
         })
@@ -87,8 +86,6 @@ const withApp = Component => {
         setTaskModal={setTaskModal}
         tab={tab}
         setTab={setTab}
-        tabLoader={tabLoader}
-        tabLoading={tabLoading}
         tabItems={tabItems}
         setTabItem={setTabItem}
         category={category}

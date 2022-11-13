@@ -18,6 +18,9 @@ const MainContent = props => {
           darkMode={props.darkMode}
           tab={props.tab}
           setTab={props.setTab}
+          showTab={props.showTab}
+          showingTab={props.showingTab}
+          setCategory={props.setCategory}
           tabLoader={props.tabLoader}
           tabItems={props.tabItems}
           setTabItem={props.setTabItem}

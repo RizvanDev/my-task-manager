@@ -3,14 +3,12 @@ import './categoryList.scss'
 import MyTitle from '../../MyTitle/MyTitle'
 import AddItem from './AddItem/AddItem'
 import ListItem from '../ListItem/ListItem'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 const CategoryList = props => {
   const chooseCategory = e => {
     props.setTab(e.target.innerText)
     props.setCategory(e.target.innerText)
-    if (props.tab !== e.target.innerText) {
-      props.tabLoading()
-    }
   }
 
   return (
@@ -19,13 +17,21 @@ const CategoryList = props => {
         Category
       </MyTitle>
       <div className='categoriesContainer'>
-        <ul className='category__list'>
+        <TransitionGroup component='ul' className='category__list'>
           {props.tabItems.map(element => (
-            <li key={element.title}>
-              <ListItem onClick={chooseCategory}>{element.title}</ListItem>
-            </li>
+            <CSSTransition
+              key={element.title}
+              nodeRef={element.nodeRef}
+              timeout={500}
+              mountOnEnter
+              unmountOnExit
+              classNames='listItem'>
+              <li ref={element.nodeRef}>
+                <ListItem onClick={chooseCategory}>{element.title}</ListItem>
+              </li>
+            </CSSTransition>
           ))}
-        </ul>
+        </TransitionGroup>
       </div>
       <AddItem
         tabItems={props.tabItems}

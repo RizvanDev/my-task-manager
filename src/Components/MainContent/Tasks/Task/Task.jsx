@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import './task.scss'
 import useValue from '../../../../hooks/useValue'
 
-const Task = ({ ...props }) => {
+const Task = React.forwardRef((props, nodeRef) => {
   const [taskValue, , taskOnChange] = useValue(props.children)
   const ref = useRef(null)
 
@@ -22,7 +22,7 @@ const Task = ({ ...props }) => {
   const deletingTask = () => props.deleteTask(props.tabTitle, props.currentTask)
 
   return (
-    <div className='task'>
+    <div className='task' ref={nodeRef}>
       <button
         type='button'
         className={props.completed ? 'taskCheckbox checked' : 'taskCheckbox'}
@@ -93,6 +93,6 @@ const Task = ({ ...props }) => {
       </div>
     </div>
   )
-}
+})
 
 export default Task

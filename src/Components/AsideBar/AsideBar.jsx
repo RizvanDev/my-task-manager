@@ -22,7 +22,7 @@ const AsideBar = props => {
         setTabItem={props.setTabItem}
         tab={props.tab}
         setTab={props.setTab}
-        tabLoading={props.tabLoading}
+        showingTab={props.showingTab}
         setCategory={props.setCategory}
       />
       <Info darkMode={props.darkMode} />
