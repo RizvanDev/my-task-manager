@@ -1,19 +1,25 @@
-import { createRef } from 'react'
 import useValue from '../hooks/useValue'
+import useLocaleStorage from '../hooks/useLocaleStorage'
+import { useEffect } from 'react'
 
 const defaultItems = [
-  { title: 'Home', data: [], nodeRef: createRef() },
-  { title: 'Work', data: [], nodeRef: createRef() },
-  { title: 'Sport', data: [], nodeRef: createRef() },
+  { title: 'Home', data: [] },
+  { title: 'Work', data: [] },
+  { title: 'Sport', data: [] },
 ]
 
 const withApp = Component => {
   return () => {
-    const [darkMode, setDarkMode] = useValue(true),
+    const [darkMode, setDarkMode] = useLocaleStorage('darkMode', false),
       [taskModal, setTaskModal] = useValue(false),
-      [tabItems, setTabItem] = useValue(defaultItems),
+      [tabsStorage, setDataInStorage] = useLocaleStorage('data', defaultItems),
+      [tabItems, setTabItem] = useValue(tabsStorage.length ? tabsStorage : defaultItems),
       [tab, setTab] = useValue(defaultItems[0].title),
       [category, setCategory, selectOnChange] = useValue(defaultItems[0].title)
+
+    useEffect(() => {
+      setDataInStorage(tabItems)
+    }, [tabItems])
 
     const taskMethods = {
       createTask: (inputValue, setInputValue) => {
@@ -24,13 +30,15 @@ const withApp = Component => {
         tabItems.forEach(tab => {
           if (tab.title === category) {
             tab.data = [
-              ...tab.data,
               {
                 task: inputValue,
-                date: new Date(),
+                date: {
+                  time: new Date().toLocaleTimeString(),
+                  dmy: new Date().toLocaleDateString(),
+                },
                 completed: false,
-                nodeRef: createRef(),
               },
+              ...tab.data,
             ]
           }
         })
@@ -41,7 +49,7 @@ const withApp = Component => {
       deleteTask: (title, currentTask) => {
         tabItems.forEach(tab => {
           if (title === tab.title) {
-            tab.data = tab.data.filter(task => task.task !== currentTask.task)
+            tab.data = tab.data.filter(task => task.date.time !== currentTask.date.time)
           }
         })
 
@@ -52,7 +60,7 @@ const withApp = Component => {
         tabItems.forEach(tab => {
           if (title === tab.title) {
             tab.data.forEach(task => {
-              if (currentTask.task === task.task) task.completed = !complete
+              if (currentTask.date.time === task.date.time) task.completed = !complete
             })
           }
         })

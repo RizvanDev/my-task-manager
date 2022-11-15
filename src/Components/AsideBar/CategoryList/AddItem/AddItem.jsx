@@ -1,4 +1,4 @@
-import React, { useRef, createRef } from 'react'
+import React, { useRef } from 'react'
 import cl from './addItem.module.scss'
 import InputContainer from './InputContainer'
 import useValue from '../../../../hooks/useValue'
@@ -29,7 +29,7 @@ const AddItem = ({ tabItems, setTabItem, setTab, setCategory }) => {
   const addNewCategory = () => {
     if (inputValue && !desiredElement) {
       setInputValue('')
-      setTabItem([...tabItems, { title: inputValue, data: [], nodeRef: createRef() }])
+      setTabItem([{ title: inputValue, data: [] }, ...tabItems])
       setState({ invisible: false, visible: false })
       setCategory(inputValue)
       setTab(inputValue)

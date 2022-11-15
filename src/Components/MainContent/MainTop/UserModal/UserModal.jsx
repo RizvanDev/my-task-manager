@@ -3,6 +3,7 @@ import cl from './userModal.module.scss'
 import LogOut from '../../../UI/LogOut/LogOut'
 import moon from '../../../../assets/icons/mode/moon.svg'
 import sun from '../../../../assets/icons/mode/sun.svg'
+import useLocaleStorage from '../../../../hooks/useLocaleStorage'
 
 const UserModal = ({ darkMode, setDarkMode, userModal }) => {
   const logOutStyles = {
@@ -38,7 +39,10 @@ const UserModal = ({ darkMode, setDarkMode, userModal }) => {
           </svg>
           <span>Profile</span>
         </a>
-        <button type='button' className={cl.userModal__item} onClick={() => setDarkMode(!darkMode)}>
+        <button
+          type='button'
+          className={cl.userModal__item}
+          onClick={() => setDarkMode(!darkMode)}>
           <img src={darkMode ? sun : moon} alt='moon/sun' />
           <span>{darkMode ? 'Light mode' : 'Dark mode'}</span>
         </button>

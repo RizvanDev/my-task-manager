@@ -88,8 +88,8 @@ const Task = React.forwardRef((props, nodeRef) => {
         </svg>
       </button>
       <div className='taskDate'>
-        <span>{props.date.toLocaleTimeString()}</span>
-        <span>{props.date.toLocaleDateString()}</span>
+        <span>{props.date.time}</span>
+        <span>{props.date.dmy}</span>
       </div>
     </div>
   )

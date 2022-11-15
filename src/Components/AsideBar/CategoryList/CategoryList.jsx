@@ -3,7 +3,6 @@ import './categoryList.scss'
 import MyTitle from '../../MyTitle/MyTitle'
 import AddItem from './AddItem/AddItem'
 import ListItem from '../ListItem/ListItem'
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 const CategoryList = props => {
   const chooseCategory = e => {
@@ -17,21 +16,13 @@ const CategoryList = props => {
         Category
       </MyTitle>
       <div className='categoriesContainer'>
-        <TransitionGroup component='ul' className='category__list'>
+        <ul className='category__list'>
           {props.tabItems.map(element => (
-            <CSSTransition
-              key={element.title}
-              nodeRef={element.nodeRef}
-              timeout={500}
-              mountOnEnter
-              unmountOnExit
-              classNames='listItem'>
-              <li ref={element.nodeRef}>
-                <ListItem onClick={chooseCategory}>{element.title}</ListItem>
-              </li>
-            </CSSTransition>
+            <li key={element.title}>
+              <ListItem onClick={chooseCategory}>{element.title}</ListItem>
+            </li>
           ))}
-        </TransitionGroup>
+        </ul>
       </div>
       <AddItem
         tabItems={props.tabItems}

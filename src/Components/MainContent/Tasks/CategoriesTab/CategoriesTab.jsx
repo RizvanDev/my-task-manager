@@ -1,5 +1,4 @@
 import React from 'react'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './categoriesTab.scss'
 import MyTitle from '../../../MyTitle/MyTitle'
 import CategoriesConfig from '../CategoriesConfig/CategoriesConfig'
@@ -31,70 +30,51 @@ const CategoriesTab = React.forwardRef((props, ref) => {
         <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
           Active tasks
         </MyTitle>
-        <div>
-          <TransitionGroup
-            className={
-              props.darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'
-            }>
-            {props.category.data
-              .filter(task => !task.completed)
-              .map(uncompletedTask => (
-                <CSSTransition
-                  key={uncompletedTask.date}
-                  nodeRef={uncompletedTask.nodeRef}
-                  timeout={500}
-                  mountOnEnter
-                  unmountOnExit
-                  classNames='activeTask'>
-                  <Task
-                    ref={uncompletedTask.nodeRef}
-                    date={uncompletedTask.date}
-                    currentTask={uncompletedTask}
-                    tabTitle={props.category.title}
-                    deleteTask={props.deleteTask}
-                    completed={uncompletedTask.completed}
-                    checkTask={props.checkTask}
-                    editTask={props.editTask}>
-                    {uncompletedTask.task}
-                  </Task>
-                </CSSTransition>
-              ))}
-          </TransitionGroup>
+        <div
+          className={
+            props.darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'
+          }>
+          {props.category.data
+            .filter(task => !task.completed)
+            .map(uncompletedTask => (
+              <Task
+                key={uncompletedTask.date.time}
+                date={uncompletedTask.date}
+                currentTask={uncompletedTask}
+                tabTitle={props.category.title}
+                deleteTask={props.deleteTask}
+                completed={uncompletedTask.completed}
+                checkTask={props.checkTask}
+                editTask={props.editTask}>
+                {uncompletedTask.task}
+              </Task>
+            ))}
         </div>
       </div>
       <div className='category__completedTasks'>
         <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
           Completed tasks
         </MyTitle>
-        <div>
-          <TransitionGroup
-            className={
-              props.darkMode
-                ? 'completedTasksContainer darkMode'
-                : 'completedTasksContainer'
-            }>
-            {props.category.data
-              .filter(task => task.completed)
-              .map(completedTask => (
-                <CSSTransition
-                  key={completedTask.date}
-                  nodeRef={completedTask.nodeRef}
-                  timeout={500}
-                  mountOnEnter
-                  unmountOnExit>
-                  <Task
-                    key={completedTask.date}
-                    date={completedTask.date}
-                    currentTask={completedTask}
-                    tabTitle={props.category.title}
-                    deleteTask={props.deleteTask}
-                    completed={completedTask.completed}
-                    checkTask={props.checkTask}>
-                    {completedTask.task}
-                  </Task>
-                </CSSTransition>
-              ))}
-          </TransitionGroup>
+        <div
+          className={
+            props.darkMode
+              ? 'completedTasksContainer darkMode'
+              : 'completedTasksContainer'
+          }>
+          {props.category.data
+            .filter(task => task.completed)
+            .map(completedTask => (
+              <Task
+                key={completedTask.date.time}
+                date={completedTask.date}
+                currentTask={completedTask}
+                tabTitle={props.category.title}
+                deleteTask={props.deleteTask}
+                completed={completedTask.completed}
+                checkTask={props.checkTask}>
+                {completedTask.task}
+              </Task>
+            ))}
         </div>
       </div>
       <button
