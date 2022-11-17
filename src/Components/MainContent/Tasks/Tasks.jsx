@@ -25,7 +25,6 @@ const Tasks = props => {
             deleteTask={props.deleteTask}
             checkTask={props.checkTask}
             editTask={props.editTask}
-            ref={category.nodeRef}
           />
         ))}
       </div>

@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { createRef } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './categoriesTab.scss'
 import MyTitle from '../../../MyTitle/MyTitle'
 import CategoriesConfig from '../CategoriesConfig/CategoriesConfig'
 import Task from '../Task/Task'
 import useValue from '../../../../hooks/useValue'
 
-const CategoriesTab = React.forwardRef((props, ref) => {
+const CategoriesTab = props => {
   const [modal, setModal] = useValue(false)
 
   const removeCategory = () => {
@@ -23,39 +24,47 @@ const CategoriesTab = React.forwardRef((props, ref) => {
         props.tab === props.category.title
           ? 'category__container active'
           : 'category__container'
-      }
-      ref={ref}>
+      }>
       <div className='category__title'>{props.category.title}</div>
       <div className='category__activeTasks'>
         <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
           Active tasks
         </MyTitle>
-        <div
+        <TransitionGroup
           className={
             props.darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'
           }>
           {props.category.data
             .filter(task => !task.completed)
-            .map(uncompletedTask => (
-              <Task
-                key={uncompletedTask.date.time}
-                date={uncompletedTask.date}
-                currentTask={uncompletedTask}
-                tabTitle={props.category.title}
-                deleteTask={props.deleteTask}
-                completed={uncompletedTask.completed}
-                checkTask={props.checkTask}
-                editTask={props.editTask}>
-                {uncompletedTask.task}
-              </Task>
-            ))}
-        </div>
+            .map(uncompletedTask => {
+              const nodeRef = createRef(null)
+              return (
+                <CSSTransition
+                  key={uncompletedTask.date.time}
+                  nodeRef={nodeRef}
+                  timeout={500}
+                  classNames='task'>
+                  <Task
+                    date={uncompletedTask.date}
+                    currentTask={uncompletedTask}
+                    tabTitle={props.category.title}
+                    deleteTask={props.deleteTask}
+                    completed={uncompletedTask.completed}
+                    checkTask={props.checkTask}
+                    editTask={props.editTask}
+                    ref={nodeRef}>
+                    {uncompletedTask.task}
+                  </Task>
+                </CSSTransition>
+              )
+            })}
+        </TransitionGroup>
       </div>
       <div className='category__completedTasks'>
         <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
           Completed tasks
         </MyTitle>
-        <div
+        <TransitionGroup
           className={
             props.darkMode
               ? 'completedTasksContainer darkMode'
@@ -63,19 +72,28 @@ const CategoriesTab = React.forwardRef((props, ref) => {
           }>
           {props.category.data
             .filter(task => task.completed)
-            .map(completedTask => (
-              <Task
-                key={completedTask.date.time}
-                date={completedTask.date}
-                currentTask={completedTask}
-                tabTitle={props.category.title}
-                deleteTask={props.deleteTask}
-                completed={completedTask.completed}
-                checkTask={props.checkTask}>
-                {completedTask.task}
-              </Task>
-            ))}
-        </div>
+            .map(completedTask => {
+              const nodeRef = createRef(null)
+              return (
+                <CSSTransition
+                  key={completedTask.date.time}
+                  nodeRef={nodeRef}
+                  timeout={500}
+                  classNames='task'>
+                  <Task
+                    date={completedTask.date}
+                    currentTask={completedTask}
+                    tabTitle={props.category.title}
+                    deleteTask={props.deleteTask}
+                    completed={completedTask.completed}
+                    checkTask={props.checkTask}
+                    ref={nodeRef}>
+                    {completedTask.task}
+                  </Task>
+                </CSSTransition>
+              )
+            })}
+        </TransitionGroup>
       </div>
       <button
         type='button'
@@ -89,6 +107,6 @@ const CategoriesTab = React.forwardRef((props, ref) => {
       <CategoriesConfig modal={modal} removeCategory={removeCategory} />
     </div>
   )
-})
+}
 
 export default CategoriesTab
