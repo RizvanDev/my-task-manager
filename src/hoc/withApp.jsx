@@ -22,6 +22,27 @@ const withApp = Component => {
       setDataInStorage(tabItems)
     }, [tabItems])
 
+    const setSortType = value => {
+      tabItems.forEach(category => {
+        if (category.title === tab) {
+          category.sortingType = value
+
+          category.data.sort((a, b) => {
+            const first = a.date.time.split(':').join('') + a.date.dmy.split('.').join('')
+
+            const second =
+              b.date.time.split(':').join('') + b.date.dmy.split('.').join('')
+
+            return category.sortingType === 'newest first'
+              ? second - first
+              : first - second
+          })
+        }
+      })
+
+      return setTabItem([...tabItems])
+    }
+
     const taskMethods = {
       createTask: (inputValue, setInputValue) => {
         setInputValue('')
@@ -85,14 +106,6 @@ const withApp = Component => {
 
         return setTabItem([...tabItems])
       },
-
-      setSortType: value => {
-        tabItems.forEach(category => {
-          if (category.title === tab) category.sortingType = value
-        })
-
-        return setTabItem([...tabItems])
-      },
     }
 
     const value = {
@@ -107,6 +120,7 @@ const withApp = Component => {
       category,
       setCategory,
       categorySelectOnChange,
+      setSortType,
       ...taskMethods,
     }
 
