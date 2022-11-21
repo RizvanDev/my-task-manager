@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './categoryList.scss'
 import MyTitle from '../../MyTitle/MyTitle'
 import AddItem from './AddItem/AddItem'
 import ListItem from '../ListItem/ListItem'
+import { Context } from '../../../context'
 
-const CategoryList = props => {
+const CategoryList = () => {
+  const { setTab, setCategory, tabItems } = useContext(Context)
+
   const chooseCategory = e => {
-    props.setTab(e.target.innerText)
-    props.setCategory(e.target.innerText)
+    setTab(e.target.innerText)
+    setCategory(e.target.innerText)
   }
 
   return (
@@ -17,19 +20,14 @@ const CategoryList = props => {
       </MyTitle>
       <div className='categoriesContainer'>
         <ul className='category__list'>
-          {props.tabItems.map(element => (
+          {tabItems.map(element => (
             <li key={element.title}>
               <ListItem onClick={chooseCategory}>{element.title}</ListItem>
             </li>
           ))}
         </ul>
       </div>
-      <AddItem
-        tabItems={props.tabItems}
-        setTabItem={props.setTabItem}
-        setTab={props.setTab}
-        setCategory={props.setCategory}
-      />
+      <AddItem />
     </div>
   )
 }

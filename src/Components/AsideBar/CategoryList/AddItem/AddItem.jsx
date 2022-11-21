@@ -1,12 +1,14 @@
-import React, { useRef } from 'react'
+import React, { useRef, useContext } from 'react'
 import cl from './addItem.module.scss'
 import InputContainer from './InputContainer'
 import useValue from '../../../../hooks/useValue'
+import { Context } from '../../../../context'
 
-const AddItem = ({ tabItems, setTabItem, setTab, setCategory }) => {
+const AddItem = () => {
   const [state, setState] = useValue({ invisible: false, visible: false })
   const [inputValue, setInputValue, onChange] = useValue('')
   const inputRef = useRef(null)
+  const { tabItems, setTabItem, setCategory, setTab } = useContext(Context)
 
   const classes = {
     addBtn: [cl.addItem__btn],
@@ -29,7 +31,10 @@ const AddItem = ({ tabItems, setTabItem, setTab, setCategory }) => {
   const addNewCategory = () => {
     if (inputValue && !desiredElement) {
       setInputValue('')
-      setTabItem([{ title: inputValue, data: [] }, ...tabItems])
+      setTabItem([
+        { title: inputValue, sortingType: 'newest first', data: [] },
+        ...tabItems,
+      ])
       setState({ invisible: false, visible: false })
       setCategory(inputValue)
       setTab(inputValue)

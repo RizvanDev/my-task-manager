@@ -1,11 +1,12 @@
 import useValue from '../hooks/useValue'
 import useLocaleStorage from '../hooks/useLocaleStorage'
 import { useEffect } from 'react'
+import { Context } from '../context'
 
 const defaultItems = [
-  { title: 'Home', data: [] },
-  { title: 'Work', data: [] },
-  { title: 'Sport', data: [] },
+  { title: 'Home', sortingType: 'newest first', data: [] },
+  { title: 'Work', sortingType: 'newest first', data: [] },
+  { title: 'Sport', sortingType: 'newest first', data: [] },
 ]
 
 const withApp = Component => {
@@ -14,8 +15,8 @@ const withApp = Component => {
       [taskModal, setTaskModal] = useValue(false),
       [tabsStorage, setDataInStorage] = useLocaleStorage('data', defaultItems),
       [tabItems, setTabItem] = useValue(tabsStorage.length ? tabsStorage : defaultItems),
-      [tab, setTab] = useValue(defaultItems[0].title),
-      [category, setCategory, selectOnChange] = useValue(defaultItems[0].title)
+      [tab, setTab] = useValue(tabItems[0].title),
+      [category, setCategory, categorySelectOnChange] = useValue(defaultItems[0].title)
 
     useEffect(() => {
       setDataInStorage(tabItems)
@@ -65,7 +66,7 @@ const withApp = Component => {
           }
         })
 
-        return setTabItem(tabItems => [...tabItems])
+        return setTabItem([...tabItems])
       },
 
       editTask: (event, title, currentTask, newValue) => {
@@ -82,25 +83,37 @@ const withApp = Component => {
           }
         })
 
-        return setTabItem(tabItems => [...tabItems])
+        return setTabItem([...tabItems])
+      },
+
+      setSortType: value => {
+        tabItems.forEach(category => {
+          if (category.title === tab) category.sortingType = value
+        })
+
+        return setTabItem([...tabItems])
       },
     }
 
+    const value = {
+      darkMode,
+      setDarkMode,
+      taskModal,
+      setTaskModal,
+      tab,
+      setTab,
+      tabItems,
+      setTabItem,
+      category,
+      setCategory,
+      categorySelectOnChange,
+      ...taskMethods,
+    }
+
     return (
-      <Component
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-        taskModal={taskModal}
-        setTaskModal={setTaskModal}
-        tab={tab}
-        setTab={setTab}
-        tabItems={tabItems}
-        setTabItem={setTabItem}
-        category={category}
-        setCategory={setCategory}
-        selectOnChange={selectOnChange}
-        {...taskMethods}
-      />
+      <Context.Provider value={value}>
+        <Component darkMode={darkMode} />
+      </Context.Provider>
     )
   }
 }

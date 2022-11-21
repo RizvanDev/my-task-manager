@@ -1,32 +1,43 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import cl from './taskModal.module.scss'
 import MyTitle from '../MyTitle/MyTitle'
 import Input from '../UI/Input/Input'
 import MainBtn from '../UI/MainBtn/MainBtn'
 import Select from '../UI/Select/Select'
 import useValue from '../../hooks/useValue'
+import { Context } from '../../context'
 
-const TaskModal = props => {
+const TaskModal = () => {
   const [inputValue, setInputValue, inputOnChange] = useValue('')
 
-  const addTask = () => inputValue && props.createTask(inputValue, setInputValue)
+  const {
+    darkMode,
+    createTask,
+    taskModal,
+    setTaskModal,
+    tabItems,
+    category,
+    categorySelectOnChange,
+  } = useContext(Context)
+
+  const addTask = () => inputValue && createTask(inputValue, setInputValue)
 
   const onKeyUp = e => {
     if (e.code === 'Enter' && inputValue) {
-      return props.createTask(inputValue, setInputValue)
+      return createTask(inputValue, setInputValue)
     }
   }
 
   const classes = { modal: [cl.taskModal], modalContainer: [cl.taskModal__container] }
 
-  if (props.taskModal) classes.modal.push(cl.open)
-  if (props.darkMode) classes.modalContainer.push(cl.darkMode)
+  if (taskModal) classes.modal.push(cl.open)
+  if (darkMode) classes.modalContainer.push(cl.darkMode)
 
   const styleObj = {
     selectStyles: {
       width: '200px',
       padding: '8px 15px',
-      border: '1px solid rgba(40, 40, 70, 0.1)',
+      border: '1px solid rgba(40, 40, 70, 0.3)',
       borderRadius: '8px',
       fontWeight: '400',
       fontSize: '14px',
@@ -40,6 +51,7 @@ const TaskModal = props => {
     inputStyles: {
       width: '660px',
       padding: '8px 15px',
+      border: '1px solid rgba(40, 40, 70, 0.3)',
       letterSpacing: '0.02em',
       fontSize: '16px',
     },
@@ -60,7 +72,7 @@ const TaskModal = props => {
   }
 
   return (
-    <div className={classes.modal.join(' ')} onClick={() => props.setTaskModal(false)}>
+    <div className={classes.modal.join(' ')} onClick={() => setTaskModal(false)}>
       <div
         className={classes.modalContainer.join(' ')}
         onClick={e => e.stopPropagation()}>
@@ -76,9 +88,9 @@ const TaskModal = props => {
             <span className={cl.taskModal__helpText}>Category</span>
             <Select
               styles={styleObj.selectStyles}
-              options={props.tabItems}
-              value={props.category}
-              onChange={props.selectOnChange}
+              options={tabItems}
+              value={category}
+              onChange={categorySelectOnChange}
             />
           </div>
           <div>
@@ -93,9 +105,7 @@ const TaskModal = props => {
           </div>
         </div>
         <div className={cl.taskModal__btnContainer}>
-          <MainBtn
-            styles={styleObj.cancelBtnStyles}
-            onClick={() => props.setTaskModal(false)}>
+          <MainBtn styles={styleObj.cancelBtnStyles} onClick={() => setTaskModal(false)}>
             Cancel
           </MainBtn>
           <MainBtn styles={styleObj.addBtnStyles} onClick={addTask}>

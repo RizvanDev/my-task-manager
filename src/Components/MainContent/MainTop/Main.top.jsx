@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import './mainTop.scss'
 import MainBtn from '../../UI/MainBtn/MainBtn'
 import UserMenu from './UserMenu/UserMenu'
 import UserModal from './UserModal/UserModal'
+import { Context } from '../../../context'
 
-const MainTop = ({ darkMode, setDarkMode, tabItems, setTaskModal }) => {
+const MainTop = () => {
   const [userModal, setUserModal] = useState(false)
+  const { tabItems, darkMode, setDarkMode, setTaskModal } = useContext(Context)
 
   const btnStyles = {
     padding: '10px 25px',

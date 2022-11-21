@@ -1,27 +1,40 @@
-import React, { createRef } from 'react'
+import React, { createRef, useContext } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './categoriesTab.scss'
 import MyTitle from '../../../MyTitle/MyTitle'
 import CategoriesConfig from '../CategoriesConfig/CategoriesConfig'
 import Task from '../Task/Task'
 import useValue from '../../../../hooks/useValue'
+import { Context } from '../../../../context'
 
 const CategoriesTab = props => {
   const [modal, setModal] = useValue(false)
 
+  const {
+    tab,
+    setTab,
+    setCategory,
+    tabItems,
+    setTabItem,
+    editTask,
+    checkTask,
+    deleteTask,
+    setSortType,
+  } = useContext(Context)
+
   const removeCategory = () => {
-    const checkingTabs = props.tabItems[props.idx - 1] || props.tabItems[1]
+    const checkingTabs = tabItems[props.idx - 1] || tabItems[1]
 
-    props.setTab(props.tabItems.length > 1 && checkingTabs.title)
-    props.setCategory(props.tabItems.length > 1 && checkingTabs.title)
+    setTab(tabItems.length > 1 && checkingTabs.title)
+    setCategory(tabItems.length > 1 && checkingTabs.title)
 
-    return props.setTabItem(props.tabItems.filter(e => e.title !== props.category.title))
+    return setTabItem(tabItems.filter(e => e.title !== props.category.title))
   }
 
   return (
     <div
       className={
-        props.tab === props.category.title
+        tab === props.category.title
           ? 'category__container active'
           : 'category__container'
       }>
@@ -48,10 +61,10 @@ const CategoriesTab = props => {
                     date={uncompletedTask.date}
                     currentTask={uncompletedTask}
                     tabTitle={props.category.title}
-                    deleteTask={props.deleteTask}
+                    deleteTask={deleteTask}
                     completed={uncompletedTask.completed}
-                    checkTask={props.checkTask}
-                    editTask={props.editTask}
+                    checkTask={checkTask}
+                    editTask={editTask}
                     ref={nodeRef}>
                     {uncompletedTask.task}
                   </Task>
@@ -84,9 +97,9 @@ const CategoriesTab = props => {
                     date={completedTask.date}
                     currentTask={completedTask}
                     tabTitle={props.category.title}
-                    deleteTask={props.deleteTask}
+                    deleteTask={deleteTask}
                     completed={completedTask.completed}
-                    checkTask={props.checkTask}
+                    checkTask={checkTask}
                     ref={nodeRef}>
                     {completedTask.task}
                   </Task>
@@ -104,7 +117,12 @@ const CategoriesTab = props => {
         <span></span>
         <span></span>
       </button>
-      <CategoriesConfig modal={modal} removeCategory={removeCategory} />
+      <CategoriesConfig
+        modal={modal}
+        category={props.category}
+        setSortType={setSortType}
+        removeCategory={removeCategory}
+      />
     </div>
   )
 }

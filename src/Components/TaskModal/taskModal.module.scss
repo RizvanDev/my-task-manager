@@ -8,7 +8,7 @@
   height: 100%;
   visibility: hidden;
   opacity: 0;
-  background-color: #0005;
+  background-color: #0007;
   transition: all 0.2s ease 0s;
   z-index: 3;
 }
@@ -33,7 +33,7 @@
 }
 
 .taskModal.open .taskModal__container {
-  top: 30%;
+  top: 40%;
 }
 
 .taskModal__inputsContainer {

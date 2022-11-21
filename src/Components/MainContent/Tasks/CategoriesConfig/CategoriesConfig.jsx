@@ -1,11 +1,8 @@
 import React from 'react'
 import Select from '../../../UI/Select/Select'
 import './categoriesConfig.scss'
-import useValue from '../../../../hooks/useValue'
 
-const CategoriesConfig = ({ modal, removeCategory }) => {
-  const [selectValue, , selectOnChange] = useValue('newest first')
-
+const CategoriesConfig = ({ modal, category, setSortType, removeCategory }) => {
   const clConfigBtn = ['category__configModal']
 
   if (modal) clConfigBtn.push('open')
@@ -25,8 +22,8 @@ const CategoriesConfig = ({ modal, removeCategory }) => {
         <Select
           styles={selectStyles}
           options={[{ title: 'newest first' }, { title: 'oldest first' }]}
-          value={selectValue}
-          onChange={selectOnChange}
+          value={category.sortingType}
+          onChange={e => setSortType(e.target.value)}
         />
       </div>
       <button
