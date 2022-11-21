@@ -11,6 +11,7 @@ const CategoriesTab = props => {
   const [modal, setModal] = useValue(false)
 
   const {
+    darkMode,
     tab,
     setTab,
     setCategory,
@@ -44,9 +45,7 @@ const CategoriesTab = props => {
           Active tasks
         </MyTitle>
         <TransitionGroup
-          className={
-            props.darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'
-          }>
+          className={darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'}>
           {props.category.data
             .filter(task => !task.completed)
             .map(uncompletedTask => {
@@ -79,9 +78,7 @@ const CategoriesTab = props => {
         </MyTitle>
         <TransitionGroup
           className={
-            props.darkMode
-              ? 'completedTasksContainer darkMode'
-              : 'completedTasksContainer'
+            darkMode ? 'completedTasksContainer darkMode' : 'completedTasksContainer'
           }>
           {props.category.data
             .filter(task => task.completed)

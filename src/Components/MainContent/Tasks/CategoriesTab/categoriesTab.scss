@@ -73,6 +73,16 @@
   max-height: 250px;
 }
 
+.activeTasksContainer.darkMode,
+.completedTasksContainer.darkMode {
+  .task {
+    border: 1px solid rgba(249, 249, 249, 0.2);
+  }
+  .taskEdit svg path {
+    fill: #f9f9f9;
+  }
+}
+
 .category__configBtn {
   position: absolute;
   top: 30px;
