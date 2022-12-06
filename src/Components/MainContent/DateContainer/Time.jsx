@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
+import useValue from '../../../hooks/useValue'
+import { Context } from '../../../context'
 
 const Time = () => {
-  const [time, setTime] = useState(new Date())
+  const [time, setTime] = useValue(new Date())
+  const { darkMode, setCalendarModal } = useContext(Context)
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 999)
@@ -32,7 +35,12 @@ const Time = () => {
           <span>{time.toLocaleTimeString()}</span>
         </div>
       </div>
-      <div className='time__block'>
+      <button
+        type='button'
+        className={
+          darkMode ? 'time__block calendar-btn darkMode' : 'time__block calendar-btn'
+        }
+        onClick={() => setCalendarModal(true)}>
         <span className='time__helpTitle'>Today we have</span>
         <div className='time__block-data'>
           <svg width='24' height='24' fill='none'>
@@ -67,7 +75,7 @@ const Time = () => {
           </svg>
           <span>{time.toLocaleDateString()}</span>
         </div>
-      </div>
+      </button>
     </div>
   )
 }

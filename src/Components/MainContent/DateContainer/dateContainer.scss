@@ -41,6 +41,24 @@
   letter-spacing: 0.02em;
 }
 
+.calendar-btn {
+  padding: 12px;
+  background-color: transparent;
+  border-radius: 10px;
+  box-shadow: -3px 3px 2px 4px #e5e5e5;
+  transition: all 0.2s ease;
+  &.darkMode {
+    box-shadow: -3px 3px 2px 4px#222831;
+  }
+  &:active {
+    transform: translate(-3px, 3px);
+    box-shadow: 0 0 0 0 #e5e5e5;
+  }
+  &.darkMode:active {
+    box-shadow: 0 0 0 0 #222831;
+  }
+}
+
 .mainContent__time.darkMode .time__block-data {
   svg path {
     stroke: rgba(249, 249, 249, 1);

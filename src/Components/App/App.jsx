@@ -4,6 +4,7 @@ import AsideBar from '../AsideBar/AsideBar'
 import MainContent from '../MainContent/MainContent'
 import TaskModal from '../../modalWindows/TaskModal/TaskModal'
 import Authorization from '../../modalWindows/Authorization/Authorization'
+import CalendarWindow from '../../modalWindows/Calendar/Calendar'
 import { withApp } from '../../hoc/withApp'
 
 const App = ({ darkMode }) => {
@@ -14,6 +15,7 @@ const App = ({ darkMode }) => {
         <MainContent />
         <TaskModal />
         <Authorization />
+        <CalendarWindow />
       </div>
     </div>
   )
