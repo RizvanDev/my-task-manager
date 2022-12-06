@@ -85,10 +85,13 @@
 
 .category__configBtn {
   position: absolute;
-  top: 30px;
+  top: 24px;
   right: 20px;
   display: flex;
   column-gap: 5px;
+  padding: 5px 7px;
+  border: 1px solid grey;
+  border-radius: 8px;
   background-color: transparent;
   span {
     width: 7px;
