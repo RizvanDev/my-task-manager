@@ -3,9 +3,8 @@ import cl from './userModal.module.scss'
 import LogOut from '../../../UI/LogOut/LogOut'
 import moon from '../../../../assets/icons/mode/moon.svg'
 import sun from '../../../../assets/icons/mode/sun.svg'
-import useLocaleStorage from '../../../../hooks/useLocaleStorage'
 
-const UserModal = ({ darkMode, setDarkMode, userModal }) => {
+const UserModal = ({ darkMode, setDarkMode, userModal, setAuthModal }) => {
   const logOutStyles = {
     fontFamily: 'Montserrat',
     fontSize: '12px',
@@ -20,7 +19,10 @@ const UserModal = ({ darkMode, setDarkMode, userModal }) => {
   return (
     <div className={userModalClasses.join(' ')}>
       <div className={cl.userModal__container}>
-        <a href='#' className={cl.userModal__item}>
+        <button
+          type='button'
+          className={cl.userModal__item}
+          onClick={() => setAuthModal(true)}>
           <svg width='18' height='18' fill='none'>
             <path
               d='M15 15.75V14.25C15 13.4544 14.6839 12.6913 14.1213 12.1287C13.5587 11.5661 12.7956 11.25 12 11.25H6C5.20435 11.25 4.44129 11.5661 3.87868 12.1287C3.31607 12.6913 3 13.4544 3 14.25V15.75'
@@ -37,8 +39,8 @@ const UserModal = ({ darkMode, setDarkMode, userModal }) => {
               strokeLinejoin='round'
             />
           </svg>
-          <span>Profile</span>
-        </a>
+          <span>Login/Registration</span>
+        </button>
         <button
           type='button'
           className={cl.userModal__item}

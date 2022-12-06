@@ -8,7 +8,9 @@ const UserMenu = ({ darkMode, userModal, setUserModal }) => {
       className={cl.userMenu__container}
       onClick={() => setUserModal(!userModal)}>
       <span
-        className={darkMode ? [cl.userMenu__name, cl.darkModeText].join(' ') : cl.userMenu__name}>
+        className={
+          darkMode ? [cl.userMenu__name, cl.darkModeText].join(' ') : cl.userMenu__name
+        }>
         USERNAME
       </span>
       <img
@@ -16,7 +18,10 @@ const UserMenu = ({ darkMode, userModal, setUserModal }) => {
         src='https://w7.pngwing.com/pngs/7/618/png-transparent-man-illustration-avatar-icon-fashion-men-avatar-face-fashion-girl-heroes-thumbnail.png'
         alt='avatar'
       />
-      <div className={darkMode ? [cl.userMenu__icon, cl.darkModeBtn].join(' ') : cl.userMenu__icon}>
+      <div
+        className={
+          darkMode ? [cl.userMenu__icon, cl.darkModeBtn].join(' ') : cl.userMenu__icon
+        }>
         <svg className={userModal ? cl.rotate : ''} width='14' height='8' fill='none'>
           <path
             d='M1 1L7 7L13 1'

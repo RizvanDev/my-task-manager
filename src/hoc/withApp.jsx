@@ -12,10 +12,11 @@ const defaultItems = [
 const withApp = Component => {
   return () => {
     const [darkMode, setDarkMode] = useLocaleStorage('darkMode', false),
+      [authModal, setAuthModal] = useValue(false),
       [taskModal, setTaskModal] = useValue(false),
       [tabsStorage, setDataInStorage] = useLocaleStorage('data', defaultItems),
       [tabItems, setTabItem] = useValue(tabsStorage.length ? tabsStorage : defaultItems),
-      [tab, setTab] = useValue(tabItems[0].title),
+      [tab, setTab] = useValue(tabItems.length && tabItems[0].title),
       [category, setCategory, categorySelectOnChange] = useValue(defaultItems[0].title)
 
     useEffect(() => {
@@ -113,6 +114,8 @@ const withApp = Component => {
       setDarkMode,
       taskModal,
       setTaskModal,
+      authModal,
+      setAuthModal,
       tab,
       setTab,
       tabItems,

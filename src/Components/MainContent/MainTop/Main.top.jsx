@@ -7,7 +7,8 @@ import { Context } from '../../../context'
 
 const MainTop = () => {
   const [userModal, setUserModal] = useState(false)
-  const { tabItems, darkMode, setDarkMode, setTaskModal } = useContext(Context)
+  const { tabItems, darkMode, setDarkMode, setTaskModal, setAuthModal } =
+    useContext(Context)
 
   const btnStyles = {
     padding: '10px 25px',
@@ -24,7 +25,7 @@ const MainTop = () => {
 
   return (
     <div className='mainContent__top'>
-      <MainBtn styles={btnStyles} onClick={() => setTaskModal(true)}>
+      <MainBtn type='button' styles={btnStyles} onClick={() => setTaskModal(true)}>
         <svg width='20' height='20' fill='none'>
           <path
             d='M10 19C14.9706 19 19 14.9706 19 10C19 5.02944 14.9706 1 10 1C5.02944 1 1 5.02944 1 10C1 14.9706 5.02944 19 10 19Z'
@@ -130,7 +131,12 @@ const MainTop = () => {
         )}
       </div>
       <UserMenu darkMode={darkMode} userModal={userModal} setUserModal={setUserModal} />
-      <UserModal darkMode={darkMode} setDarkMode={setDarkMode} userModal={userModal} />
+      <UserModal
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+        userModal={userModal}
+        setAuthModal={setAuthModal}
+      />
     </div>
   )
 }

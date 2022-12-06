@@ -1,9 +1,9 @@
 import React from 'react'
 import cl from './mainBtn.module.scss'
 
-const MainBtn = ({ children, styles, onClick }) => {
+const MainBtn = ({ children, styles, type, onClick }) => {
   return (
-    <button type='button' className={cl.mainBtn} style={styles} onClick={onClick}>
+    <button type={type} className={cl.mainBtn} style={styles} onClick={onClick}>
       {children}
     </button>
   )

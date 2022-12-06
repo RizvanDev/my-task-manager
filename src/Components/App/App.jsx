@@ -2,7 +2,8 @@ import React from 'react'
 import './App.scss'
 import AsideBar from '../AsideBar/AsideBar'
 import MainContent from '../MainContent/MainContent'
-import TaskModal from '../TaskModal/TaskModal'
+import TaskModal from '../../modalWindows/TaskModal/TaskModal'
+import Authorization from '../../modalWindows/Authorization/Authorization'
 import { withApp } from '../../hoc/withApp'
 
 const App = ({ darkMode }) => {
@@ -12,6 +13,7 @@ const App = ({ darkMode }) => {
         <AsideBar darkMode={darkMode} />
         <MainContent />
         <TaskModal />
+        <Authorization />
       </div>
     </div>
   )
