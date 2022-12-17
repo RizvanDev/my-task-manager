@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,600&family=Nunito:wght@300;400;600;700&family=Roboto&display=swap');
+@import '../helpStyles/variables.scss';
+
+.App {
+  background-color: #e5e5e5;
+  font-family: 'Nunito', sans-serif;
+  color: $lightModeColorText;
+  &.darkMode {
+    background-color: #222831;
+    color: $darkModeColorText;
+  }
+}
+
+.app__container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.outlet {
+  flex: 0 1 80%;
+}

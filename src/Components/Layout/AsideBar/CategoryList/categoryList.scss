@@ -1,0 +1,27 @@
+@import '../../../../helpStyles/variables.scss';
+
+.categoriesContainer {
+  max-height: 270px;
+  margin: 20px 0 30px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $main-color #f6f6f6;
+  transform: scaleX(-1);
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f6f6f6;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-color;
+  }
+}
+
+.category__list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 25px;
+  padding: 5px 20px;
+  transform: scaleX(-1);
+}

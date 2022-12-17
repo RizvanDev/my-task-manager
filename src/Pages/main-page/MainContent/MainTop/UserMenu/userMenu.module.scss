@@ -1,0 +1,50 @@
+@import '../../../../../helpStyles/variables.scss';
+
+.userMenu__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+  background-color: transparent;
+}
+
+.userMenu__name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  transition: all 0.3s linear 0s;
+}
+
+.userMenu__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.userMenu__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: $lightModeBoxShadow;
+  transition: all 0.3s linear 0s;
+  svg {
+    transition: all 0.3s linear 0s;
+  }
+}
+
+.darkModeBtn {
+  box-shadow: none;
+  background-color: $darkModeBgElement;
+}
+
+.darkModeText {
+  color: $darkModeColorText;
+}
+
+.rotate {
+  transform: rotate(-180deg);
+}

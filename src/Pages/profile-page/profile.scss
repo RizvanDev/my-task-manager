@@ -1,0 +1,75 @@
+@import '../../helpStyles/variables.scss';
+
+.profile {
+  background-color: #e5e5e5;
+  font-family: 'Nunito', sans-serif;
+  color: $lightModeColorText;
+  &.darkMode {
+    background-color: #222831;
+    color: $darkModeColorText;
+    .profile__container {
+      background-color: $darkModeBgElement;
+    }
+    .profile__avatar {
+      background-color: $darkModeColorText;
+    }
+  }
+}
+
+.profile__container {
+  max-width: 1024px;
+  padding: 20px;
+  margin-top: 40px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.profile__form {
+  display: flex;
+  justify-content: center;
+  column-gap: 50px;
+}
+
+.profile__avatar {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-top: 20px;
+  background-color: #222831;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.4px;
+}
+.profile__avatar-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.avatar__label {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.profile__inputsContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  margin-top: 0px;
+}
+
+.profile__label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}

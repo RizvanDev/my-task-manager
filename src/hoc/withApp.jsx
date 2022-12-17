@@ -1,9 +1,13 @@
+import { authentication, database } from '../firebase/firebaseConfig'
 import useValue from '../hooks/useValue'
 import useLocaleStorage from '../hooks/useLocaleStorage'
 import { useEffect } from 'react'
 import { Context } from '../context'
 
-const defaultItems = [
+const defaultPhoto =
+  'https://w7.pngwing.com/pngs/7/618/png-transparent-man-illustration-avatar-icon-fashion-men-avatar-face-fashion-girl-heroes-thumbnail.png'
+
+let defaultItems = [
   { title: 'Home', sortingType: 'newest first', data: [] },
   { title: 'Work', sortingType: 'newest first', data: [] },
   { title: 'Sport', sortingType: 'newest first', data: [] },
@@ -11,18 +15,46 @@ const defaultItems = [
 
 const withApp = Component => {
   return () => {
-    const [darkMode, setDarkMode] = useLocaleStorage('darkMode', false),
-      [authModal, setAuthModal] = useValue(false),
-      [taskModal, setTaskModal] = useValue(false),
-      [calendarModal, setCalendarModal] = useValue(false),
-      [tabsStorage, setDataInStorage] = useLocaleStorage('data', defaultItems),
-      [tabItems, setTabItem] = useValue(tabsStorage.length ? tabsStorage : defaultItems),
-      [tab, setTab] = useValue(tabItems.length && tabItems[0].title),
-      [category, setCategory, categorySelectOnChange] = useValue(defaultItems[0].title)
+    // page mode
+    const [darkMode, setDarkMode] = useLocaleStorage('darkMode', false)
+    // modal windows
+    const [authModal, setAuthModal] = useValue(false)
+    const [taskModal, setTaskModal] = useValue(false)
+    const [calendarModal, setCalendarModal] = useValue(false)
+    // data
+    const [tabsStorage, setDataInStorage] = useLocaleStorage('data', [])
+    const [tabItems, setTabItem] = useValue(tabsStorage)
+    // select tabs and category
+    const [tab, setTab] = useValue(tabItems.length && tabItems[0].title)
+    const [category, setCategory, categorySelectOnChange] = useValue(
+      defaultItems[0].title,
+    )
+    // user information
+    const [authorization, setAuthorization] = useValue(false)
+    const [userId, setUserId] = useValue('')
+    const [userInfo, setUserInfo] = useLocaleStorage('userInfo', {
+      photo: defaultPhoto,
+      nick: 'username',
+      email: '',
+    })
 
     useEffect(() => {
       setDataInStorage(tabItems)
+      database.writeUserData(userId, userInfo, tabItems)
     }, [tabItems])
+
+    useEffect(() => {
+      authentication.monitorAuthState(
+        setAuthorization,
+        defaultPhoto,
+        userInfo,
+        setUserInfo,
+        setUserId,
+        setTabItem,
+        setTab,
+        defaultItems,
+      )
+    }, [authorization])
 
     const setSortType = value => {
       tabItems.forEach(category => {
@@ -110,7 +142,7 @@ const withApp = Component => {
       },
     }
 
-    const value = {
+    const contextValues = {
       darkMode,
       setDarkMode,
       taskModal,
@@ -119,6 +151,11 @@ const withApp = Component => {
       setAuthModal,
       calendarModal,
       setCalendarModal,
+      authorization,
+      setAuthorization,
+      userId,
+      userInfo,
+      setUserInfo,
       tab,
       setTab,
       tabItems,
@@ -131,7 +168,7 @@ const withApp = Component => {
     }
 
     return (
-      <Context.Provider value={value}>
+      <Context.Provider value={contextValues}>
         <Component darkMode={darkMode} />
       </Context.Provider>
     )

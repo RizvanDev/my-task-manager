@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/my-task-manager/static/css/main.173f4dab.css",
-    "main.js": "/my-task-manager/static/js/main.482f4100.js",
-    "static/media/sun.svg": "/my-task-manager/static/media/sun.86303cdea950f17bda85f363745490cb.svg",
-    "static/media/logo.svg": "/my-task-manager/static/media/logo.87eaf00f76d587ed0c3e.svg",
-    "static/media/moon.svg": "/my-task-manager/static/media/moon.a70059588fbffa5cf98a783ee93e4256.svg",
-    "index.html": "/my-task-manager/index.html",
-    "main.173f4dab.css.map": "/my-task-manager/static/css/main.173f4dab.css.map",
-    "main.482f4100.js.map": "/my-task-manager/static/js/main.482f4100.js.map"
+    "main.css": "/static/css/main.016b9b95.css",
+    "main.js": "/static/js/main.cfe5146d.js",
+    "static/media/sun.svg": "/static/media/sun.86303cdea950f17bda85f363745490cb.svg",
+    "static/media/logo.svg": "/static/media/logo.87eaf00f76d587ed0c3e.svg",
+    "static/media/moon.svg": "/static/media/moon.a70059588fbffa5cf98a783ee93e4256.svg",
+    "index.html": "/index.html",
+    "main.016b9b95.css.map": "/static/css/main.016b9b95.css.map",
+    "main.cfe5146d.js.map": "/static/js/main.cfe5146d.js.map"
   },
   "entrypoints": [
-    "static/css/main.173f4dab.css",
-    "static/js/main.482f4100.js"
+    "static/css/main.016b9b95.css",
+    "static/js/main.cfe5146d.js"
   ]
 }
