@@ -47,7 +47,7 @@ const database = {
       })
     }
   },
-  readUserData: (userId, setUserInfo, setTabItem, setTab) => {
+  readUserData: (userId, setUserInfo, setTabItem, setTab, setCategory) => {
     const distanceRef = ref(db, 'users/' + userId)
 
     onValue(distanceRef, snapshot => {
@@ -59,6 +59,7 @@ const database = {
       })
 
       setTabItem([...addEmptyArrays(userData.data)])
+      setCategory(userData.data ? userData.data[0].title : '')
       setTab(userData.data ? userData.data[0].title : '')
     })
   },
@@ -81,6 +82,7 @@ const authentication = {
           params.setUserInfo,
           params.setTabItem,
           params.setTab,
+          params.setCategory,
         )
 
         params.setLogin({ Email: '', Password: '' })

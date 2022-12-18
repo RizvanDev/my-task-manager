@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import './task.scss'
 import useValue from '../../../../../hooks/useValue'
+import './task.scss'
 
 const Task = React.forwardRef((props, nodeRef) => {
   const [taskValue, , taskOnChange] = useValue(props.children)
@@ -88,8 +88,7 @@ const Task = React.forwardRef((props, nodeRef) => {
         </svg>
       </button>
       <div className='taskDate'>
-        <span>{props.date.time}</span>
-        <span>{props.date.dmy}</span>
+        <span>{props.time}</span>
       </div>
     </div>
   )

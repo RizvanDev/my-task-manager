@@ -27,7 +27,7 @@ const withApp = Component => {
     // select tabs and category
     const [tab, setTab] = useValue(tabItems.length && tabItems[0].title)
     const [category, setCategory, categorySelectOnChange] = useValue(
-      defaultItems[0].title,
+      tabItems.length && tabItems[0].title,
     )
     // user information
     const [authorization, setAuthorization] = useValue(false)
@@ -62,10 +62,8 @@ const withApp = Component => {
           category.sortingType = value
 
           category.data.sort((a, b) => {
-            const first = a.date.time.split(':').join('') + a.date.dmy.split('.').join('')
-
-            const second =
-              b.date.time.split(':').join('') + b.date.dmy.split('.').join('')
+            const first = a.time.split(':').join('')
+            const second = b.time.split(':').join('')
 
             return category.sortingType === 'newest first'
               ? second - first
@@ -88,10 +86,7 @@ const withApp = Component => {
             tab.data = [
               {
                 task: inputValue,
-                date: {
-                  time: new Date().toLocaleTimeString(),
-                  dmy: new Date().toLocaleDateString(),
-                },
+                time: new Date().toLocaleTimeString(),
                 completed: false,
               },
               ...tab.data,
@@ -105,7 +100,7 @@ const withApp = Component => {
       deleteTask: (title, currentTask) => {
         tabItems.forEach(tab => {
           if (title === tab.title) {
-            tab.data = tab.data.filter(task => task.date.time !== currentTask.date.time)
+            tab.data = tab.data.filter(task => task.time !== currentTask.time)
           }
         })
 
@@ -116,7 +111,7 @@ const withApp = Component => {
         tabItems.forEach(tab => {
           if (title === tab.title) {
             tab.data.forEach(task => {
-              if (currentTask.date.time === task.date.time) task.completed = !complete
+              if (currentTask.time === task.time) task.completed = !complete
             })
           }
         })

@@ -52,12 +52,12 @@ const CategoriesTab = props => {
               const nodeRef = createRef(null)
               return (
                 <CSSTransition
-                  key={uncompletedTask.date.time}
+                  key={uncompletedTask.time}
                   nodeRef={nodeRef}
                   timeout={500}
                   classNames='task'>
                   <Task
-                    date={uncompletedTask.date}
+                    time={uncompletedTask.time}
                     currentTask={uncompletedTask}
                     tabTitle={props.category.title}
                     deleteTask={deleteTask}
@@ -86,12 +86,12 @@ const CategoriesTab = props => {
               const nodeRef = createRef(null)
               return (
                 <CSSTransition
-                  key={completedTask.date.time}
+                  key={completedTask.time}
                   nodeRef={nodeRef}
                   timeout={500}
                   classNames='task'>
                   <Task
-                    date={completedTask.date}
+                    time={completedTask.time}
                     currentTask={completedTask}
                     tabTitle={props.category.title}
                     deleteTask={deleteTask}

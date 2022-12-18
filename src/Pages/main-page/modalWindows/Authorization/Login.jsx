@@ -17,6 +17,7 @@ const Login = forwardRef(({ ...props }, ref) => {
       setUserInfo: props.setUserInfo,
       setTabItem: props.setTabItem,
       setTab: props.setTab,
+      setCategory: props.setCategory,
       setAuthInfoModal: props.setAuthInfoModal,
       setAuthModal: props.setAuthModal,
       createAuthInfoModal: props.createAuthInfoModal,

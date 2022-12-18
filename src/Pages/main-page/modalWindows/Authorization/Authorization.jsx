@@ -27,6 +27,7 @@ const Authorization = () => {
     tabItems,
     setTabItem,
     setTab,
+    setCategory,
   } = useContext(Context)
 
   const inputRef = useRef(null)
@@ -115,6 +116,7 @@ const Authorization = () => {
           setUserInfo={setUserInfo}
           setTabItem={setTabItem}
           setTab={setTab}
+          setCategory={setCategory}
           ref={inputRef}
         />
       )}
