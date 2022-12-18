@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Context } from '../../../context'
 import Logo from './Logo/Logo'
 import CategoryList from './CategoryList/CategoryList'
 import Info from './Info/Info'
@@ -6,6 +7,8 @@ import LogOut from '../../../Components/UI/LogOut/LogOut'
 import './asideBar.scss'
 
 const AsideBar = ({ darkMode }) => {
+  const { authorization } = useContext(Context)
+
   const logOutStyles = {
     position: 'absolute',
     bottom: '20px',
@@ -19,7 +22,7 @@ const AsideBar = ({ darkMode }) => {
       <Logo />
       <CategoryList />
       <Info darkMode={darkMode} />
-      <LogOut style={logOutStyles} darkMode={darkMode} />
+      {authorization ? <LogOut style={logOutStyles} darkMode={darkMode} /> : ''}
     </aside>
   )
 }

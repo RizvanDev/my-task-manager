@@ -35,6 +35,7 @@ const addEmptyArrays = data => {
   return []
 }
 
+// database
 const database = {
   writeUserData: (userId, userInfo, tabItems) => {
     const reference = ref(db, 'users/' + userId)
@@ -64,7 +65,6 @@ const database = {
     })
   },
 }
-
 // Authentication methods
 const authentication = {
   // Login
@@ -139,9 +139,6 @@ const authentication = {
     userInfo,
     setUserInfo,
     setUserId,
-    setTabItem,
-    setTab,
-    defaultItems,
   ) => {
     return onAuthStateChanged(auth, user => {
       if (user) {
@@ -152,13 +149,17 @@ const authentication = {
         setAuthorization(false)
         setUserId('')
         setUserInfo({ photo: defaultPhoto, nick: 'username', email: '' })
-        setTabItem([...defaultItems])
-        setTab(defaultItems[0].title)
       }
     })
   },
   // Logout
-  logOut: async () => await signOut(auth),
+  logOut: (defaultItems, setTabItem, setTab, redirectOnMainPage) => {
+    signOut(auth).then(() => {
+      redirectOnMainPage()
+      setTabItem([...defaultItems])
+      setTab(defaultItems[0].title)
+    })
+  },
 }
 
 export { authentication, database }

@@ -155,6 +155,7 @@ const withApp = Component => {
       setTab,
       tabItems,
       setTabItem,
+      defaultItems,
       category,
       setCategory,
       categorySelectOnChange,

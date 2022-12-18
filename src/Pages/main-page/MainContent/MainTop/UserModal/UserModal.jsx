@@ -95,7 +95,7 @@ const UserModal = ({ darkMode, setDarkMode, userModal, setAuthModal, authorizati
           </svg>
           <span>Settings</span>
         </a>
-        <LogOut style={logOutStyles} />
+        {authorization ? <LogOut style={logOutStyles} /> : ''}
       </div>
     </div>
   )
