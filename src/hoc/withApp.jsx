@@ -38,6 +38,8 @@ const withApp = Component => {
       email: '',
     })
 
+    console.log(tab, category)
+
     useEffect(() => {
       setDataInStorage(tabItems)
       database.writeUserData(userId, userInfo, tabItems)

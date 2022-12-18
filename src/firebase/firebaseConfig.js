@@ -153,11 +153,11 @@ const authentication = {
     })
   },
   // Logout
-  logOut: (defaultItems, setTabItem, setTab, redirectOnMainPage) => {
-    signOut(auth).then(() => {
-      redirectOnMainPage()
+  logOut: (defaultItems, setTabItem, setTab, setCategory) => {
+    return signOut(auth).then(() => {
       setTabItem([...defaultItems])
       setTab(defaultItems[0].title)
+      setCategory(defaultItems[0].title)
     })
   },
 }
