@@ -1,14 +1,18 @@
 import React, { useContext } from 'react'
-import './categoryList.scss'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import AddItem from './AddItem/AddItem'
 import ListItem from '../ListItem/ListItem'
-import { Context } from '../../../../context'
+import './categoryList.scss'
 
 const CategoryList = () => {
   const { setTab, setCategory, tabItems } = useContext(Context)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const chooseCategory = e => {
+    if (location.pathname === '/Profile.jsx') navigate('/')
     setTab(e.target.innerText)
     setCategory(e.target.innerText)
   }

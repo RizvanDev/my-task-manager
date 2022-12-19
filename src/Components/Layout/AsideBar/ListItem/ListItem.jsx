@@ -1,16 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import './listItem.scss'
 
 const ListItem = ({ children, darkMode, onClick }) => {
   return (
-    <Link
-      to='/'
+    <button
       type='button'
       className={darkMode ? 'listItem darkMode' : 'listItem'}
       onClick={onClick}>
       {children}
-    </Link>
+    </button>
   )
 }
 

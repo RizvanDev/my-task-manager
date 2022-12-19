@@ -14,6 +14,7 @@ const Login = forwardRef(({ ...props }, ref) => {
     return authentication.loginEmailPassword({
       login,
       setLogin,
+      userInfo: props.userInfo,
       setUserInfo: props.setUserInfo,
       setTabItem: props.setTabItem,
       setTab: props.setTab,

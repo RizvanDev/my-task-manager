@@ -7,7 +7,7 @@ import MainBtn from '../../Components/UI/MainBtn/MainBtn'
 import './profile.scss'
 
 const Profile = ({ darkMode }) => {
-  const { userInfo, setUserInfo, userId, tabItems } = useContext(Context)
+  const { userInfo, setUserInfo, tabItems } = useContext(Context)
   const navigate = useNavigate()
 
   const styleObj = {
@@ -42,8 +42,9 @@ const Profile = ({ darkMode }) => {
   }
 
   const sendUserInfo = () => {
-    navigate('/')
-    database.writeUserData(userId, userInfo, tabItems)
+    database.writeUserInfoData(userInfo).then(() => {
+      navigate('/')
+    })
   }
 
   return (

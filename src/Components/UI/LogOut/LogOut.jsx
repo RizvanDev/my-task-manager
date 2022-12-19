@@ -5,7 +5,8 @@ import { Context } from '../../../context'
 import cl from './logout.module.scss'
 
 const LogOut = ({ darkMode, style }) => {
-  const { defaultItems, setTabItem, setTab, setCategory } = useContext(Context)
+  const { defaultItems, defaultPhoto, setUserInfo, setTabItem, setTab, setCategory } =
+    useContext(Context)
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -14,7 +15,14 @@ const LogOut = ({ darkMode, style }) => {
 
   const exitAcc = () => {
     redirectOnMainPage()
-    return authentication.logOut(defaultItems, setTabItem, setTab, setCategory)
+    return authentication.logOut(
+      defaultItems,
+      defaultPhoto,
+      setUserInfo,
+      setTabItem,
+      setTab,
+      setCategory,
+    )
   }
 
   return (

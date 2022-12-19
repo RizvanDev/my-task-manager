@@ -1,15 +1,8 @@
 import React, { useEffect, useContext } from 'react'
-import useValue from '../../../../hooks/useValue'
 import { Context } from '../../../../context'
 
 const Time = () => {
-  const [time, setTime] = useValue(new Date())
-  const { darkMode, setCalendarModal } = useContext(Context)
-
-  useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 999)
-    return () => clearInterval(interval)
-  }, [time])
+  const { time, setTime, darkMode, setCalendarModal } = useContext(Context)
 
   return (
     <div className='time__container'>

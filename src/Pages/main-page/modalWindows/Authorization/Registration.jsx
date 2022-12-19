@@ -18,6 +18,7 @@ const Registration = forwardRef(({ ...props }, ref) => {
       setRegistration,
       navigate,
       userInfo: props.userInfo,
+      setUserInfo: props.setUserInfo,
       tabItems: props.tabItems,
       setAuthInfoModal: props.setAuthInfoModal,
       setAuthModal: props.setAuthModal,

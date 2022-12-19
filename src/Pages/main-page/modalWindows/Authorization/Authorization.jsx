@@ -104,6 +104,7 @@ const Authorization = () => {
           setAuthModal={setAuthModal}
           createAuthInfoModal={createAuthInfoModal}
           userInfo={userInfo}
+          setUserInfo={setUserInfo}
           tabItems={tabItems}
           ref={inputRef}
         />
@@ -113,6 +114,7 @@ const Authorization = () => {
           btnStyles={styleObj.btnStyles}
           setAuthModal={setAuthModal}
           createAuthInfoModal={createAuthInfoModal}
+          userInfo={userInfo}
           setUserInfo={setUserInfo}
           setTabItem={setTabItem}
           setTab={setTab}

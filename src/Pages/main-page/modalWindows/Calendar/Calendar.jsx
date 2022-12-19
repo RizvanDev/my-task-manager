@@ -7,8 +7,8 @@ import useValue from '../../../../hooks/useValue'
 import './calendar.scss'
 
 const CalendarWindow = () => {
-  const { darkMode, calendarModal, setCalendarModal } = useContext(Context)
-  const [date, setDate] = useValue(new Date())
+  const { darkMode, calendarModal, setCalendarModal, calendarDate, setCalendarDate } =
+    useContext(Context)
 
   const modalStyles = {
     modal: {
@@ -30,8 +30,8 @@ const CalendarWindow = () => {
       opened={calendarModal}
       closeModal={() => setCalendarModal(false)}>
       <Calendar
-        value={date}
-        onChange={setDate}
+        value={calendarDate}
+        onChange={setCalendarDate}
         className={darkMode ? 'calendar darkMode' : 'calendar'}
         locale={'en'}
         prev2Label={null}

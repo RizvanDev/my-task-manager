@@ -21,6 +21,9 @@ const withApp = Component => {
     const [authModal, setAuthModal] = useValue(false)
     const [taskModal, setTaskModal] = useValue(false)
     const [calendarModal, setCalendarModal] = useValue(false)
+    // time
+    const [time, setTime] = useValue(new Date())
+    const [calendarDate, setCalendarDate] = useValue(new Date())
     // data
     const [tabsStorage, setDataInStorage] = useLocaleStorage('data', [])
     const [tabItems, setTabItem] = useValue(tabsStorage)
@@ -31,31 +34,42 @@ const withApp = Component => {
     )
     // user information
     const [authorization, setAuthorization] = useValue(false)
-    const [userId, setUserId] = useValue('')
     const [userInfo, setUserInfo] = useLocaleStorage('userInfo', {
       photo: defaultPhoto,
       nick: 'username',
       email: '',
+      uid: '',
     })
 
-    console.log(tab, category)
+    useEffect(() => {
+      const interval = setInterval(() => setTime(new Date()), 999)
+      return () => clearInterval(interval)
+    }, [time])
+
+    if (time.toLocaleTimeString() === '23:59:59') {
+      setTimeout(() => {
+        window.location.reload()
+        setTabItem(defaultItems)
+
+        database.writeNewDayData(
+          userInfo.uid,
+          new Date().toLocaleDateString().split('.').join(''),
+          defaultItems,
+        )
+      }, 1000)
+    }
 
     useEffect(() => {
       setDataInStorage(tabItems)
-      database.writeUserData(userId, userInfo, tabItems)
+      database.writeUserTasksData(
+        userInfo.uid,
+        new Date().toLocaleDateString().split('.').join(''),
+        tabItems,
+      )
     }, [tabItems])
 
     useEffect(() => {
-      authentication.monitorAuthState(
-        setAuthorization,
-        defaultPhoto,
-        userInfo,
-        setUserInfo,
-        setUserId,
-        setTabItem,
-        setTab,
-        defaultItems,
-      )
+      authentication.monitorAuthState(setAuthorization)
     }, [authorization])
 
     const setSortType = value => {
@@ -148,9 +162,12 @@ const withApp = Component => {
       setAuthModal,
       calendarModal,
       setCalendarModal,
+      calendarDate,
+      setCalendarDate,
+      time,
+      setTime,
       authorization,
       setAuthorization,
-      userId,
       userInfo,
       setUserInfo,
       tab,
@@ -158,6 +175,7 @@ const withApp = Component => {
       tabItems,
       setTabItem,
       defaultItems,
+      defaultPhoto,
       category,
       setCategory,
       categorySelectOnChange,
