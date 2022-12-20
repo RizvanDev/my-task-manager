@@ -22,7 +22,6 @@ const withApp = Component => {
     const [taskModal, setTaskModal] = useValue(false)
     const [calendarModal, setCalendarModal] = useValue(false)
     // time
-    const [time, setTime] = useValue(new Date())
     const [calendarDate, setCalendarDate] = useValue(new Date())
     // data
     const [tabsStorage, setDataInStorage] = useLocaleStorage('data', [])
@@ -40,24 +39,6 @@ const withApp = Component => {
       email: '',
       uid: '',
     })
-
-    useEffect(() => {
-      const interval = setInterval(() => setTime(new Date()), 999)
-      return () => clearInterval(interval)
-    }, [time])
-
-    if (time.toLocaleTimeString() === '23:59:59') {
-      setTimeout(() => {
-        window.location.reload()
-        setTabItem(defaultItems)
-
-        database.writeNewDayData(
-          userInfo.uid,
-          new Date().toLocaleDateString().split('.').join(''),
-          defaultItems,
-        )
-      }, 1000)
-    }
 
     useEffect(() => {
       setDataInStorage(tabItems)
@@ -164,8 +145,6 @@ const withApp = Component => {
       setCalendarModal,
       calendarDate,
       setCalendarDate,
-      time,
-      setTime,
       authorization,
       setAuthorization,
       userInfo,

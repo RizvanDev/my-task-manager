@@ -1,8 +1,28 @@
 import React, { useEffect, useContext } from 'react'
+import { database } from '../../../../firebase/firebaseConfig'
 import { Context } from '../../../../context'
+import useValue from '../../../../hooks/useValue'
 
 const Time = () => {
-  const { time, setTime, darkMode, setCalendarModal } = useContext(Context)
+  const [today, setToday] = useValue(new Date())
+  const { darkMode, calendarDate, setCalendarModal, userInfo, defaultItems, setTabItem } =
+    useContext(Context)
+
+  useEffect(() => {
+    const interval = setInterval(() => setToday(new Date()), 999)
+    return () => clearInterval(interval)
+  }, [today])
+
+  if (today.toLocaleTimeString() === '00:00:00') {
+    database.writeNewDayData(
+      userInfo.uid,
+      today.toLocaleDateString().split('.').join(''),
+      defaultItems,
+    )
+
+    setTabItem(defaultItems)
+    window.location.reload()
+  }
 
   return (
     <div className='time__container'>
@@ -25,7 +45,7 @@ const Time = () => {
               strokeLinejoin='round'
             />
           </svg>
-          <span>{time.toLocaleTimeString()}</span>
+          <span>{today.toLocaleTimeString()}</span>
         </div>
       </div>
       <button
@@ -66,7 +86,7 @@ const Time = () => {
               strokeLinejoin='round'
             />
           </svg>
-          <span>{time.toLocaleDateString()}</span>
+          <span>{calendarDate.toLocaleDateString()}</span>
         </div>
       </button>
     </div>

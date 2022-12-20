@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
 import Calendar from 'react-calendar'
-import 'react-calendar/dist/Calendar.css'
-import MyModal from '../../../../Components/UI/MyModal/MyModal'
 import { Context } from '../../../../context'
-import useValue from '../../../../hooks/useValue'
+import MyModal from '../../../../Components/UI/MyModal/MyModal'
+import 'react-calendar/dist/Calendar.css'
 import './calendar.scss'
 
 const CalendarWindow = () => {
