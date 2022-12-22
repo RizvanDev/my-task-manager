@@ -21,6 +21,7 @@ const CategoriesTab = props => {
     checkTask,
     deleteTask,
     setSortType,
+    pastTime,
   } = useContext(Context)
 
   const removeCategory = () => {
@@ -64,6 +65,7 @@ const CategoriesTab = props => {
                     completed={uncompletedTask.completed}
                     checkTask={checkTask}
                     editTask={editTask}
+                    pastTime={pastTime}
                     ref={nodeRef}>
                     {uncompletedTask.task}
                   </Task>
@@ -97,6 +99,7 @@ const CategoriesTab = props => {
                     deleteTask={deleteTask}
                     completed={completedTask.completed}
                     checkTask={checkTask}
+                    pastTime={pastTime}
                     ref={nodeRef}>
                     {completedTask.task}
                   </Task>
@@ -116,6 +119,7 @@ const CategoriesTab = props => {
       </button>
       <CategoriesConfig
         modal={modal}
+        pastTime={pastTime}
         category={props.category}
         setSortType={setSortType}
         removeCategory={removeCategory}

@@ -104,6 +104,32 @@ const database = {
       setTab(condition ? data.user_tasks[date][0].title : '')
     })
   },
+  // reading the data of the selected day
+  readPastData: ({ ...params }) => {
+    const date = params.data.toLocaleDateString().split('.').join('')
+    const distanceRef = ref(db, `users/${params.userInfo.uid}/user_tasks/${date}`)
+
+    return onValue(distanceRef, snapshot => {
+      const tasks = snapshot.val()
+
+      if (tasks) {
+        params.setCalendarDate(params.data)
+        setTimeout(() => {
+          params.setTabItem([...addEmptyArrays(tasks)])
+          params.setCategory(tasks[0].title)
+          params.setTab(tasks[0].title)
+          params.setCalendarModal(false)
+        }, 500)
+        return
+      }
+
+      return params.createAuthInfoModal({
+        show: true,
+        type: 'Error',
+        text: `You don't have any tasks for this day`,
+      })
+    })
+  },
 }
 
 // Authentication methods
@@ -121,7 +147,7 @@ const authentication = {
         if (userCredential) {
           params.setLogin({ Email: '', Password: '' })
           params.createAuthInfoModal({
-            modal: true,
+            show: true,
             type: 'Success',
             text: 'Authorization successfully',
           })

@@ -31,10 +31,12 @@ const AddItem = () => {
   const addNewCategory = () => {
     if (inputValue && !desiredElement) {
       setInputValue('')
+
       setTabItem([
         { title: inputValue, sortingType: 'newest first', data: [] },
         ...tabItems,
       ])
+
       setState({ invisible: false, visible: false })
       setCategory(inputValue)
       setTab(inputValue)

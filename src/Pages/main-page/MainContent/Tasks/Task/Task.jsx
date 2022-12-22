@@ -21,10 +21,15 @@ const Task = React.forwardRef((props, nodeRef) => {
 
   const deletingTask = () => props.deleteTask(props.tabTitle, props.currentTask)
 
+  const visibleUI = {
+    display: !props.pastTime ? 'block' : 'none',
+  }
+
   return (
     <div className='task' ref={nodeRef}>
       <button
         type='button'
+        style={visibleUI}
         className={props.completed ? 'taskCheckbox checked' : 'taskCheckbox'}
         onClick={completeTask}>
         <svg
@@ -51,6 +56,7 @@ const Task = React.forwardRef((props, nodeRef) => {
       />
       <button
         type='button'
+        style={visibleUI}
         className={props.completed ? 'taskEdit checked' : 'taskEdit'}
         onClick={editingTask}>
         <svg width='18' height='18' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -70,6 +76,7 @@ const Task = React.forwardRef((props, nodeRef) => {
       </button>
       <button
         type='button'
+        style={visibleUI}
         className={props.completed ? 'taskDelete checked' : 'taskDelete'}
         onClick={deletingTask}>
         <svg width='18' height='18' fill='none' xmlns='http://www.w3.org/2000/svg'>

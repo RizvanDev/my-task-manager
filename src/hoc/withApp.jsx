@@ -21,8 +21,11 @@ const withApp = Component => {
     const [authModal, setAuthModal] = useValue(false)
     const [taskModal, setTaskModal] = useValue(false)
     const [calendarModal, setCalendarModal] = useValue(false)
-    // time
-    const [calendarDate, setCalendarDate] = useValue(new Date())
+    const [authInfoModal, createAuthInfoModal] = useValue({
+      show: false,
+      type: '',
+      text: '',
+    })
     // data
     const [tabsStorage, setDataInStorage] = useLocaleStorage('data', [])
     const [tabItems, setTabItem] = useValue(tabsStorage)
@@ -31,6 +34,9 @@ const withApp = Component => {
     const [category, setCategory, categorySelectOnChange] = useValue(
       tabItems.length && tabItems[0].title,
     )
+    // date
+    const [calendarDate, setCalendarDate] = useValue(new Date())
+    const [pastTime, setPastTime] = useValue(false)
     // user information
     const [authorization, setAuthorization] = useValue(false)
     const [userInfo, setUserInfo] = useLocaleStorage('userInfo', {
@@ -40,18 +46,57 @@ const withApp = Component => {
       uid: '',
     })
 
-    useEffect(() => {
-      setDataInStorage(tabItems)
-      database.writeUserTasksData(
-        userInfo.uid,
-        new Date().toLocaleDateString().split('.').join(''),
-        tabItems,
-      )
-    }, [tabItems])
-
+    // auth
     useEffect(() => {
       authentication.monitorAuthState(setAuthorization)
     }, [authorization])
+    //
+    // set past time
+    useEffect(() => {
+      const calendar = +calendarDate.toLocaleDateString().split('.').join('')
+      const now = +new Date().toLocaleDateString().split('.').join('')
+
+      setPastTime(calendar < now)
+    }, [calendarDate])
+    // check data on server
+    useEffect(() => {
+      if (!pastTime) {
+        setDataInStorage(tabItems)
+        database.writeUserTasksData(
+          userInfo.uid,
+          new Date().toLocaleDateString().split('.').join(''),
+          tabItems,
+        )
+      }
+    }, [tabItems])
+
+    const selectData = data => {
+      const selectedData = +data.toLocaleDateString().split('.').join('')
+      const present = +new Date().toLocaleDateString().split('.').join('')
+
+      if (selectedData < present) {
+        return database.readPastData({
+          userInfo,
+          data,
+          setTabItem,
+          setCategory,
+          setTab,
+          setCalendarModal,
+          setCalendarDate,
+          createAuthInfoModal,
+          pastTime,
+        })
+      } else if (selectData > present) {
+        console.log('this is Future...')
+        return setCalendarModal(false)
+      }
+
+      setCalendarDate(data)
+      setTabItem(tabsStorage)
+      setCategory(tabsStorage[0].title)
+      setTab(tabsStorage[0].title)
+      return setCalendarModal(false)
+    }
 
     const setSortType = value => {
       tabItems.forEach(category => {
@@ -93,7 +138,6 @@ const withApp = Component => {
 
         return setTabItem([...tabItems])
       },
-
       deleteTask: (title, currentTask) => {
         tabItems.forEach(tab => {
           if (title === tab.title) {
@@ -103,7 +147,6 @@ const withApp = Component => {
 
         return setTabItem([...tabItems])
       },
-
       checkTask: (title, currentTask, complete) => {
         tabItems.forEach(tab => {
           if (title === tab.title) {
@@ -115,7 +158,6 @@ const withApp = Component => {
 
         return setTabItem([...tabItems])
       },
-
       editTask: (event, title, currentTask, newValue) => {
         event.target.style.borderBottom = `1px solid ${
           event.target.value ? 'transparent' : 'red'
@@ -134,6 +176,7 @@ const withApp = Component => {
       },
     }
 
+    // global context
     const contextValues = {
       darkMode,
       setDarkMode,
@@ -143,8 +186,13 @@ const withApp = Component => {
       setAuthModal,
       calendarModal,
       setCalendarModal,
+      authInfoModal,
+      createAuthInfoModal,
       calendarDate,
       setCalendarDate,
+      pastTime,
+      setPastTime,
+      selectData,
       authorization,
       setAuthorization,
       userInfo,

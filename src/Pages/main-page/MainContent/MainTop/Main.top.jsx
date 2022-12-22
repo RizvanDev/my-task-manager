@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
-import './mainTop.scss'
+import { Context } from '../../../../context'
 import MainBtn from '../../../../Components/UI/MainBtn/MainBtn'
 import UserMenu from './UserMenu/UserMenu'
 import UserModal from './UserModal/UserModal'
-import { Context } from '../../../../context'
+import './mainTop.scss'
 
 const MainTop = () => {
   const [userModal, setUserModal] = useState(false)
@@ -15,6 +15,7 @@ const MainTop = () => {
     setAuthModal,
     authorization,
     userInfo,
+    pastTime,
   } = useContext(Context)
 
   const btnStyles = {
@@ -27,7 +28,7 @@ const MainTop = () => {
     fontSize: '16px',
     lineHeight: '22px',
     letterSpacing: '0.01em',
-    visibility: tabItems.length ? 'visible' : 'hidden',
+    visibility: tabItems.length && !pastTime ? 'visible' : 'hidden',
   }
 
   return (

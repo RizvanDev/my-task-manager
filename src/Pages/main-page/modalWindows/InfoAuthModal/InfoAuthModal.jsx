@@ -3,7 +3,7 @@ import React from 'react'
 const InfoAuthModal = ({ authInfoModal, createAuthInfoModal }) => {
   const styleObj = {
     position: 'absolute',
-    top: '-12%',
+    top: '8%',
     left: '50%',
     transform: 'translateX(-50%)',
     with: '100%',
@@ -12,9 +12,11 @@ const InfoAuthModal = ({ authInfoModal, createAuthInfoModal }) => {
     fontSize: '16px',
     color: '#fff',
     whiteSpace: 'nowrap',
+    zIndex: '100',
   }
 
-  setTimeout(() => createAuthInfoModal({ ...authInfoModal, modal: false }), 1000)
+  console.log(authInfoModal)
+  setTimeout(() => createAuthInfoModal({ ...authInfoModal, show: false }), 3000)
 
   return <div style={styleObj}>{authInfoModal.text}</div>
 }

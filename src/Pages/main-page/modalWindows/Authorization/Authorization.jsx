@@ -12,16 +12,12 @@ import './authorization.scss'
 const Authorization = () => {
   const [authType, setAuthType] = useValue('Login')
 
-  const [authInfoModal, createAuthInfoModal] = useValue({
-    modal: false,
-    type: '',
-    text: '',
-  })
-
   const {
     darkMode,
     authModal,
     setAuthModal,
+    authInfoModal,
+    createAuthInfoModal,
     userInfo,
     setUserInfo,
     tabItems,
@@ -81,14 +77,6 @@ const Authorization = () => {
       darkMode={darkMode}
       opened={authModal}
       closeModal={() => setAuthModal(false)}>
-      {authInfoModal.modal ? (
-        <InfoAuthModal
-          authInfoModal={authInfoModal}
-          createAuthInfoModal={createAuthInfoModal}
-        />
-      ) : (
-        ''
-      )}
       <MyTitle
         fontSize='18px'
         lineHeight='25px'
@@ -96,7 +84,6 @@ const Authorization = () => {
         textAlign='center'>
         {authType === 'Login' ? 'Log in to your account' : 'Create new account'}
       </MyTitle>
-
       {authType === 'Registration' ? (
         <Registration
           inputStyles={styleObj.inputStyles}

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { database } from '../../../../firebase/firebaseConfig'
 import Calendar from 'react-calendar'
 import { Context } from '../../../../context'
 import MyModal from '../../../../Components/UI/MyModal/MyModal'
@@ -6,7 +7,7 @@ import 'react-calendar/dist/Calendar.css'
 import './calendar.scss'
 
 const CalendarWindow = () => {
-  const { darkMode, calendarModal, setCalendarModal, calendarDate, setCalendarDate } =
+  const { darkMode, calendarModal, setCalendarModal, calendarDate, selectData } =
     useContext(Context)
 
   const modalStyles = {
@@ -29,9 +30,9 @@ const CalendarWindow = () => {
       opened={calendarModal}
       closeModal={() => setCalendarModal(false)}>
       <Calendar
-        value={calendarDate}
-        onChange={setCalendarDate}
         className={darkMode ? 'calendar darkMode' : 'calendar'}
+        value={calendarDate}
+        onClickDay={selectData}
         locale={'en'}
         prev2Label={null}
         next2Label={null}

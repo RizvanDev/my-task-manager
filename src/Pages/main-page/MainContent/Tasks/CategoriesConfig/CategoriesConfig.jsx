@@ -2,7 +2,7 @@ import React from 'react'
 import Select from '../../../../../Components/UI/Select/Select'
 import './categoriesConfig.scss'
 
-const CategoriesConfig = ({ modal, category, setSortType, removeCategory }) => {
+const CategoriesConfig = ({ modal, pastTime, category, setSortType, removeCategory }) => {
   const clConfigBtn = ['category__configModal']
 
   if (modal) clConfigBtn.push('open')
@@ -28,6 +28,7 @@ const CategoriesConfig = ({ modal, category, setSortType, removeCategory }) => {
       </div>
       <button
         type='button'
+        style={{ display: !pastTime ? 'block' : 'none' }}
         className='category__removeBtn'
         title='remove this category'
         onClick={removeCategory}>
