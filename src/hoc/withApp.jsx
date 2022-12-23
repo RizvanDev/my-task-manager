@@ -38,7 +38,7 @@ const withApp = Component => {
     const [calendarDate, setCalendarDate] = useValue(new Date())
     const [pastTime, setPastTime] = useValue(false)
     // user information
-    const [authorization, setAuthorization] = useValue(false)
+    const [authorization, setAuthorization] = useLocaleStorage('auth', false)
     const [userInfo, setUserInfo] = useLocaleStorage('userInfo', {
       photo: defaultPhoto,
       nick: 'username',
@@ -46,21 +46,16 @@ const withApp = Component => {
       uid: '',
     })
 
-    // auth
-    useEffect(() => {
-      authentication.monitorAuthState(setAuthorization)
-    }, [authorization])
-
     // set past time
     useEffect(() => {
-      const selectedData = +calendarDate
+      const selectedDate = +calendarDate
         .toLocaleDateString()
         .split('.')
         .reverse()
         .join('')
       const present = +new Date().toLocaleDateString().split('.').reverse().join('')
 
-      setPastTime(selectedData < present)
+      setPastTime(selectedDate < present)
     }, [calendarDate])
 
     // change data on server
@@ -75,14 +70,15 @@ const withApp = Component => {
       }
     }, [tabItems])
 
-    const selectData = data => {
-      const selectedData = +data.toLocaleDateString().split('.').reverse().join('')
+    // select calendar date
+    const selectData = date => {
+      const selectedDate = +date.toLocaleDateString().split('.').reverse().join('')
       const present = +new Date().toLocaleDateString().split('.').reverse().join('')
 
-      if (selectedData < present) {
+      if (selectedDate < present) {
         return database.readPastData({
           userInfo,
-          data,
+          date,
           setTabItem,
           setCategory,
           setTab,
@@ -91,18 +87,19 @@ const withApp = Component => {
           createAuthInfoModal,
           pastTime,
         })
-      } else if (selectData > present) {
-        console.log('this is Future...')
+      } else if (selectedDate > present) {
+        setCalendarDate(date)
         return setCalendarModal(false)
       }
 
-      setCalendarDate(data)
+      setCalendarDate(date)
       setTabItem(tabsStorage)
       setCategory(tabsStorage[0].title)
       setTab(tabsStorage[0].title)
       return setCalendarModal(false)
     }
 
+    // sorting tasks
     const setSortType = value => {
       tabItems.forEach(category => {
         if (category.title === tab) {

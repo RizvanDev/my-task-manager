@@ -7,8 +7,15 @@ import 'react-calendar/dist/Calendar.css'
 import './calendar.scss'
 
 const CalendarWindow = () => {
-  const { darkMode, calendarModal, setCalendarModal, calendarDate, selectData } =
-    useContext(Context)
+  const {
+    darkMode,
+    authorization,
+    calendarModal,
+    setCalendarModal,
+    setAuthModal,
+    calendarDate,
+    selectData,
+  } = useContext(Context)
 
   const modalStyles = {
     modal: {
@@ -23,6 +30,15 @@ const CalendarWindow = () => {
     },
   }
 
+  const calendarHandleClick = e => {
+    if (!authorization) {
+      setCalendarModal(false)
+      return setAuthModal(true)
+    }
+
+    return selectData(e)
+  }
+
   return (
     <MyModal
       styles={modalStyles}
@@ -32,7 +48,7 @@ const CalendarWindow = () => {
       <Calendar
         className={darkMode ? 'calendar darkMode' : 'calendar'}
         value={calendarDate}
-        onClickDay={selectData}
+        onClickDay={calendarHandleClick}
         locale={'en'}
         prev2Label={null}
         next2Label={null}

@@ -16,7 +16,7 @@ const Authorization = () => {
     darkMode,
     authModal,
     setAuthModal,
-    authInfoModal,
+    setAuthorization,
     createAuthInfoModal,
     userInfo,
     setUserInfo,
@@ -89,6 +89,7 @@ const Authorization = () => {
           inputStyles={styleObj.inputStyles}
           btnStyles={styleObj.btnStyles}
           setAuthModal={setAuthModal}
+          setAuthorization={setAuthorization}
           createAuthInfoModal={createAuthInfoModal}
           userInfo={userInfo}
           setUserInfo={setUserInfo}
@@ -100,6 +101,7 @@ const Authorization = () => {
           inputStyles={styleObj.inputStyles}
           btnStyles={styleObj.btnStyles}
           setAuthModal={setAuthModal}
+          setAuthorization={setAuthorization}
           createAuthInfoModal={createAuthInfoModal}
           userInfo={userInfo}
           setUserInfo={setUserInfo}

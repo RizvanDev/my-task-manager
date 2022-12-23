@@ -4,7 +4,6 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signOut,
 } from 'firebase/auth'
 import { getDatabase, onValue, ref, set, update } from 'firebase/database'
@@ -106,14 +105,14 @@ const database = {
   },
   // reading the data of the selected day
   readPastData: ({ ...params }) => {
-    const date = params.data.toLocaleDateString().split('.').join('')
+    const date = params.date.toLocaleDateString().split('.').join('')
     const distanceRef = ref(db, `users/${params.userInfo.uid}/user_tasks/${date}`)
 
     return onValue(distanceRef, snapshot => {
       const tasks = snapshot.val()
 
       if (tasks) {
-        params.setCalendarDate(params.data)
+        params.setCalendarDate(params.date)
         setTimeout(() => {
           params.setTabItem([...addEmptyArrays(tasks)])
           params.setCategory(tasks[0].title)
@@ -145,6 +144,7 @@ const authentication = {
         )
 
         if (userCredential) {
+          params.setAuthorization(true)
           params.setLogin({ Email: '', Password: '' })
           params.createAuthInfoModal({
             show: true,
@@ -168,8 +168,7 @@ const authentication = {
           setTimeout(() => params.setAuthModal(false), 1500)
         }
       } catch (Error) {
-        console.log(Error)
-        params.createAuthInfoModal({ modal: true, type: 'Error', text: Error.code })
+        params.createAuthInfoModal({ show: true, type: 'Error', text: Error.code })
       }
     }
   },
@@ -184,6 +183,7 @@ const authentication = {
         )
 
         if (userCredential) {
+          params.setAuthorization(true)
           params.setRegistration({ Email: '', Password: '' })
           params.createAuthInfoModal({
             modal: true,
@@ -214,19 +214,19 @@ const authentication = {
       }
     }
   },
-  // State
-  monitorAuthState: setAuthorization => {
-    return onAuthStateChanged(auth, user => {
-      setAuthorization(user && true)
-    })
-  },
   // Logout
-  logOut: (defaultItems, defaultPhoto, setUserInfo, setTabItem, setTab, setCategory) => {
+  logOut: ({ ...params }) => {
     return signOut(auth).then(() => {
-      setUserInfo({ photo: defaultPhoto, nick: 'username', email: '', uid: '' })
-      setTabItem([...defaultItems])
-      setTab(defaultItems[0].title)
-      setCategory(defaultItems[0].title)
+      params.setAuthorization(false)
+      params.setUserInfo({
+        photo: params.defaultPhoto,
+        nick: 'username',
+        email: '',
+        uid: '',
+      })
+      params.setTabItem([...params.defaultItems])
+      params.setTab(params.defaultItems[0].title)
+      params.setCategory(params.defaultItems[0].title)
     })
   },
 }
