@@ -50,15 +50,20 @@ const withApp = Component => {
     useEffect(() => {
       authentication.monitorAuthState(setAuthorization)
     }, [authorization])
-    //
+
     // set past time
     useEffect(() => {
-      const calendar = +calendarDate.toLocaleDateString().split('.').join('')
-      const now = +new Date().toLocaleDateString().split('.').join('')
+      const selectedData = +calendarDate
+        .toLocaleDateString()
+        .split('.')
+        .reverse()
+        .join('')
+      const present = +new Date().toLocaleDateString().split('.').reverse().join('')
 
-      setPastTime(calendar < now)
+      setPastTime(selectedData < present)
     }, [calendarDate])
-    // check data on server
+
+    // change data on server
     useEffect(() => {
       if (!pastTime) {
         setDataInStorage(tabItems)
@@ -71,8 +76,8 @@ const withApp = Component => {
     }, [tabItems])
 
     const selectData = data => {
-      const selectedData = +data.toLocaleDateString().split('.').join('')
-      const present = +new Date().toLocaleDateString().split('.').join('')
+      const selectedData = +data.toLocaleDateString().split('.').reverse().join('')
+      const present = +new Date().toLocaleDateString().split('.').reverse().join('')
 
       if (selectedData < present) {
         return database.readPastData({

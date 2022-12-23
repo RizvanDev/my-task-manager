@@ -24,6 +24,17 @@ const Time = () => {
     window.location.reload()
   }
 
+  const selectText = () => {
+    const selectedData = +calendarDate.toLocaleDateString().split('.').reverse().join('')
+    const present = +new Date().toLocaleDateString().split('.').reverse().join('')
+
+    return selectedData < present
+      ? 'viewing old records...'
+      : selectedData > present
+      ? 'planning...'
+      : 'Today we have'
+  }
+
   return (
     <div className='time__container'>
       <div className='time__block'>
@@ -54,7 +65,7 @@ const Time = () => {
           darkMode ? 'time__block calendar-btn darkMode' : 'time__block calendar-btn'
         }
         onClick={() => setCalendarModal(true)}>
-        <span className='time__helpTitle'>Today we have</span>
+        <span className='time__helpTitle'>{selectText()}</span>
         <div className='time__block-data'>
           <svg width='24' height='24' fill='none'>
             <path

@@ -15,7 +15,6 @@ const InfoAuthModal = ({ authInfoModal, createAuthInfoModal }) => {
     zIndex: '100',
   }
 
-  console.log(authInfoModal)
   setTimeout(() => createAuthInfoModal({ ...authInfoModal, show: false }), 3000)
 
   return <div style={styleObj}>{authInfoModal.text}</div>
