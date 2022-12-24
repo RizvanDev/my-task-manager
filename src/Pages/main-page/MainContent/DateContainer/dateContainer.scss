@@ -8,6 +8,12 @@
   transition: all 0.3s linear 0s;
   &.darkMode {
     background-color: $darkModeBgElement;
+    .calendar-btn {
+      box-shadow: -3px 3px 2px 4px#222831;
+      &:active {
+        box-shadow: 0 0 0 0 #222831;
+      }
+    }
   }
 }
 
@@ -47,15 +53,9 @@
   border-radius: 10px;
   box-shadow: -3px 3px 2px 4px #e5e5e5;
   transition: all 0.2s ease;
-  &.darkMode {
-    box-shadow: -3px 3px 2px 4px#222831;
-  }
   &:active {
     transform: translate(-3px, 3px);
     box-shadow: 0 0 0 0 #e5e5e5;
-  }
-  &.darkMode:active {
-    box-shadow: 0 0 0 0 #222831;
   }
 }
 

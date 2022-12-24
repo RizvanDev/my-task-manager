@@ -1,18 +1,23 @@
 import React, { useContext } from 'react'
-import './dateContainer.scss'
+import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import Time from './Time'
-import { Context } from '../../../../context'
+import DateButton from './DateButton'
+import './dateContainer.scss'
 
 const DateContainer = () => {
-  const { darkMode } = useContext(Context)
+  const { darkMode, calendarDate, setCalendarModal, userInfo, defaultItems, setTabItem } =
+    useContext(Context)
 
   return (
     <div className={darkMode ? 'mainContent__time darkMode' : 'mainContent__time'}>
       <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
         Well well well !
       </MyTitle>
-      <Time />
+      <div className='time__container'>
+        <Time userInfo={userInfo} defaultItems={defaultItems} setTabItem={setTabItem} />
+        <DateButton calendarDate={calendarDate} setCalendarModal={setCalendarModal} />
+      </div>
     </div>
   )
 }
