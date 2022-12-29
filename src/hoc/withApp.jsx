@@ -36,7 +36,7 @@ const withApp = Component => {
     )
     // date
     const [calendarDate, setCalendarDate] = useValue(new Date())
-    const [pastTime, setPastTime] = useValue(false)
+    const [timeLine, setTimeLine] = useValue({ past: false, future: false })
     // user information
     const [authorization, setAuthorization] = useLocaleStorage('auth', false)
     const [userInfo, setUserInfo] = useLocaleStorage('userInfo', {
@@ -46,28 +46,15 @@ const withApp = Component => {
       uid: '',
     })
 
-    // set past time
-    useEffect(() => {
-      const selectedDate = +calendarDate
-        .toLocaleDateString()
-        .split('.')
-        .reverse()
-        .join('')
-      const present = +new Date().toLocaleDateString().split('.').reverse().join('')
-
-      setPastTime(selectedDate < present)
-    }, [calendarDate])
-
     // change data on server
     useEffect(() => {
-      if (!pastTime) {
-        setDataInStorage(tabItems)
-        database.writeUserTasksData(
-          userInfo.uid,
-          new Date().toLocaleDateString().split('.').join(''),
-          tabItems,
-        )
-      }
+      if (timeLine.past === timeLine.future) setDataInStorage(tabItems)
+
+      database.writeUserTasksData(
+        userInfo.uid,
+        calendarDate.toLocaleDateString().split('.').join(''),
+        tabItems,
+      )
     }, [tabItems])
 
     // select calendar date
@@ -76,6 +63,7 @@ const withApp = Component => {
       const present = +new Date().toLocaleDateString().split('.').reverse().join('')
 
       if (selectedDate < present) {
+        setTimeLine({ past: selectedDate < present, future: selectedDate > present })
         return database.readPastData({
           userInfo,
           date,
@@ -85,17 +73,26 @@ const withApp = Component => {
           setCalendarModal,
           setCalendarDate,
           createAuthInfoModal,
-          pastTime,
         })
       } else if (selectedDate > present) {
+        setTimeLine({ past: selectedDate < present, future: selectedDate > present })
         setCalendarDate(date)
-        return setCalendarModal(false)
+        setCalendarModal(false)
+        return database.writeNewDayData(
+          userInfo.uid,
+          date.toLocaleDateString().split('.').join(''),
+          defaultItems,
+          setTabItem,
+          setCategory,
+          setTab,
+        )
       }
 
+      setTimeLine({ past: false, future: false })
       setCalendarDate(date)
       setTabItem(tabsStorage)
-      setCategory(tabsStorage[0].title)
-      setTab(tabsStorage[0].title)
+      setCategory(tabsStorage.length && tabsStorage[0].title)
+      setTab(tabsStorage.length && tabsStorage[0].title)
       return setCalendarModal(false)
     }
 
@@ -192,8 +189,8 @@ const withApp = Component => {
       createAuthInfoModal,
       calendarDate,
       setCalendarDate,
-      pastTime,
-      setPastTime,
+      timeLine,
+      setTimeLine,
       selectData,
       authorization,
       setAuthorization,

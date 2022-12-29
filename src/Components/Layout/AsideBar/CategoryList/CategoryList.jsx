@@ -7,7 +7,7 @@ import ListItem from '../ListItem/ListItem'
 import './categoryList.scss'
 
 const CategoryList = () => {
-  const { setTab, setCategory, tabItems, pastTime } = useContext(Context)
+  const { setTab, setCategory, tabItems, timeLine } = useContext(Context)
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ const CategoryList = () => {
           ))}
         </ul>
       </div>
-      {!pastTime ? <AddItem /> : ''}
+      {!timeLine.past ? <AddItem /> : ''}
     </div>
   )
 }

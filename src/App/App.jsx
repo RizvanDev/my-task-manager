@@ -1,9 +1,9 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { withApp } from '../hoc/withApp'
 import Layout from '../Components/Layout/Layout'
 import Main from '../Pages/main-page/Main'
 import Profile from '../Pages/profile-page/Profile'
-import { withApp } from '../hoc/withApp'
 import './App.scss'
 
 const App = ({ darkMode }) => {

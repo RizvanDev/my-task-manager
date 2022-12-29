@@ -15,7 +15,7 @@ const MainTop = () => {
     setAuthModal,
     authorization,
     userInfo,
-    pastTime,
+    timeLine,
   } = useContext(Context)
 
   const btnStyles = {
@@ -28,7 +28,7 @@ const MainTop = () => {
     fontSize: '16px',
     lineHeight: '22px',
     letterSpacing: '0.01em',
-    visibility: tabItems.length && !pastTime ? 'visible' : 'hidden',
+    visibility: tabItems.length && !timeLine.past ? 'visible' : 'hidden',
   }
 
   return (

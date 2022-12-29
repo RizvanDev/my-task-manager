@@ -21,7 +21,7 @@ const CategoriesTab = props => {
     checkTask,
     deleteTask,
     setSortType,
-    pastTime,
+    timeLine,
   } = useContext(Context)
 
   const removeCategory = () => {
@@ -65,7 +65,7 @@ const CategoriesTab = props => {
                     completed={uncompletedTask.completed}
                     checkTask={checkTask}
                     editTask={editTask}
-                    pastTime={pastTime}
+                    timeLine={timeLine}
                     ref={nodeRef}>
                     {uncompletedTask.task}
                   </Task>
@@ -74,40 +74,43 @@ const CategoriesTab = props => {
             })}
         </TransitionGroup>
       </div>
-      <div className='category__completedTasks'>
-        <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
-          Completed tasks
-        </MyTitle>
-        <TransitionGroup
-          className={
-            darkMode ? 'completedTasksContainer darkMode' : 'completedTasksContainer'
-          }>
-          {props.category.data
-            .filter(task => task.completed)
-            .map(completedTask => {
-              const nodeRef = createRef(null)
-              return (
-                <CSSTransition
-                  key={completedTask.time}
-                  nodeRef={nodeRef}
-                  timeout={500}
-                  classNames='task'>
-                  <Task
-                    time={completedTask.time}
-                    currentTask={completedTask}
-                    tabTitle={props.category.title}
-                    deleteTask={deleteTask}
-                    completed={completedTask.completed}
-                    checkTask={checkTask}
-                    pastTime={pastTime}
-                    ref={nodeRef}>
-                    {completedTask.task}
-                  </Task>
-                </CSSTransition>
-              )
-            })}
-        </TransitionGroup>
-      </div>
+      {!timeLine.future && (
+        <div className='category__completedTasks'>
+          <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
+            Completed tasks
+          </MyTitle>
+          <TransitionGroup
+            className={
+              darkMode ? 'completedTasksContainer darkMode' : 'completedTasksContainer'
+            }>
+            {props.category.data
+              .filter(task => task.completed)
+              .map(completedTask => {
+                const nodeRef = createRef(null)
+                return (
+                  <CSSTransition
+                    key={completedTask.time}
+                    nodeRef={nodeRef}
+                    timeout={500}
+                    classNames='task'>
+                    <Task
+                      time={completedTask.time}
+                      currentTask={completedTask}
+                      tabTitle={props.category.title}
+                      deleteTask={deleteTask}
+                      completed={completedTask.completed}
+                      checkTask={checkTask}
+                      timeLine={timeLine}
+                      ref={nodeRef}>
+                      {completedTask.task}
+                    </Task>
+                  </CSSTransition>
+                )
+              })}
+          </TransitionGroup>
+        </div>
+      )}
+
       <button
         type='button'
         className='category__configBtn'
@@ -119,7 +122,7 @@ const CategoriesTab = props => {
       </button>
       <CategoriesConfig
         modal={modal}
-        pastTime={pastTime}
+        timeLine={timeLine}
         category={props.category}
         setSortType={setSortType}
         removeCategory={removeCategory}

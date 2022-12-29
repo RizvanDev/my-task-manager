@@ -6,7 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
-import { getDatabase, onValue, ref, set, update } from 'firebase/database'
+import { getDatabase, ref, set, update, get } from 'firebase/database'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -59,10 +59,23 @@ const database = {
     }
   },
   // create new data for the day
-  writeNewDayData: (userId, date, defaultItems) => {
-    const reference = ref(db, `users/${userId}/user_tasks/`)
+  writeNewDayData: (userId, date, defaultItems, setTabItem, setCategory, setTab) => {
+    const distanceRef = ref(db, `users/${userId}/user_tasks/${date}`)
 
-    if (userId) return update(reference, { [date]: defaultItems })
+    return get(distanceRef).then(snapshot => {
+      if (snapshot.exists()) {
+        const tasks = snapshot.val()
+        setCategory(tasks[0].title)
+        setTab(tasks[0].title)
+        return setTabItem([...addEmptyArrays(tasks)])
+      }
+
+      const reference = ref(db, `users/${userId}/user_tasks/`)
+      setTabItem(defaultItems)
+      setCategory(defaultItems[0].title)
+      setTab(defaultItems[0].title)
+      return update(reference, { [date]: defaultItems })
+    })
   },
   // create Data for new user
   createUserData: (userId, userInfo, tabItems) => {
@@ -86,21 +99,23 @@ const database = {
     const distanceRef = ref(db, `users/${userId}/`)
     const date = new Date().toLocaleDateString().split('.').join('')
 
-    return onValue(distanceRef, snapshot => {
-      const data = snapshot.val()
+    return get(distanceRef).then(snapshot => {
+      if (snapshot.exists()) {
+        const data = snapshot.val()
 
-      setUserInfo({
-        photo: data.user_info.avatar,
-        nick: data.user_info.username,
-        email: data.user_info.email,
-        uid: data.user_info.uid,
-      })
+        setUserInfo({
+          photo: data.user_info.avatar,
+          nick: data.user_info.username,
+          email: data.user_info.email,
+          uid: data.user_info.uid,
+        })
 
-      const condition = data.user_tasks && data.user_tasks[date]
+        const condition = data.user_tasks && data.user_tasks[date]
 
-      setTabItem([...addEmptyArrays(condition ? data.user_tasks[date] : [])])
-      setCategory(condition ? data.user_tasks[date][0].title : '')
-      setTab(condition ? data.user_tasks[date][0].title : '')
+        setTabItem([...addEmptyArrays(condition ? data.user_tasks[date] : [])])
+        setCategory(condition ? data.user_tasks[date][0].title : '')
+        setTab(condition ? data.user_tasks[date][0].title : '')
+      }
     })
   },
   // reading the data of the selected day
@@ -108,10 +123,9 @@ const database = {
     const date = params.date.toLocaleDateString().split('.').join('')
     const distanceRef = ref(db, `users/${params.userInfo.uid}/user_tasks/${date}`)
 
-    return onValue(distanceRef, snapshot => {
-      const tasks = snapshot.val()
-
-      if (tasks) {
+    return get(distanceRef).then(snapshot => {
+      if (snapshot.exists()) {
+        const tasks = snapshot.val()
         params.setCalendarDate(params.date)
         setTimeout(() => {
           params.setTabItem([...addEmptyArrays(tasks)])

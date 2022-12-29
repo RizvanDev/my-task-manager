@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Context } from '../../context'
 import { database } from '../../firebase/firebaseConfig'
-import { useNavigate } from 'react-router-dom'
 import Input from '../../Components/UI/Input/Input'
 import MainBtn from '../../Components/UI/MainBtn/MainBtn'
 import './profile.scss'
 
 const Profile = ({ darkMode }) => {
-  const { userInfo, setUserInfo, tabItems } = useContext(Context)
+  const { userInfo, setUserInfo } = useContext(Context)
   const navigate = useNavigate()
 
   const styleObj = {

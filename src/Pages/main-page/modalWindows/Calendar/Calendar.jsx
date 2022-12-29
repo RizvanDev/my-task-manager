@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { database } from '../../../../firebase/firebaseConfig'
 import Calendar from 'react-calendar'
 import { Context } from '../../../../context'
 import MyModal from '../../../../Components/UI/MyModal/MyModal'

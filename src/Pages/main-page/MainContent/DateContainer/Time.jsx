@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { database } from '../../../../firebase/firebaseConfig'
 import useValue from '../../../../hooks/useValue'
 
-const Time = ({ userInfo, defaultItems, setTabItem }) => {
+const Time = ({ userInfo, defaultItems, setTabItem, setCategory, setTab }) => {
   const [today, setToday] = useValue(new Date())
 
   useEffect(() => {
@@ -15,9 +15,10 @@ const Time = ({ userInfo, defaultItems, setTabItem }) => {
       userInfo.uid,
       today.toLocaleDateString().split('.').join(''),
       defaultItems,
+      setTabItem,
+      setCategory,
+      setTab,
     )
-
-    setTabItem(defaultItems)
     window.location.reload()
   }
 

@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/my-task-manager/static/css/main.381c45c3.css",
-    "main.js": "/my-task-manager/static/js/main.c2b85bb9.js",
+    "main.css": "/my-task-manager/static/css/main.333781dc.css",
+    "main.js": "/my-task-manager/static/js/main.f97dc16d.js",
     "static/media/sun.svg": "/my-task-manager/static/media/sun.86303cdea950f17bda85f363745490cb.svg",
     "static/media/logo.svg": "/my-task-manager/static/media/logo.87eaf00f76d587ed0c3e.svg",
     "static/media/moon.svg": "/my-task-manager/static/media/moon.a70059588fbffa5cf98a783ee93e4256.svg",
     "index.html": "/my-task-manager/index.html",
-    "main.381c45c3.css.map": "/my-task-manager/static/css/main.381c45c3.css.map",
-    "main.c2b85bb9.js.map": "/my-task-manager/static/js/main.c2b85bb9.js.map"
+    "main.333781dc.css.map": "/my-task-manager/static/css/main.333781dc.css.map",
+    "main.f97dc16d.js.map": "/my-task-manager/static/js/main.f97dc16d.js.map"
   },
   "entrypoints": [
-    "static/css/main.381c45c3.css",
-    "static/js/main.c2b85bb9.js"
+    "static/css/main.333781dc.css",
+    "static/js/main.f97dc16d.js"
   ]
 }
