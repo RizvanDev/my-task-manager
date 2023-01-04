@@ -59,22 +59,21 @@ const database = {
     }
   },
   // create new data for the day
-  writeNewDayData: (userId, date, defaultItems, setTabItem, setCategory, setTab) => {
+  writeNewDayData: (userId, date, setTabItem, setCategory, setTab) => {
     const distanceRef = ref(db, `users/${userId}/user_tasks/${date}`)
+    const reference = ref(db, `users/${userId}/user_tasks/`)
 
-    return get(distanceRef).then(snapshot => {
+    get(distanceRef).then(snapshot => {
       if (snapshot.exists()) {
         const tasks = snapshot.val()
+
         setCategory(tasks[0].title)
         setTab(tasks[0].title)
-        return setTabItem([...addEmptyArrays(tasks)])
+        setTabItem([...addEmptyArrays(tasks)])
+      } else {
+        setTabItem([])
+        update(reference, { [date]: [] })
       }
-
-      const reference = ref(db, `users/${userId}/user_tasks/`)
-      setTabItem(defaultItems)
-      setCategory(defaultItems[0].title)
-      setTab(defaultItems[0].title)
-      return update(reference, { [date]: defaultItems })
     })
   },
   // create Data for new user
@@ -94,6 +93,22 @@ const database = {
       })
     }
   },
+  // create/read new day data
+  dataToNextDay: (today, userInfo, setDataInStorage) => {
+    const date = today.toLocaleDateString().split('.').join('')
+    const distanceRef = ref(db, `users/${userInfo.uid}/user_tasks/${date}`)
+
+    return get(distanceRef).then(snapshot => {
+      if (snapshot.exists()) {
+        const tasks = snapshot.val()
+        setDataInStorage([...addEmptyArrays(tasks)])
+        return window.location.reload()
+      }
+
+      setDataInStorage([])
+      return window.location.reload()
+    })
+  },
   // reade user Data
   readUserData: (userId, setUserInfo, setTabItem, setTab, setCategory) => {
     const distanceRef = ref(db, `users/${userId}/`)
@@ -102,6 +117,8 @@ const database = {
     return get(distanceRef).then(snapshot => {
       if (snapshot.exists()) {
         const data = snapshot.val()
+
+        console.log(data)
 
         setUserInfo({
           photo: data.user_info.avatar,
@@ -238,9 +255,9 @@ const authentication = {
         email: '',
         uid: '',
       })
-      params.setTabItem([...params.defaultItems])
-      params.setTab(params.defaultItems[0].title)
-      params.setCategory(params.defaultItems[0].title)
+      params.setCalendarDate(new Date())
+      params.setTimeLine({ past: false, future: false })
+      params.setTabItem([])
     })
   },
 }

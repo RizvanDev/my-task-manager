@@ -6,13 +6,12 @@ import cl from './logout.module.scss'
 
 const LogOut = ({ darkMode, style }) => {
   const {
-    defaultItems,
     setAuthorization,
     defaultPhoto,
     setUserInfo,
     setTabItem,
-    setTab,
-    setCategory,
+    setCalendarDate,
+    setTimeLine,
   } = useContext(Context)
 
   const location = useLocation()
@@ -23,13 +22,12 @@ const LogOut = ({ darkMode, style }) => {
   const exitAcc = () => {
     redirectOnMainPage()
     return authentication.logOut({
-      defaultItems,
       setAuthorization,
       defaultPhoto,
       setUserInfo,
       setTabItem,
-      setTab,
-      setCategory,
+      setCalendarDate,
+      setTimeLine,
     })
   }
 

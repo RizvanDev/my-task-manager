@@ -7,12 +7,6 @@ import useLocaleStorage from '../hooks/useLocaleStorage'
 const defaultPhoto =
   'https://w7.pngwing.com/pngs/7/618/png-transparent-man-illustration-avatar-icon-fashion-men-avatar-face-fashion-girl-heroes-thumbnail.png'
 
-let defaultItems = [
-  { title: 'Home', sortingType: 'newest first', data: [] },
-  { title: 'Work', sortingType: 'newest first', data: [] },
-  { title: 'Sport', sortingType: 'newest first', data: [] },
-]
-
 const withApp = Component => {
   return () => {
     // page mode
@@ -81,7 +75,6 @@ const withApp = Component => {
         return database.writeNewDayData(
           userInfo.uid,
           date.toLocaleDateString().split('.').join(''),
-          defaultItems,
           setTabItem,
           setCategory,
           setTab,
@@ -192,6 +185,7 @@ const withApp = Component => {
       timeLine,
       setTimeLine,
       selectData,
+      setDataInStorage,
       authorization,
       setAuthorization,
       userInfo,
@@ -200,7 +194,6 @@ const withApp = Component => {
       setTab,
       tabItems,
       setTabItem,
-      defaultItems,
       defaultPhoto,
       category,
       setCategory,
