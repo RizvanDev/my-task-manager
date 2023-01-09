@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Context } from '../context'
-import { database } from '../firebase/firebaseConfig'
+import { database, pageOnload } from '../firebase/firebaseConfig'
 import useValue from '../hooks/useValue'
 import useLocaleStorage from '../hooks/useLocaleStorage'
 
@@ -9,7 +9,7 @@ const defaultPhoto =
 
 const withApp = Component => {
   return () => {
-    // page mode
+    // dark mode
     const [darkMode, setDarkMode] = useLocaleStorage('darkMode', false)
     // modal windows
     const [authModal, setAuthModal] = useValue(false)
@@ -20,14 +20,6 @@ const withApp = Component => {
       type: '',
       text: '',
     })
-    // data
-    const [tabsStorage, setDataInStorage] = useLocaleStorage('data', [])
-    const [tabItems, setTabItem] = useValue(tabsStorage)
-    // select tabs and category
-    const [tab, setTab] = useValue(tabItems.length && tabItems[0].title)
-    const [category, setCategory, categorySelectOnChange] = useValue(
-      tabItems.length && tabItems[0].title,
-    )
     // date
     const [calendarDate, setCalendarDate] = useValue(new Date())
     const [timeLine, setTimeLine] = useValue({ past: false, future: false })
@@ -39,16 +31,35 @@ const withApp = Component => {
       email: '',
       uid: '',
     })
+    // data
+    const [tabsStorage, setDataInStorage] = useLocaleStorage('data', [])
+    const [tabItems, setTabItem] = useValue(tabsStorage)
+    // select tabs and category
+    const [tab, setTab] = useValue(tabItems.length && tabItems[0].title)
+    const [category, setCategory, categorySelectOnChange] = useValue(
+      tabItems.length && tabItems[0].title,
+    )
+
+    useEffect(() => {
+      setDataInStorage([])
+      pageOnload(
+        userInfo.uid,
+        calendarDate.toLocaleDateString().split('.').join(''),
+        setTabItem,
+      )
+    }, [])
 
     // change data on server
     useEffect(() => {
       if (timeLine.past === timeLine.future) setDataInStorage(tabItems)
 
-      database.writeUserTasksData(
-        userInfo.uid,
-        calendarDate.toLocaleDateString().split('.').join(''),
-        tabItems,
-      )
+      setTimeout(() => {
+        database.writeUserTasksData(
+          userInfo.uid,
+          calendarDate.toLocaleDateString().split('.').join(''),
+          tabItems,
+        )
+      }, 500)
     }, [tabItems])
 
     // select calendar date

@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 20px 15px;
+  padding: 5px 15px 20px;
   border-radius: 10px;
   border: 1px solid rgba(40, 40, 70, 0.1);
   &:hover {
@@ -55,12 +55,26 @@
 
 .taskName {
   flex: 0 1 90%;
+  margin-top: 15px;
   background-color: transparent;
   font-size: 14px;
   line-height: 19px;
   letter-spacing: 0.02em;
   transition: all 0.3s ease;
+  resize: none;
   cursor: default;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $main-color #f6f6f6;
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f6f6f6;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-color;
+  }
   &.checked {
     opacity: 0.7;
     text-decoration: line-through;

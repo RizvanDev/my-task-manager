@@ -262,4 +262,13 @@ const authentication = {
   },
 }
 
-export { authentication, database }
+// every time the page loads, add data and databases to the local storage
+const pageOnload = async (userId, date, setDataInStorage) => {
+  const url = `${firebaseConfig.databaseURL}users/${userId}/user_tasks/${date}.json`
+
+  const data = await await (await fetch(url)).json()
+
+  return setDataInStorage(addEmptyArrays(data))
+}
+
+export { authentication, database, pageOnload }

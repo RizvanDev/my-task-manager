@@ -48,15 +48,13 @@ const Task = React.forwardRef((props, nodeRef) => {
           />
         </svg>
       </button>
-      <input
-        type='text'
+      <textarea
         value={taskValue}
         readOnly={true}
         ref={ref}
         onChange={taskOnChange}
         onKeyUp={onKeyUpInput}
-        className={props.completed ? 'taskName checked' : 'taskName'}
-      />
+        className={props.completed ? 'taskName checked' : 'taskName'}></textarea>
       <button
         type='button'
         style={showUI}
