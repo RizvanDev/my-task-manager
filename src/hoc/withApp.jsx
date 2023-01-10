@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Context } from '../context'
-import { database, pageOnload } from '../firebase/firebaseConfig'
+import { database } from '../firebase/firebaseConfig'
 import useValue from '../hooks/useValue'
 import useLocaleStorage from '../hooks/useLocaleStorage'
 
@@ -32,37 +32,36 @@ const withApp = Component => {
       uid: '',
     })
     // data
-    const [tabsStorage, setDataInStorage] = useLocaleStorage('data', [])
+    const [tabsStorage, setDataInStorage] = useLocaleStorage('data', {
+      date: new Date().toLocaleDateString().split('.').reverse().join(''),
+      tasks: [],
+    })
     const [tabItems, setTabItem] = useValue(tabsStorage)
     // select tabs and category
-    const [tab, setTab] = useValue(tabItems.length && tabItems[0].title)
+    const [tab, setTab] = useValue(tabItems.tasks.length && tabItems.tasks[0].title)
     const [category, setCategory, categorySelectOnChange] = useValue(
-      tabItems.length && tabItems[0].title,
+      tabItems.tasks.length && tabItems.tasks[0].title,
     )
 
     useEffect(() => {
-      setDataInStorage([])
-      pageOnload(
-        userInfo.uid,
-        calendarDate.toLocaleDateString().split('.').join(''),
-        setTabItem,
-      )
-    }, [])
+      const date = new Date().toLocaleDateString().split('.').reverse().join('')
 
-    // change data on server
-    useEffect(() => {
-      if (timeLine.past === timeLine.future) setDataInStorage(tabItems)
-
-      setTimeout(() => {
-        database.writeUserTasksData(
+      if (authorization && date !== tabItems.date) {
+        database.writeNewDayData(
           userInfo.uid,
           calendarDate.toLocaleDateString().split('.').join(''),
-          tabItems,
+          setTabItem,
+          setCategory,
+          setTab,
         )
-      }, 500)
+      }
+    }, [])
+
+    useEffect(() => {
+      if (timeLine.past === timeLine.future) setDataInStorage(tabItems)
     }, [tabItems])
 
-    // select calendar date
+    // select calendar value
     const selectData = date => {
       const selectedDate = +date.toLocaleDateString().split('.').reverse().join('')
       const present = +new Date().toLocaleDateString().split('.').reverse().join('')
@@ -72,6 +71,7 @@ const withApp = Component => {
         return database.readPastData({
           userInfo,
           date,
+          tabItems,
           setTabItem,
           setCategory,
           setTab,
@@ -95,38 +95,18 @@ const withApp = Component => {
       setTimeLine({ past: false, future: false })
       setCalendarDate(date)
       setTabItem(tabsStorage)
-      setCategory(tabsStorage.length && tabsStorage[0].title)
-      setTab(tabsStorage.length && tabsStorage[0].title)
+      setCategory(tabsStorage.tasks.length && tabsStorage.tasks[0].title)
+      setTab(tabsStorage.tasks.length && tabsStorage.tasks[0].title)
       return setCalendarModal(false)
     }
 
-    // sorting tasks
-    const setSortType = value => {
-      tabItems.forEach(category => {
-        if (category.title === tab) {
-          category.sortingType = value
-
-          category.data.sort((a, b) => {
-            const first = a.time.split(':').join('')
-            const second = b.time.split(':').join('')
-
-            return category.sortingType === 'newest first'
-              ? second - first
-              : first - second
-          })
-        }
-      })
-
-      return setTabItem([...tabItems])
-    }
-
-    const taskMethods = {
+    const tasksMethods = {
       createTask: (inputValue, setInputValue) => {
         setInputValue('')
         setTaskModal(false)
         setTab(category)
 
-        tabItems.forEach(tab => {
+        tabItems.tasks.forEach(tab => {
           if (tab.title === category) {
             tab.data = [
               {
@@ -139,19 +119,31 @@ const withApp = Component => {
           }
         })
 
-        return setTabItem([...tabItems])
+        database.writeUserTasksData(
+          userInfo.uid,
+          calendarDate.toLocaleDateString().split('.').join(''),
+          tabItems,
+        )
+
+        return setTabItem({ ...tabItems })
       },
       deleteTask: (title, currentTask) => {
-        tabItems.forEach(tab => {
+        tabItems.tasks.forEach(tab => {
           if (title === tab.title) {
             tab.data = tab.data.filter(task => task.time !== currentTask.time)
           }
         })
 
-        return setTabItem([...tabItems])
+        database.writeUserTasksData(
+          userInfo.uid,
+          calendarDate.toLocaleDateString().split('.').join(''),
+          tabItems,
+        )
+
+        return setTabItem({ ...tabItems })
       },
       checkTask: (title, currentTask, complete) => {
-        tabItems.forEach(tab => {
+        tabItems.tasks.forEach(tab => {
           if (title === tab.title) {
             tab.data.forEach(task => {
               if (currentTask.time === task.time) task.completed = !complete
@@ -159,7 +151,13 @@ const withApp = Component => {
           }
         })
 
-        return setTabItem([...tabItems])
+        database.writeUserTasksData(
+          userInfo.uid,
+          calendarDate.toLocaleDateString().split('.').join(''),
+          tabItems,
+        )
+
+        return setTabItem({ ...tabItems })
       },
       editTask: (event, title, currentTask, newValue) => {
         event.target.style.borderBottom = `1px solid ${
@@ -167,7 +165,7 @@ const withApp = Component => {
         }`
         event.target.readOnly = event.code === 'Enter' && event.target.value
 
-        tabItems.forEach(tab => {
+        tabItems.tasks.forEach(tab => {
           if (title === tab.title) {
             tab.data.forEach(task => {
               if (currentTask.task === task.task) task.task = newValue
@@ -175,7 +173,37 @@ const withApp = Component => {
           }
         })
 
-        return setTabItem([...tabItems])
+        database.writeUserTasksData(
+          userInfo.uid,
+          calendarDate.toLocaleDateString().split('.').join(''),
+          tabItems,
+        )
+
+        return setTabItem({ ...tabItems })
+      },
+      setSortType: value => {
+        tabItems.tasks.forEach(category => {
+          if (category.title === tab) {
+            category.sortingType = value
+
+            category.data.sort((a, b) => {
+              const first = a.time.split(':').join('')
+              const second = b.time.split(':').join('')
+
+              return category.sortingType === 'newest first'
+                ? second - first
+                : first - second
+            })
+          }
+        })
+
+        database.writeUserTasksData(
+          userInfo.uid,
+          calendarDate.toLocaleDateString().split('.').join(''),
+          tabItems,
+        )
+
+        return setTabItem({ ...tabItems })
       },
     }
 
@@ -209,8 +237,7 @@ const withApp = Component => {
       category,
       setCategory,
       categorySelectOnChange,
-      setSortType,
-      ...taskMethods,
+      ...tasksMethods,
     }
 
     return (

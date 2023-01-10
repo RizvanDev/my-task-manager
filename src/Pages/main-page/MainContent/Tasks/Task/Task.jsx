@@ -22,9 +22,9 @@ const Task = React.forwardRef((props, nodeRef) => {
   const deletingTask = () => props.deleteTask(props.tabTitle, props.currentTask)
 
   const showUI = {
-    display: !props.timeLine.past ? 'block' : 'none',
+    display: !props.timeLine.past ? 'flex' : 'none',
     checkTask: {
-      display: props.timeLine.past || props.timeLine.future ? 'none' : 'block',
+      display: props.timeLine.past || props.timeLine.future ? 'none' : 'flex',
     },
   }
 

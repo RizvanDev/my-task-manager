@@ -3,9 +3,9 @@
 .task {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
-  padding: 5px 15px 20px;
+  padding: 20px 15px 10px;
   border-radius: 10px;
   border: 1px solid rgba(40, 40, 70, 0.1);
   &:hover {
@@ -23,6 +23,8 @@
 .taskEdit,
 .taskDelete {
   flex: 0 1 0;
+  justify-content: center;
+  align-items: center;
   visibility: hidden;
   opacity: 0;
 }
@@ -41,9 +43,6 @@
 }
 
 .taskCheckbox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 20px;
   height: 20px;
   margin-right: 10px;
@@ -55,9 +54,8 @@
 
 .taskName {
   flex: 0 1 90%;
-  margin-top: 15px;
   background-color: transparent;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 19px;
   letter-spacing: 0.02em;
   transition: all 0.3s ease;
@@ -96,7 +94,7 @@
   align-items: center;
   column-gap: 8px;
   top: 8px;
-  right: 9%;
+  right: 10%;
   font-weight: 300;
   font-style: italic;
   font-size: 11px;

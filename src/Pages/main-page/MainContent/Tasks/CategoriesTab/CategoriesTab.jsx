@@ -1,4 +1,5 @@
 import React, { createRef, useContext } from 'react'
+import { database } from '../../../../../firebase/firebaseConfig'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './categoriesTab.scss'
 import MyTitle from '../../../../../Components/MyTitle/MyTitle'
@@ -22,15 +23,29 @@ const CategoriesTab = props => {
     deleteTask,
     setSortType,
     timeLine,
+    userInfo,
+    calendarDate,
   } = useContext(Context)
 
   const removeCategory = () => {
-    const checkingTabs = tabItems[props.idx - 1] || tabItems[1]
+    const checkingTabs = tabItems.tasks[props.idx - 1] || tabItems.tasks[1]
 
-    setTab(tabItems.length > 1 && checkingTabs.title)
-    setCategory(tabItems.length > 1 && checkingTabs.title)
+    setTab(tabItems.tasks.length > 1 && checkingTabs.title)
+    setCategory(tabItems.tasks.length > 1 && checkingTabs.title)
 
-    return setTabItem(tabItems.filter(e => e.title !== props.category.title))
+    setTabItem({
+      ...tabItems,
+      tasks: tabItems.tasks.filter(e => e.title !== props.category.title),
+    })
+
+    return database.writeUserTasksData(
+      userInfo.uid,
+      calendarDate.toLocaleDateString().split('.').join(''),
+      {
+        ...tabItems,
+        tasks: tabItems.tasks.filter(e => e.title !== props.category.title),
+      },
+    )
   }
 
   return (

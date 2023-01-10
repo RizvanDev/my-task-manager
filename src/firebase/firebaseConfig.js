@@ -6,7 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
-import { getDatabase, ref, set, update, get } from 'firebase/database'
+import { getDatabase, ref, set, get } from 'firebase/database'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -55,24 +55,28 @@ const database = {
     const reference = ref(db, `users/${userId}/user_tasks/${date}`)
 
     if (userId) {
-      return set(reference, { ...tabItems })
+      return set(reference, { ...tabItems.tasks })
     }
   },
-  // create new data for the day
+  // create/read new day
   writeNewDayData: (userId, date, setTabItem, setCategory, setTab) => {
     const distanceRef = ref(db, `users/${userId}/user_tasks/${date}`)
-    const reference = ref(db, `users/${userId}/user_tasks/`)
 
-    get(distanceRef).then(snapshot => {
+    return get(distanceRef).then(snapshot => {
       if (snapshot.exists()) {
         const tasks = snapshot.val()
 
         setCategory(tasks[0].title)
         setTab(tasks[0].title)
-        setTabItem([...addEmptyArrays(tasks)])
+        setTabItem({
+          date: new Date().toLocaleDateString().split('.').reverse().join(''),
+          tasks: [...addEmptyArrays(tasks)],
+        })
       } else {
-        setTabItem([])
-        update(reference, { [date]: [] })
+        setTabItem({
+          date: new Date().toLocaleDateString().split('.').reverse().join(''),
+          tasks: [],
+        })
       }
     })
   },
@@ -89,36 +93,18 @@ const database = {
           email: userInfo.email,
           avatar: userInfo.photo,
         },
-        user_tasks: { [day]: tabItems },
+        user_tasks: { [day]: tabItems.tasks },
       })
     }
   },
-  // create/read new day data
-  dataToNextDay: (today, userInfo, setDataInStorage) => {
-    const date = today.toLocaleDateString().split('.').join('')
-    const distanceRef = ref(db, `users/${userInfo.uid}/user_tasks/${date}`)
-
-    return get(distanceRef).then(snapshot => {
-      if (snapshot.exists()) {
-        const tasks = snapshot.val()
-        setDataInStorage([...addEmptyArrays(tasks)])
-        return window.location.reload()
-      }
-
-      setDataInStorage([])
-      return window.location.reload()
-    })
-  },
   // reade user Data
-  readUserData: (userId, setUserInfo, setTabItem, setTab, setCategory) => {
+  readUserData: (userId, setUserInfo, tabItems, setTabItem, setTab, setCategory) => {
     const distanceRef = ref(db, `users/${userId}/`)
     const date = new Date().toLocaleDateString().split('.').join('')
 
     return get(distanceRef).then(snapshot => {
       if (snapshot.exists()) {
         const data = snapshot.val()
-
-        console.log(data)
 
         setUserInfo({
           photo: data.user_info.avatar,
@@ -129,7 +115,10 @@ const database = {
 
         const condition = data.user_tasks && data.user_tasks[date]
 
-        setTabItem([...addEmptyArrays(condition ? data.user_tasks[date] : [])])
+        setTabItem({
+          ...tabItems,
+          tasks: [...addEmptyArrays(condition ? data.user_tasks[date] : [])],
+        })
         setCategory(condition ? data.user_tasks[date][0].title : '')
         setTab(condition ? data.user_tasks[date][0].title : '')
       }
@@ -145,7 +134,7 @@ const database = {
         const tasks = snapshot.val()
         params.setCalendarDate(params.date)
         setTimeout(() => {
-          params.setTabItem([...addEmptyArrays(tasks)])
+          params.setTabItem({ ...params.tabItems, tasks: [...addEmptyArrays(tasks)] })
           params.setCategory(tasks[0].title)
           params.setTab(tasks[0].title)
           params.setCalendarModal(false)
@@ -191,6 +180,7 @@ const authentication = {
           database.readUserData(
             userCredential.user.uid,
             params.setUserInfo,
+            params.tabItems,
             params.setTabItem,
             params.setTab,
             params.setCategory,
@@ -257,18 +247,9 @@ const authentication = {
       })
       params.setCalendarDate(new Date())
       params.setTimeLine({ past: false, future: false })
-      params.setTabItem([])
+      params.setTabItem({ ...params.tabItems, tasks: [] })
     })
   },
 }
 
-// every time the page loads, add data and databases to the local storage
-const pageOnload = async (userId, date, setDataInStorage) => {
-  const url = `${firebaseConfig.databaseURL}users/${userId}/user_tasks/${date}.json`
-
-  const data = await await (await fetch(url)).json()
-
-  return setDataInStorage(addEmptyArrays(data))
-}
-
-export { authentication, database, pageOnload }
+export { authentication, database }

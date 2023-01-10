@@ -93,7 +93,7 @@ const TaskModal = () => {
           <span className={cl.taskModal__helpText}>Category</span>
           <Select
             styles={styleObj.selectStyles}
-            options={tabItems}
+            options={tabItems.tasks}
             value={category}
             onChange={categorySelectOnChange}
           />

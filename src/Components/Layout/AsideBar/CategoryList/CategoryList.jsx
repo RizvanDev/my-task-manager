@@ -24,7 +24,7 @@ const CategoryList = () => {
       </MyTitle>
       <div className='categoriesContainer'>
         <ul className='category__list'>
-          {tabItems.map(element => (
+          {tabItems.tasks.map(element => (
             <li key={element.title}>
               <ListItem onClick={chooseCategory}>{element.title}</ListItem>
             </li>

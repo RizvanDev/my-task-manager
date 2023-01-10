@@ -6,8 +6,16 @@ import DateButton from './DateButton'
 import './dateContainer.scss'
 
 const DateContainer = () => {
-  const { darkMode, calendarDate, setCalendarModal, userInfo, setDataInStorage } =
-    useContext(Context)
+  const {
+    darkMode,
+    calendarDate,
+    setCalendarModal,
+    userInfo,
+    setTabItem,
+    setCategory,
+    setTab,
+    setCalendarDate,
+  } = useContext(Context)
 
   return (
     <div className={darkMode ? 'mainContent__time darkMode' : 'mainContent__time'}>
@@ -15,7 +23,13 @@ const DateContainer = () => {
         Well well well !
       </MyTitle>
       <div className='time__container'>
-        <Time userInfo={userInfo} setDataInStorage={setDataInStorage} />
+        <Time
+          userInfo={userInfo}
+          setTabItem={setTabItem}
+          setCategory={setCategory}
+          setTab={setTab}
+          setCalendarDate={setCalendarDate}
+        />
         <DateButton calendarDate={calendarDate} setCalendarModal={setCalendarModal} />
       </div>
     </div>

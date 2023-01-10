@@ -1,4 +1,5 @@
 import React, { useRef, useContext } from 'react'
+import { database } from '../../../../../firebase/firebaseConfig'
 import cl from './addItem.module.scss'
 import InputContainer from './InputContainer'
 import useValue from '../../../../../hooks/useValue'
@@ -8,7 +9,8 @@ const AddItem = () => {
   const [state, setState] = useValue({ invisible: false, visible: false })
   const [inputValue, setInputValue, onChange] = useValue('')
   const inputRef = useRef(null)
-  const { tabItems, setTabItem, setCategory, setTab } = useContext(Context)
+  const { tabItems, setTabItem, setCategory, setTab, userInfo, calendarDate } =
+    useContext(Context)
 
   const classes = {
     addBtn: [cl.addItem__btn],
@@ -26,20 +28,35 @@ const AddItem = () => {
     return setState({ invisible, visible })
   }
 
-  const desiredElement = tabItems.find(tab => tab.title === inputValue)
+  const desiredElement = tabItems.tasks.find(tab => tab.title === inputValue)
 
   const addNewCategory = () => {
     if (inputValue && !desiredElement) {
       setInputValue('')
 
-      setTabItem([
-        { title: inputValue, sortingType: 'newest first', data: [] },
+      setTabItem({
         ...tabItems,
-      ])
+        tasks: [
+          ...tabItems.tasks,
+          { title: inputValue, sortingType: 'newest first', data: [] },
+        ],
+      })
 
       setState({ invisible: false, visible: false })
       setCategory(inputValue)
       setTab(inputValue)
+
+      database.writeUserTasksData(
+        userInfo.uid,
+        calendarDate.toLocaleDateString().split('.').join(''),
+        {
+          ...tabItems,
+          tasks: [
+            ...tabItems.tasks,
+            { title: inputValue, sortingType: 'newest first', data: [] },
+          ],
+        },
+      )
     }
   }
   return (

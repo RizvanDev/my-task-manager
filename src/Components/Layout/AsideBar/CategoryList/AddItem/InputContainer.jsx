@@ -19,6 +19,7 @@ const InputContainer = React.forwardRef((props, ref) => {
         value={props.inputValue}
         onChange={props.setInputValue}
         onKeyUp={enterKeyUp}
+        maxLength={12}
         ref={ref}
       />
       <button

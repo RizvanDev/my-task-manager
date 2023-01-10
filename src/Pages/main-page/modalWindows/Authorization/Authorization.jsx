@@ -105,6 +105,7 @@ const Authorization = () => {
           createAuthInfoModal={createAuthInfoModal}
           userInfo={userInfo}
           setUserInfo={setUserInfo}
+          tabItems={tabItems}
           setTabItem={setTabItem}
           setTab={setTab}
           setCategory={setCategory}

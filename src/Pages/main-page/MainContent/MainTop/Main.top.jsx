@@ -28,7 +28,7 @@ const MainTop = () => {
     fontSize: '16px',
     lineHeight: '22px',
     letterSpacing: '0.01em',
-    visibility: tabItems.length && !timeLine.past ? 'visible' : 'hidden',
+    visibility: tabItems.tasks.length && !timeLine.past ? 'visible' : 'hidden',
   }
 
   return (
