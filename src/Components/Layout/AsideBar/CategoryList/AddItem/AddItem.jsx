@@ -1,16 +1,23 @@
 import React, { useRef, useContext } from 'react'
 import { database } from '../../../../../firebase/firebaseConfig'
-import cl from './addItem.module.scss'
 import InputContainer from './InputContainer'
 import useValue from '../../../../../hooks/useValue'
 import { Context } from '../../../../../context'
+import cl from './addItem.module.scss'
 
 const AddItem = () => {
   const [state, setState] = useValue({ invisible: false, visible: false })
   const [inputValue, setInputValue, onChange] = useValue('')
   const inputRef = useRef(null)
-  const { tabItems, setTabItem, setCategory, setTab, userInfo, calendarDate } =
-    useContext(Context)
+  const {
+    tabItems,
+    setTabItem,
+    setCategory,
+    setTab,
+    userInfo,
+    calendarDate,
+    openSideMenu,
+  } = useContext(Context)
 
   const classes = {
     addBtn: [cl.addItem__btn],
@@ -45,6 +52,7 @@ const AddItem = () => {
       setState({ invisible: false, visible: false })
       setCategory(inputValue)
       setTab(inputValue)
+      openSideMenu(false)
 
       database.writeUserTasksData(
         userInfo.uid,
@@ -59,6 +67,7 @@ const AddItem = () => {
       )
     }
   }
+
   return (
     <div>
       <InputContainer

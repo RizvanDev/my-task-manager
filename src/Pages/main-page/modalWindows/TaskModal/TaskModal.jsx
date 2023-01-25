@@ -36,7 +36,7 @@ const TaskModal = () => {
         transition: 'all .0.2s ease 0s',
       },
       modalContainer: {
-        maxWidth: '700px',
+        width: '700px',
         padding: '20px',
         borderRadius: '10px',
         transition: 'all 0.5s ease 0.1s',
@@ -57,7 +57,7 @@ const TaskModal = () => {
       },
     },
     inputStyles: {
-      width: '660px',
+      width: '100%',
       padding: '8px 15px',
       border: '1px solid rgba(40, 40, 70, 0.3)',
       letterSpacing: '0.02em',
@@ -77,6 +77,32 @@ const TaskModal = () => {
       borderRadius: '8px',
       fontSize: '16px',
     },
+  }
+
+  if (window.innerWidth <= 1600) {
+    styleObj.modalStyles.modalContainer.width = '500px'
+  }
+
+  if (window.innerWidth <= 1024) {
+    styleObj.modalStyles.modalContainer.width = '430px'
+    styleObj.modalStyles.modalContainer.padding = '15px'
+    styleObj.modalStyles.modalContainer.borderRadius = '8px'
+    styleObj.cancelBtnStyles.padding = '8px 20px'
+    styleObj.addBtnStyles.padding = '8px 20px'
+  }
+
+  if (window.innerWidth <= 767) {
+    styleObj.modalStyles.modalContainer.width = '330px'
+    styleObj.cancelBtnStyles.padding = '6px 16px'
+    styleObj.addBtnStyles.padding = '6px 16px'
+    styleObj.addBtnStyles.fontSize = '15px'
+    styleObj.cancelBtnStyles.fontSize = '15px'
+  }
+
+  if (window.innerWidth <= 414) {
+    styleObj.modalStyles.modalContainer.width = '290px'
+    styleObj.cancelBtnStyles.padding = '8px 18px'
+    styleObj.addBtnStyles.padding = '8px 18px'
   }
 
   return (

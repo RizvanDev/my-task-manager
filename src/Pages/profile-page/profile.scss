@@ -1,6 +1,7 @@
 @import '../../helpStyles/variables.scss';
 
 .profile {
+  min-height: 100vh;
   background-color: #e5e5e5;
   font-family: 'Nunito', sans-serif;
   color: $lightModeColorText;
@@ -72,4 +73,23 @@
   margin-bottom: 10px;
   font-weight: 600;
   letter-spacing: 0.03em;
+}
+
+@media (max-width: 1024px) {
+  .profile__container {
+    max-width: 1024px;
+    padding: 20px 0 40px;
+    margin-top: 40px;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+
+  .profile__form {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 50px;
+  }
+}
+
+@media (max-width: 767px) {
 }

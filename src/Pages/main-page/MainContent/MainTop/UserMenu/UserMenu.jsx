@@ -7,12 +7,15 @@ const UserMenu = ({ darkMode, userModal, setUserModal, userInfo }) => {
       type='button'
       className={cl.userMenu__container}
       onClick={() => setUserModal(!userModal)}>
-      <span
-        className={
-          darkMode ? [cl.userMenu__name, cl.darkModeText].join(' ') : cl.userMenu__name
-        }>
-        {userInfo.nick}
-      </span>
+      {window.innerWidth >= 768 && (
+        <span
+          className={
+            darkMode ? [cl.userMenu__name, cl.darkModeText].join(' ') : cl.userMenu__name
+          }>
+          {userInfo.nick}
+        </span>
+      )}
+
       <img className={cl.userMenu__avatar} src={userInfo.photo} alt='avatar' />
       <div
         className={

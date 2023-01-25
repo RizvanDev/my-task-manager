@@ -7,6 +7,7 @@ import './mainTop.scss'
 
 const MainTop = () => {
   const [userModal, setUserModal] = useState(false)
+
   const {
     tabItems,
     darkMode,
@@ -29,6 +30,10 @@ const MainTop = () => {
     lineHeight: '22px',
     letterSpacing: '0.01em',
     visibility: tabItems.tasks.length && !timeLine.past ? 'visible' : 'hidden',
+  }
+
+  if (window.innerWidth <= 767) {
+    btnStyles.padding = '12px 30px'
   }
 
   return (
@@ -57,7 +62,7 @@ const MainTop = () => {
             strokeLinejoin='round'
           />
         </svg>
-        <span>New task</span>
+        {window.innerWidth >= 767 && <span>New task</span>}
       </MainBtn>
       <div>
         {darkMode ? (

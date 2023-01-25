@@ -48,6 +48,17 @@ const CategoriesTab = props => {
     )
   }
 
+  const titleStyles = {
+    fontSize: '18px',
+    lineHeight: '25px',
+    letterSpacing: '0.02em',
+  }
+
+  if (window.innerWidth <= 1400) {
+    titleStyles.fontSize = '16px'
+    titleStyles.lineHeight = '20px'
+  }
+
   return (
     <div
       className={
@@ -57,9 +68,15 @@ const CategoriesTab = props => {
       }>
       <div className='category__title'>{props.category.title}</div>
       <div className='category__activeTasks'>
-        <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
-          Active tasks
-        </MyTitle>
+        <MyTitle {...titleStyles}>Active tasks</MyTitle>
+        <CategoriesConfig
+          modal={modal}
+          timeLine={timeLine}
+          category={props.category}
+          setSortType={setSortType}
+          removeCategory={removeCategory}
+          darkMode={darkMode}
+        />
         <TransitionGroup
           className={darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'}>
           {props.category.data
@@ -91,9 +108,7 @@ const CategoriesTab = props => {
       </div>
       {!timeLine.future && (
         <div className='category__completedTasks'>
-          <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em'>
-            Completed tasks
-          </MyTitle>
+          <MyTitle {...titleStyles}>Completed tasks</MyTitle>
           <TransitionGroup
             className={
               darkMode ? 'completedTasksContainer darkMode' : 'completedTasksContainer'
@@ -135,13 +150,6 @@ const CategoriesTab = props => {
         <span></span>
         <span></span>
       </button>
-      <CategoriesConfig
-        modal={modal}
-        timeLine={timeLine}
-        category={props.category}
-        setSortType={setSortType}
-        removeCategory={removeCategory}
-      />
     </div>
   )
 }

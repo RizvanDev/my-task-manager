@@ -15,6 +15,30 @@
 .noCategory {
   font-weight: 700;
   padding: 40px;
-  font-size: 30px;
+  font-size: calc(18px + 12 * (100vw / 1920));
   color: grey;
+}
+
+@media (max-width: 1600px) {
+  .mainContent__tabsContainer {
+    flex: 0 1 67%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainContent__tabsContainer {
+    order: 2;
+    flex: 0 1 100%;
+    min-height: 100%;
+  }
+
+  .noCategory {
+    order: 2;
+  }
+}
+
+@media (max-width: 767px) {
+  .noCategory {
+    padding: 40px 0;
+  }
 }

@@ -27,18 +27,19 @@
 .category__title {
   font-family: 'Roboto' serif;
   flex: 0 1 10%;
-  font-size: 30px;
+  font-size: calc(18px + 12 * (100vw / 1920));
   font-weight: 700;
   color: grey;
 }
 
 .category__activeTasks,
 .category__completedTasks {
+  margin-top: 15px;
   padding: 0 15px;
 }
 
 .category__activeTasks {
-  flex: 1 1 55%;
+  flex: 1 1 55%s;
 }
 
 .category__completedTasks {
@@ -136,5 +137,59 @@
   100% {
     opacity: 0;
     transform: translateY(40px);
+  }
+}
+
+@media (max-width: 1400px) {
+  .category__activeTasks,
+  .category__completedTasks {
+    padding: 0 10px;
+  }
+
+  .category__configBtn {
+    top: 24px;
+    right: 16px;
+    column-gap: 5px;
+    padding: 4px 6px;
+    span {
+      width: 6px;
+      height: 6px;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .category__activeTasks,
+  .category__completedTasks {
+    padding: 0 0px;
+  }
+
+  .activeTasksContainer {
+    min-height: 320px;
+  }
+
+  .completedTasksContainer {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 767px) {
+  .category__container {
+    padding: 18px 12px;
+  }
+
+  .activeTasksContainer {
+    min-height: 320px;
+    margin-top: 20px;
+  }
+
+  .category__configBtn {
+    top: 50px;
+    column-gap: 6px;
+    padding: 6px 8px;
+    span {
+      width: 7px;
+      height: 7px;
+    }
   }
 }

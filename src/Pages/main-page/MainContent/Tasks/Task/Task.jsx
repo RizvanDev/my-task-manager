@@ -35,18 +35,15 @@ const Task = React.forwardRef((props, nodeRef) => {
         style={showUI.checkTask}
         className={props.completed ? 'taskCheckbox checked' : 'taskCheckbox'}
         onClick={completeTask}>
-        <svg
-          width={props.completed ? '14' : '0'}
-          height='9'
-          xmlns='http://www.w3.org/2000/svg'>
-          <path
-            d='M13.2857 0.692383L5.42855 8.30777L1.85712 4.84623'
-            stroke='#29A19C'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          />
-        </svg>
+        {props.completed && (
+          <svg viewBox='0,0,256,256' width='21px' height='21px'>
+            <g fill='#29a19c'>
+              <g transform='scale(4)'>
+                <path d='M51.598,11.321c0.927,0.601 1.191,1.839 0.591,2.766l-24.62,38c-0.341,0.525 -0.907,0.861 -1.532,0.907c-0.05,0.004 -0.099,0.006 -0.147,0.006c-0.572,0 -1.12,-0.246 -1.502,-0.679l-12.4,-14.093c-0.729,-0.83 -0.648,-2.093 0.181,-2.823c0.829,-0.73 2.093,-0.648 2.823,0.18l10.655,12.111l23.184,-35.784c0.601,-0.928 1.837,-1.19 2.767,-0.591z'></path>
+              </g>
+            </g>
+          </svg>
+        )}
       </button>
       <textarea
         value={taskValue}

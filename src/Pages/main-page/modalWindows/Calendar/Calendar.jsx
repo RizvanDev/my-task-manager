@@ -29,6 +29,17 @@ const CalendarWindow = () => {
     },
   }
 
+  if (window.innerWidth <= 767) {
+    modalStyles.modalContainer.maxWidth = '330px'
+    modalStyles.modalContainer.padding = '15px'
+    modalStyles.modalContainer.borderRadius = '8px'
+  }
+
+  if (window.innerWidth <= 414) {
+    modalStyles.modalContainer.maxWidth = '290px'
+    modalStyles.modalContainer.padding = '10px'
+  }
+
   const calendarHandleClick = e => {
     if (!authorization) {
       setCalendarModal(false)

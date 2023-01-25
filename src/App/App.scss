@@ -21,3 +21,20 @@
 .outlet {
   flex: 0 1 80%;
 }
+
+@media (max-width: 1280px) {
+  .app__container {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .outlet {
+    flex: 0 1 90%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .outlet {
+    flex: 0 1 90%;
+  }
+}

@@ -33,6 +33,15 @@ const Profile = ({ darkMode }) => {
     },
   }
 
+  if (window.innerWidth <= 767) {
+    styleObj.input.width = '340px'
+  }
+
+  if (window.innerWidth <= 414) {
+    styleObj.input.width = '270px'
+    styleObj.input.fontSize = '16px'
+  }
+
   const chooseFile = e => {
     const reader = new FileReader()
     const file = e.target.files[0]

@@ -11,7 +11,6 @@
 .userMenu__name {
   font-weight: 600;
   font-size: 16px;
-  line-height: 22px;
   transition: all 0.3s linear 0s;
 }
 
@@ -47,4 +46,24 @@
 
 .rotate {
   transform: rotate(-180deg);
+}
+
+@media (max-width: 767px) {
+  .userMenu__container {
+    column-gap: 14px;
+  }
+
+  .userMenu__name {
+    font-size: 14px;
+  }
+
+  .userMenu__avatar {
+    width: 54px;
+    height: 54px;
+  }
+
+  .userMenu__icon {
+    width: 26px;
+    height: 26px;
+  }
 }

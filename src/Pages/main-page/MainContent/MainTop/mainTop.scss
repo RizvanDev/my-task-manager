@@ -1,6 +1,25 @@
+@import '../../../../helpStyles/variables.scss';
+
 .mainContent__top {
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .mainContent__top {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    padding: 15px 5%;
+    background-color: #e5e5e5;
+    z-index: 2;
+  }
+
+  .App.darkMode .mainContent__top {
+    background-color: #222831;
+  }
 }

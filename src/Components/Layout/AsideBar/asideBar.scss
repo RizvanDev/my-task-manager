@@ -1,6 +1,7 @@
 @import '../../../helpStyles/variables.scss';
 
 .asideBar {
+  position: relative;
   flex: 0 1 231px;
   height: 100vh;
   padding: 20px 0 20px 20px;
@@ -13,5 +14,67 @@
   &.darkMode {
     box-shadow: none;
     background-color: $darkModeBgElement;
+  }
+}
+
+@media (max-width: 1600px) {
+  .asideBar {
+    padding: 15px 0 15px 15px;
+    row-gap: 50px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .asideBar {
+    position: fixed;
+    top: 0;
+    left: -206px;
+    row-gap: 60px;
+    border-right: 1px solid $main-color;
+    z-index: 3;
+    transition: all 0.2s ease 0s;
+    &.open {
+      left: 0;
+      transition: all 0.3s ease 0s;
+    }
+  }
+
+  .asideBar__menu {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -26px;
+    width: 26px;
+    height: 60px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background-color: transparent;
+    overflow: hidden;
+    z-index: 2;
+  }
+
+  .asideBar__menu-item {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 100%;
+    height: 14px;
+    background-color: $main-color;
+    &::after,
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      background-color: inherit;
+    }
+    &::after {
+      top: -22px;
+    }
+    &::before {
+      bottom: -22px;
+    }
   }
 }

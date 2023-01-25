@@ -7,7 +7,7 @@ import ListItem from '../ListItem/ListItem'
 import './categoryList.scss'
 
 const CategoryList = () => {
-  const { setTab, setCategory, tabItems, timeLine } = useContext(Context)
+  const { setTab, setCategory, tabItems, timeLine, openSideMenu } = useContext(Context)
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -15,13 +15,23 @@ const CategoryList = () => {
     if (location.pathname === '/Profile.jsx') navigate('/')
     setTab(e.target.innerText)
     setCategory(e.target.innerText)
+    setTimeout(() => window.innerWidth <= 1280 && openSideMenu(false), 330)
+  }
+
+  const titleStyles = {
+    fontSize: '24px',
+    lineHeight: '33px',
+    letterSpacing: '0.03em',
+  }
+
+  if (window.innerWidth <= 1400) {
+    titleStyles.fontSize = '20px'
+    titleStyles.lineHeight = '28px'
   }
 
   return (
     <div className='asideBar__category'>
-      <MyTitle fontSize='24px' lineHeight='33px' letterSpacing='0.03em'>
-        Category
-      </MyTitle>
+      <MyTitle {...titleStyles}>Category</MyTitle>
       <div className='categoriesContainer'>
         <ul className='category__list'>
           {tabItems.tasks.map(element => (
@@ -31,7 +41,7 @@ const CategoryList = () => {
           ))}
         </ul>
       </div>
-      {!timeLine.past ? <AddItem /> : ''}
+      {!timeLine.past && <AddItem />}
     </div>
   )
 }

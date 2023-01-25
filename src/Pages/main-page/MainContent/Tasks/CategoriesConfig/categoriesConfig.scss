@@ -15,6 +15,9 @@
 }
 
 .category__filter {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
   font-size: 16px;
 }
 
@@ -23,5 +26,35 @@
   background-color: transparent;
   &:active {
     transform: scale(0.97);
+  }
+}
+
+@media (max-width: 1400px) {
+  .category__configModal {
+    top: 18px;
+    right: 70px;
+    column-gap: 20px;
+  }
+
+  .category__filter {
+    font-size: 14px;
+  }
+
+  .category__removeBtn {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .category__configModal {
+    position: static;
+    column-gap: 0px;
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px 5px 0 0;
+  }
+
+  .category__removeBtn {
+    font-size: 16px;
   }
 }

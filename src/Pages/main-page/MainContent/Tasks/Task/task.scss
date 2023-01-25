@@ -8,15 +8,6 @@
   padding: 20px 15px 10px;
   border-radius: 10px;
   border: 1px solid rgba(40, 40, 70, 0.1);
-  &:hover {
-    .taskCheckbox,
-    .taskEdit,
-    .taskDelete {
-      flex: 0 1 3.3333%;
-      visibility: visible;
-      opacity: 1;
-    }
-  }
 }
 
 .taskCheckbox,
@@ -43,7 +34,6 @@
 }
 
 .taskCheckbox {
-  width: 20px;
   height: 20px;
   margin-right: 10px;
   background-color: transparent;
@@ -90,9 +80,6 @@
 
 .taskDate {
   position: absolute;
-  display: flex;
-  align-items: center;
-  column-gap: 8px;
   top: 8px;
   right: 10%;
   font-weight: 300;
@@ -100,4 +87,128 @@
   font-size: 11px;
   letter-spacing: 0.04em;
   opacity: 0.9;
+}
+
+@media (min-width: 1024px) {
+  .task {
+    &:hover {
+      .taskCheckbox,
+      .taskEdit,
+      .taskDelete {
+        flex: 0 1 3.3333%;
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1400px) {
+  .task {
+    padding: 18px 15px 8px;
+    &:hover {
+      .taskCheckbox,
+      .taskEdit,
+      .taskDelete {
+        flex: 0 1 4.444%;
+      }
+    }
+  }
+
+  .taskName {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .taskCheckbox,
+  .taskDelete {
+    &.checked {
+      flex: 0 1 4.444%;
+    }
+  }
+
+  .taskDate {
+    top: 6px;
+    right: 12%;
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .task {
+    &:hover {
+      .taskCheckbox,
+      .taskEdit,
+      .taskDelete {
+        flex: 0 1 3.999%;
+      }
+    }
+  }
+
+  .taskCheckbox,
+  .taskDelete {
+    &.checked {
+      flex: 0 1 3.999%;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .taskCheckbox,
+  .taskEdit,
+  .taskDelete {
+    flex: 0 1 3.777%;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .taskName {
+    font-size: 13px;
+    line-height: 17px;
+  }
+
+  .taskDate {
+    top: 8px;
+    right: 14%;
+    letter-spacing: 0.06em;
+  }
+}
+
+@media (max-width: 767px) {
+  .task {
+    padding: 32px 10px 10px;
+  }
+
+  .taskCheckbox {
+    flex: 0 1 22px;
+    &.checked {
+      flex: 0 1 22px;
+    }
+  }
+
+  .taskEdit,
+  .taskDelete {
+    position: absolute;
+    top: 8px;
+  }
+
+  .taskEdit {
+    right: 40px;
+  }
+
+  .taskDelete {
+    right: 15px;
+  }
+
+  .taskName {
+    flex: 0 1 97%;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .taskDate {
+    top: 12px;
+    right: 80px;
+    letter-spacing: 0.06em;
+  }
 }

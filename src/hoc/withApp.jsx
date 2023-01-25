@@ -11,6 +11,8 @@ const withApp = Component => {
   return () => {
     // dark mode
     const [darkMode, setDarkMode] = useLocaleStorage('darkMode', false)
+    // side menu viewport < 1280
+    const [sideMenu, openSideMenu] = useValue(false)
     // modal windows
     const [authModal, setAuthModal] = useValue(false)
     const [taskModal, setTaskModal] = useValue(false)
@@ -58,7 +60,7 @@ const withApp = Component => {
     }, [])
 
     useEffect(() => {
-      if (timeLine.past === timeLine.future) setDataInStorage(tabItems)
+      timeLine.past === timeLine.future && setDataInStorage(tabItems)
     }, [tabItems])
 
     // select calendar value
@@ -219,6 +221,8 @@ const withApp = Component => {
       setCalendarModal,
       authInfoModal,
       createAuthInfoModal,
+      sideMenu,
+      openSideMenu,
       calendarDate,
       setCalendarDate,
       timeLine,

@@ -14,8 +14,8 @@ const UserModal = ({ darkMode, setDarkMode, userModal, setAuthModal, authorizati
 
   const userModalClasses = [cl.userModal]
 
-  if (userModal) userModalClasses.push(cl.open)
-  if (darkMode) userModalClasses.push(cl.darkMode)
+  userModal && userModalClasses.push(cl.open)
+  darkMode && userModalClasses.push(cl.darkMode)
 
   return (
     <div className={userModalClasses.join(' ')}>

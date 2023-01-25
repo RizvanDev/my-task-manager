@@ -71,6 +71,11 @@ const Authorization = () => {
     },
   }
 
+  if (window.innerWidth <= 767) {
+    styleObj.modalStyles.modalContainer.padding = '20px 15px'
+    styleObj.inputStyles.width = '275px'
+  }
+
   return (
     <MyModal
       styles={styleObj.modalStyles}
