@@ -10,6 +10,19 @@ const Profile = ({ darkMode }) => {
   const { userInfo, setUserInfo } = useContext(Context)
   const navigate = useNavigate()
 
+  const chooseFile = e => {
+    const reader = new FileReader()
+    const file = e.target.files[0]
+
+    reader.onload = () => setUserInfo({ ...userInfo, photo: reader.result })
+    reader.readAsDataURL(file)
+  }
+
+  const sendUserInfo = () => {
+    database.writeUserInfoData(userInfo)
+    navigate('/')
+  }
+
   const styleObj = {
     avatarInput: {
       width: 0,
@@ -40,20 +53,6 @@ const Profile = ({ darkMode }) => {
   if (window.innerWidth <= 414) {
     styleObj.input.width = '270px'
     styleObj.input.fontSize = '16px'
-  }
-
-  const chooseFile = e => {
-    const reader = new FileReader()
-    const file = e.target.files[0]
-
-    reader.onload = () => setUserInfo({ ...userInfo, photo: reader.result })
-    reader.readAsDataURL(file)
-  }
-
-  const sendUserInfo = () => {
-    database.writeUserInfoData(userInfo).then(() => {
-      navigate('/')
-    })
   }
 
   return (

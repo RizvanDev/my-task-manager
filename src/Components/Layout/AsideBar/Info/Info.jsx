@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import ListItem from '../ListItem/ListItem'
 import './info.scss'
 
 const Info = () => {
+  const { authorization, setAuthModal } = useContext(Context)
+
+  const handleClick = () => !authorization && setAuthModal(true)
+
   const titleStyles = {
     fontSize: '24px',
     lineHeight: '33px',
@@ -19,7 +24,7 @@ const Info = () => {
     <div className='asideBar__info'>
       <MyTitle {...titleStyles}>My data</MyTitle>
       <ul className='info__list'>
-        <ListItem>
+        <ListItem onClick={handleClick}>
           <svg width='18px' height='18px' fill='none'>
             <path
               d='M13.5 15V7.5'
@@ -45,7 +50,7 @@ const Info = () => {
           </svg>
           <span>Statistics</span>
         </ListItem>
-        <ListItem>
+        <ListItem onClick={handleClick}>
           <svg width='18' height='18' fill='none'>
             <path
               d='M17.25 4.5L10.125 11.625L6.375 7.875L0.75 13.5'
