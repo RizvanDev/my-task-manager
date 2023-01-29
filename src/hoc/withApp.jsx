@@ -3,9 +3,7 @@ import { Context } from '../context'
 import { database } from '../firebase/firebaseConfig'
 import useValue from '../hooks/useValue'
 import useLocaleStorage from '../hooks/useLocaleStorage'
-
-const defaultPhoto =
-  'https://w7.pngwing.com/pngs/7/618/png-transparent-man-illustration-avatar-icon-fashion-men-avatar-face-fashion-girl-heroes-thumbnail.png'
+import defaultPhoto from '../assets/img/default-profile-picture.jpg'
 
 const withApp = Component => {
   return () => {
