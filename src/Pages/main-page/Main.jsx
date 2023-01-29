@@ -5,6 +5,7 @@ import TaskModal from './modalWindows/TaskModal/TaskModal'
 import Authorization from './modalWindows/Authorization/Authorization'
 import CalendarWindow from './modalWindows/Calendar/Calendar'
 import InfoAuthModal from './modalWindows/InfoAuthModal/InfoAuthModal'
+import Statistics from './modalWindows/Statistics/Statistics'
 
 const Main = () => {
   const { authInfoModal, createAuthInfoModal } = useContext(Context)
@@ -15,6 +16,7 @@ const Main = () => {
       <TaskModal />
       <Authorization />
       <CalendarWindow />
+      <Statistics />
       {authInfoModal.show && (
         <InfoAuthModal
           authInfoModal={authInfoModal}

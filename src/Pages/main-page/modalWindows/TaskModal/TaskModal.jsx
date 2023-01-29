@@ -14,8 +14,8 @@ const TaskModal = () => {
   const {
     darkMode,
     createTask,
-    taskModal,
-    setTaskModal,
+    modals,
+    openModals,
     tabItems,
     category,
     categorySelectOnChange,
@@ -28,6 +28,8 @@ const TaskModal = () => {
       return createTask(inputValue, setInputValue)
     }
   }
+
+  const closeTaskModal = () => openModals({ ...modals, taskModal: false })
 
   const styleObj = {
     modalStyles: {
@@ -109,8 +111,8 @@ const TaskModal = () => {
     <MyModal
       styles={styleObj.modalStyles}
       darkMode={darkMode}
-      opened={taskModal}
-      closeModal={() => setTaskModal(false)}>
+      opened={modals.taskModal}
+      closeModal={closeTaskModal}>
       <MyTitle fontWeight='700' fontSize='20px' lineHeight='27px' letterSpacing='0.02em'>
         Add new task
       </MyTitle>
@@ -136,10 +138,7 @@ const TaskModal = () => {
         </div>
       </div>
       <div className={cl.taskModal__btnContainer}>
-        <MainBtn
-          type='button'
-          styles={styleObj.cancelBtnStyles}
-          onClick={() => setTaskModal(false)}>
+        <MainBtn type='button' styles={styleObj.cancelBtnStyles} onClick={closeTaskModal}>
           Cancel
         </MainBtn>
         <MainBtn type='button' styles={styleObj.addBtnStyles} onClick={addTask}>

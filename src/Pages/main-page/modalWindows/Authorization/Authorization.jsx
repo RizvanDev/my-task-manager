@@ -5,8 +5,6 @@ import MyModal from '../../../../Components/UI/MyModal/MyModal'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import Login from './Login'
 import Registration from './Registration'
-import InfoAuthModal from '../InfoAuthModal/InfoAuthModal'
-
 import './authorization.scss'
 
 const Authorization = () => {
@@ -14,8 +12,8 @@ const Authorization = () => {
 
   const {
     darkMode,
-    authModal,
-    setAuthModal,
+    modals,
+    openModals,
     setAuthorization,
     createAuthInfoModal,
     userInfo,
@@ -28,15 +26,9 @@ const Authorization = () => {
 
   const inputRef = useRef(null)
 
-  const chooseAuthType = () => {
-    return authType === 'Login' ? setAuthType('Registration') : setAuthType('Login')
-  }
-
   useEffect(() => {
-    setTimeout(() => {
-      inputRef.current.focus()
-    }, 500)
-  }, [authModal, authType])
+    setTimeout(() => inputRef.current.focus(), 500)
+  }, [modals.authModal, authType])
 
   const styleObj = {
     modalStyles: {
@@ -80,8 +72,8 @@ const Authorization = () => {
     <MyModal
       styles={styleObj.modalStyles}
       darkMode={darkMode}
-      opened={authModal}
-      closeModal={() => setAuthModal(false)}>
+      opened={modals.authModal}
+      closeModal={() => openModals({ ...modals, authModal: false })}>
       <MyTitle
         fontSize='18px'
         lineHeight='25px'
@@ -93,7 +85,8 @@ const Authorization = () => {
         <Registration
           inputStyles={styleObj.inputStyles}
           btnStyles={styleObj.btnStyles}
-          setAuthModal={setAuthModal}
+          modals={modals}
+          openModals={openModals}
           setAuthorization={setAuthorization}
           createAuthInfoModal={createAuthInfoModal}
           userInfo={userInfo}
@@ -105,7 +98,8 @@ const Authorization = () => {
         <Login
           inputStyles={styleObj.inputStyles}
           btnStyles={styleObj.btnStyles}
-          setAuthModal={setAuthModal}
+          modals={modals}
+          openModals={openModals}
           setAuthorization={setAuthorization}
           createAuthInfoModal={createAuthInfoModal}
           userInfo={userInfo}
@@ -120,7 +114,10 @@ const Authorization = () => {
 
       <div className='auth__acc'>
         <span>Don't you have an account yet?</span>
-        <button type='button' className='auth__acc-btn' onClick={chooseAuthType}>
+        <button
+          type='button'
+          className='auth__acc-btn'
+          onClick={() => setAuthType(authType === 'Login' ? 'Registration' : 'Login')}>
           {authType === 'Login' ? 'Registration' : 'Login'}
         </button>
       </div>

@@ -4,8 +4,8 @@ import cl from './myModal.module.scss'
 const MyModal = ({ children, ...props }) => {
   const classes = { modal: [cl.modal], modal__container: [cl.modal__container] }
 
-  if (props.opened) classes.modal.push(cl.open)
-  if (props.darkMode) classes.modal__container.push(cl.darkMode)
+  props.opened && classes.modal.push(cl.open)
+  props.darkMode && classes.modal__container.push(cl.darkMode)
 
   return (
     <div

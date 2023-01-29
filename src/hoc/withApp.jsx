@@ -14,9 +14,13 @@ const withApp = Component => {
     // side menu viewport < 1280
     const [sideMenu, openSideMenu] = useValue(false)
     // modal windows
-    const [authModal, setAuthModal] = useValue(false)
-    const [taskModal, setTaskModal] = useValue(false)
-    const [calendarModal, setCalendarModal] = useValue(false)
+    const [modals, openModals] = useValue({
+      authModal: false,
+      taskModal: false,
+      calendarModal: false,
+      statisticsModal: false,
+      compareModal: false,
+    })
     const [authInfoModal, createAuthInfoModal] = useValue({
       show: false,
       type: '',
@@ -77,14 +81,15 @@ const withApp = Component => {
           setTabItem,
           setCategory,
           setTab,
-          setCalendarModal,
+          modals,
+          openModals,
           setCalendarDate,
           createAuthInfoModal,
         })
       } else if (selectedDate > present) {
         setTimeLine({ past: selectedDate < present, future: selectedDate > present })
         setCalendarDate(date)
-        setCalendarModal(false)
+        openModals({ ...modals, calendarModal: false })
         return database.writeNewDayData(
           userInfo.uid,
           date.toLocaleDateString().split('.').join(''),
@@ -99,13 +104,13 @@ const withApp = Component => {
       setTabItem(tabsStorage)
       setCategory(tabsStorage.tasks.length && tabsStorage.tasks[0].title)
       setTab(tabsStorage.tasks.length && tabsStorage.tasks[0].title)
-      return setCalendarModal(false)
+      openModals({ ...modals, calendarModal: false })
     }
 
     const tasksMethods = {
       createTask: (inputValue, setInputValue) => {
         setInputValue('')
-        setTaskModal(false)
+        openModals({ ...modals, taskModal: false })
         setTab(category)
 
         tabItems.tasks.forEach(tab => {
@@ -213,12 +218,8 @@ const withApp = Component => {
     const contextValues = {
       darkMode,
       setDarkMode,
-      taskModal,
-      setTaskModal,
-      authModal,
-      setAuthModal,
-      calendarModal,
-      setCalendarModal,
+      modals,
+      openModals,
       authInfoModal,
       createAuthInfoModal,
       sideMenu,

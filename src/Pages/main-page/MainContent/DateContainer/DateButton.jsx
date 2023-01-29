@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DateButton = ({ calendarDate, setCalendarModal }) => {
+const DateButton = ({ calendarDate, openCalendar }) => {
   const selectText = () => {
     const selectedData = +calendarDate.toLocaleDateString().split('.').reverse().join('')
     const present = +new Date().toLocaleDateString().split('.').reverse().join('')
@@ -13,10 +13,7 @@ const DateButton = ({ calendarDate, setCalendarModal }) => {
   }
 
   return (
-    <button
-      type='button'
-      className='time__block calendar-btn'
-      onClick={() => setCalendarModal(true)}>
+    <button type='button' className='time__block calendar-btn' onClick={openCalendar}>
       <span className='time__helpTitle'>{selectText()}</span>
       <div className='time__block-data'>
         <svg width='24' height='24' fill='none'>

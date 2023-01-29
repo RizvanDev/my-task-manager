@@ -5,9 +5,17 @@ import ListItem from '../ListItem/ListItem'
 import './info.scss'
 
 const Info = () => {
-  const { authorization, setAuthModal } = useContext(Context)
+  const { authorization, modals, openModals } = useContext(Context)
 
-  const handleClick = () => !authorization && setAuthModal(true)
+  const handleClick = whatModal => {
+    if (!authorization) {
+      return openModals({ ...modals, authModal: true })
+    }
+
+    return whatModal === 'Statistics'
+      ? openModals({ ...modals, statisticsModal: true })
+      : openModals({ ...modals, compareModal: true })
+  }
 
   const titleStyles = {
     fontSize: '24px',
@@ -24,7 +32,7 @@ const Info = () => {
     <div className='asideBar__info'>
       <MyTitle {...titleStyles}>My data</MyTitle>
       <ul className='info__list'>
-        <ListItem onClick={handleClick}>
+        <ListItem onClick={() => handleClick('Statistics')}>
           <svg width='18px' height='18px' fill='none'>
             <path
               d='M13.5 15V7.5'
@@ -50,7 +58,7 @@ const Info = () => {
           </svg>
           <span>Statistics</span>
         </ListItem>
-        <ListItem onClick={handleClick}>
+        <ListItem onClick={() => handleClick('Compare')}>
           <svg width='18' height='18' fill='none'>
             <path
               d='M17.25 4.5L10.125 11.625L6.375 7.875L0.75 13.5'

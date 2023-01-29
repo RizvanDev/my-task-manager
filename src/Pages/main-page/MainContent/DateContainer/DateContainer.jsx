@@ -9,13 +9,16 @@ const DateContainer = () => {
   const {
     darkMode,
     calendarDate,
-    setCalendarModal,
+    modals,
+    openModals,
     userInfo,
     setTabItem,
     setCategory,
     setTab,
     setCalendarDate,
   } = useContext(Context)
+
+  const openCalendar = () => openModals({ ...modals, calendarModal: true })
 
   return (
     <div className={darkMode ? 'mainContent__time darkMode' : 'mainContent__time'}>
@@ -30,7 +33,7 @@ const DateContainer = () => {
           setTab={setTab}
           setCalendarDate={setCalendarDate}
         />
-        <DateButton calendarDate={calendarDate} setCalendarModal={setCalendarModal} />
+        <DateButton calendarDate={calendarDate} openCalendar={openCalendar} />
       </div>
     </div>
   )

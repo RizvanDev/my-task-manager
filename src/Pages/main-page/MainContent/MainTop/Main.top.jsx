@@ -12,8 +12,8 @@ const MainTop = () => {
     tabItems,
     darkMode,
     setDarkMode,
-    setTaskModal,
-    setAuthModal,
+    modals,
+    openModals,
     authorization,
     userInfo,
     timeLine,
@@ -38,7 +38,10 @@ const MainTop = () => {
 
   return (
     <div className='mainContent__top'>
-      <MainBtn type='button' styles={btnStyles} onClick={() => setTaskModal(true)}>
+      <MainBtn
+        type='button'
+        styles={btnStyles}
+        onClick={() => openModals({ ...modals, taskModal: true })}>
         <svg width='20' height='20' fill='none'>
           <path
             d='M10 19C14.9706 19 19 14.9706 19 10C19 5.02944 14.9706 1 10 1C5.02944 1 1 5.02944 1 10C1 14.9706 5.02944 19 10 19Z'
@@ -153,7 +156,8 @@ const MainTop = () => {
         darkMode={darkMode}
         setDarkMode={setDarkMode}
         userModal={userModal}
-        setAuthModal={setAuthModal}
+        modals={modals}
+        openModals={openModals}
         authorization={authorization}
       />
     </div>

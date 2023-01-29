@@ -137,7 +137,7 @@ const database = {
           params.setTabItem({ ...params.tabItems, tasks: [...addEmptyArrays(tasks)] })
           params.setCategory(tasks[0].title)
           params.setTab(tasks[0].title)
-          params.setCalendarModal(false)
+          params.openModals({ ...params.modals, calendarModal: false })
         }, 500)
         return
       }
@@ -186,7 +186,9 @@ const authentication = {
             params.setCategory,
           )
 
-          setTimeout(() => params.setAuthModal(false), 1500)
+          setTimeout(() => {
+            params.openModals({ ...params.modals, authModal: false })
+          }, 1500)
         }
       } catch (Error) {
         params.createAuthInfoModal({ show: true, type: 'Error', text: Error.code })
@@ -225,7 +227,7 @@ const authentication = {
           )
 
           setTimeout(() => {
-            params.setAuthModal(false)
+            params.openModals({ ...params.modals, authModal: false })
             params.navigate('Profile.jsx')
           }, 1000)
         }
