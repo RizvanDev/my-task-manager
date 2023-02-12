@@ -1,6 +1,15 @@
-import React from 'react'
+import { useEffect } from 'react'
+import useValue from '../../../../hooks/useValue'
 
-const StatisticsItem = ({ itemName, count }) => {
+const StatisticsItem = ({ itemName, quantity }) => {
+  let [count, setCount] = useValue(0)
+
+  useEffect(() => {
+    count < quantity && setTimeout(() => setCount(count + 1), 30)
+  })
+
+  useEffect(() => setCount(0), [quantity])
+
   return (
     <div className='statistics__item'>
       <span>{itemName}</span>

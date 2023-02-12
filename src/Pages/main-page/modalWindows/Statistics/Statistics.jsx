@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { Context } from '../../../../context'
 import { database } from '../../../../firebase/firebaseConfig'
 import useValue from '../../../../hooks/useValue'
@@ -66,9 +66,9 @@ const Statistics = () => {
       </div>
 
       <div className='statistics__container'>
-        <StatisticsItem count={statistics.Categories} />
-        <StatisticsItem itemName='Created' count={statistics.Created} />
-        <StatisticsItem itemName='Completed' count={statistics.Completed} />
+        <StatisticsItem quantity={statistics.Categories} />
+        <StatisticsItem itemName='Created' quantity={statistics.Created} />
+        <StatisticsItem itemName='Completed' quantity={statistics.Completed} />
       </div>
     </MyModal>
   )
