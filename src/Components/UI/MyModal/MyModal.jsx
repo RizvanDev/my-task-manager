@@ -1,20 +1,10 @@
-import React from 'react'
-import cl from './myModal.module.scss'
+import './myModal.scss'
 
-const MyModal = ({ children, ...props }) => {
-  const classes = { modal: [cl.modal], modal__container: [cl.modal__container] }
-
-  props.opened && classes.modal.push(cl.open)
-  props.darkMode && classes.modal__container.push(cl.darkMode)
-
+const MyModal = ({ opened, darkMode, closeModal, children }) => {
   return (
-    <div
-      className={classes.modal.join(' ')}
-      style={props.styles.modal}
-      onClick={props.closeModal}>
+    <div className={opened ? 'modal open' : 'modal'} onClick={closeModal}>
       <div
-        className={classes.modal__container.join(' ')}
-        style={props.styles.modalContainer}
+        className={darkMode ? 'modal__content darkMode' : 'modal__content'}
         onClick={e => e.stopPropagation()}>
         {children}
       </div>

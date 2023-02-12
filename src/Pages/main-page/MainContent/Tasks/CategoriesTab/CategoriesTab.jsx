@@ -1,12 +1,12 @@
 import React, { createRef, useContext } from 'react'
-import { database } from '../../../../../firebase/firebaseConfig'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import './categoriesTab.scss'
+import useValue from '../../../../../hooks/useValue'
+import { Context } from '../../../../../context'
+import { database } from '../../../../../firebase/firebaseConfig'
 import MyTitle from '../../../../../Components/MyTitle/MyTitle'
 import CategoriesConfig from '../CategoriesConfig/CategoriesConfig'
 import Task from '../Task/Task'
-import useValue from '../../../../../hooks/useValue'
-import { Context } from '../../../../../context'
+import './categoriesTab.scss'
 
 const CategoriesTab = props => {
   const [modal, setModal] = useValue(false)

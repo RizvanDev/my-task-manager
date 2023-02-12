@@ -11,8 +11,6 @@ const Time = ({ userInfo, setTabItem, setCategory, setTab, setCalendarDate }) =>
     return () => clearInterval(interval)
   }, [today])
 
-  //useEffect(() => {})
-
   if (userInfo.uid && today.toLocaleTimeString() === '00:00:00') {
     database.writeNewDayData(
       userInfo.uid,

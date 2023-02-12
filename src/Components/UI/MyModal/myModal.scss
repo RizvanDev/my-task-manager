@@ -1,0 +1,42 @@
+@import '../../../helpStyles/variables.scss';
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0008;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s ease 0s;
+  z-index: 3;
+  &.open {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.modal__content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  transition: all 0.5s ease 0.1s;
+  &.darkMode {
+    background-color: $darkModeBgElement;
+  }
+}
+
+.modal.open .modal__content {
+  top: 50%;
+}
+
+@media (max-width: 768px) {
+  .modal__content {
+    padding: 15px;
+  }
+}

@@ -1,12 +1,15 @@
-import React, { useRef, useContext } from 'react'
+import { useRef, useContext } from 'react'
+import { Context } from '../../../../../context'
 import { database } from '../../../../../firebase/firebaseConfig'
 import InputContainer from './InputContainer'
 import useValue from '../../../../../hooks/useValue'
-import { Context } from '../../../../../context'
-import cl from './addItem.module.scss'
+import './addItem.scss'
 
 const AddItem = () => {
-  const [state, setState] = useValue({ invisible: false, visible: false })
+  const [inputContainer, setInputContainer] = useValue({
+    invisible: false,
+    visible: false,
+  })
   const [inputValue, setInputValue, onChange] = useValue('')
   const inputRef = useRef(null)
   const {
@@ -19,20 +22,10 @@ const AddItem = () => {
     openSideMenu,
   } = useContext(Context)
 
-  const classes = {
-    addBtn: [cl.addItem__btn],
-    inputContainer: [cl.addItem__input],
-  }
-
-  if (state.invisible || state.visible) {
-    classes.addBtn.push(cl.invisible)
-    classes.inputContainer.push(cl.visible)
-  }
-
   const showInputContainer = (invisible, visible) => {
-    if (inputValue) setInputValue('')
+    inputValue && setInputValue('')
     setTimeout(() => inputRef.current.focus(), 500)
-    return setState({ invisible, visible })
+    return setInputContainer({ invisible, visible })
   }
 
   const desiredElement = tabItems.tasks.find(tab => tab.title === inputValue)
@@ -49,7 +42,7 @@ const AddItem = () => {
         ],
       })
 
-      setState({ invisible: false, visible: false })
+      setInputContainer({ invisible: false, visible: false })
       setCategory(inputValue)
       setTab(inputValue)
       openSideMenu(false)
@@ -75,12 +68,16 @@ const AddItem = () => {
         showInputContainer={showInputContainer}
         inputValue={inputValue}
         setInputValue={onChange}
-        inputContainer={classes.inputContainer}
+        inputContainer={inputContainer}
         ref={inputRef}
       />
       <button
         type='button'
-        className={classes.addBtn.join(' ')}
+        className={
+          inputContainer.invisible || inputContainer.visible
+            ? 'addItem__btn invisible'
+            : 'addItem__btn'
+        }
         onClick={() => showInputContainer(true, true)}>
         <svg width='18' height='18' fill='none'>
           <path

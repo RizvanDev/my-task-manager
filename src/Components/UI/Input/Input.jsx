@@ -1,8 +1,9 @@
 import React from 'react'
-import cl from './input.module.scss'
 
 const Input = React.forwardRef(({ ...props }, ref) => {
-  return <input className={cl.myInput} {...props} ref={ref} />
+  const style = { border: '1px solid rgba(40, 40, 70, 0.3)', borderRadius: '10px' }
+
+  return <input style={style} {...props} ref={ref} />
 })
 
 export default Input

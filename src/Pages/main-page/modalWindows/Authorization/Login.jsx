@@ -30,7 +30,7 @@ const Login = forwardRef(({ ...props }, ref) => {
   return (
     <form className='auth__form'>
       <Input
-        style={props.inputStyles}
+        className='auth__input'
         placeholder='E-mail'
         type='email'
         value={login.Email}
@@ -41,7 +41,7 @@ const Login = forwardRef(({ ...props }, ref) => {
 
       <div className='inputPass__container'>
         <Input
-          style={props.inputStyles}
+          className='auth__input'
           placeholder='Password'
           type={showPass ? 'text' : 'password'}
           value={login.Password}

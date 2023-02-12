@@ -31,27 +31,6 @@ const Authorization = () => {
   }, [modals.authModal, authType])
 
   const styleObj = {
-    modalStyles: {
-      modal: {
-        backgroundColor: '#0007',
-        transition: 'all .0.2s ease 0s',
-      },
-      modalContainer: {
-        maxWidth: '700px',
-        padding: '20px',
-        borderRadius: '10px',
-        transition: 'all 0.5s ease 0.1s',
-      },
-    },
-    inputStyles: {
-      width: '310px',
-      padding: '10px 15px',
-      fontWeight: '400',
-      fontSize: '16px',
-      lineHeight: '19px',
-      letterSpacing: '0.03em',
-      color: '#0009',
-    },
     btnStyles: {
       padding: '10px 25px',
       borderRadius: '8px',
@@ -63,14 +42,8 @@ const Authorization = () => {
     },
   }
 
-  if (window.innerWidth <= 767) {
-    styleObj.modalStyles.modalContainer.padding = '20px 15px'
-    styleObj.inputStyles.width = '275px'
-  }
-
   return (
     <MyModal
-      styles={styleObj.modalStyles}
       darkMode={darkMode}
       opened={modals.authModal}
       closeModal={() => openModals({ ...modals, authModal: false })}>

@@ -1,41 +1,75 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Context } from '../../../../context'
+import { database } from '../../../../firebase/firebaseConfig'
+import useValue from '../../../../hooks/useValue'
 import MyModal from '../../../../Components/UI/MyModal/MyModal'
+import MyTitle from '../../../../Components/MyTitle/MyTitle'
+import Select from '../../../../Components/UI/Select/Select'
+import StatisticsItem from './StatisticsItem'
+import './statistics.scss'
 
 const Statistics = () => {
-  const { darkMode, modals, openModals } = useContext(Context)
+  const [selected, , selectOnchange] = useValue('Day')
+  const [statistics, setStatistics] = useValue({
+    Categories: '',
+    Created: '',
+    Completed: '',
+  })
+  const { darkMode, modals, openModals, userInfo } = useContext(Context)
 
-  const modalStyles = {
-    modal: {
-      backgroundColor: '#0007',
-      transition: 'all .0.2s ease 0s',
-    },
-    modalContainer: {
-      maxWidth: '700px',
-      padding: '20px',
-      borderRadius: '10px',
-      transition: 'all 0.5s ease 0.1s',
-    },
+  const changePeriod = e => {
+    selectOnchange(e)
+    database.createStatistics(userInfo.uid, e.target.value, setStatistics)
   }
 
-  if (window.innerWidth <= 767) {
-    modalStyles.modalContainer.maxWidth = '330px'
-    modalStyles.modalContainer.padding = '15px'
-    modalStyles.modalContainer.borderRadius = '8px'
-  }
+  useEffect(() => {
+    database.createStatistics(userInfo.uid, selected, setStatistics)
+  }, [modals.statisticsModal])
 
-  if (window.innerWidth <= 414) {
-    modalStyles.modalContainer.maxWidth = '290px'
-    modalStyles.modalContainer.padding = '10px'
+  const styleObj = {
+    titleStyles: {
+      fontWeight: '700',
+      fontSize: '22px',
+      lineHeight: '27px',
+      letterSpacing: '0.02em',
+    },
+    selectStyles: {
+      width: '110px',
+      padding: '4px 5px',
+      border: '1px solid rgba(40, 40, 70, 0.3)',
+      borderRadius: '8px',
+      fontWeight: '400',
+      fontSize: '16px',
+      cursor: 'pointer',
+      option: {
+        fontSize: '16px',
+        color: '#666',
+      },
+    },
   }
 
   return (
     <MyModal
-      styles={modalStyles}
       darkMode={darkMode}
       opened={modals.statisticsModal}
       closeModal={() => openModals({ ...modals, statisticsModal: false })}>
-      Statistics
+      <MyTitle {...styleObj.titleStyles}>Statistics</MyTitle>
+
+      <div className='statistics__select'>
+        <span className='statistics__select-text'>Successes of the:</span>
+        <Select
+          styles={styleObj.selectStyles}
+          options={[{ title: 'Day' }, { title: 'Month' }, { title: 'Year' }]}
+          value={selected}
+          onChange={changePeriod}
+        />
+      </div>
+
+      <div className='statistics__container'>
+        <StatisticsItem count={statistics.Categories} />
+        <StatisticsItem itemName='Created' count={statistics.Created} />
+        <StatisticsItem itemName='Completed' count={statistics.Completed} />
+      </div>
     </MyModal>
   )
 }

@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { authentication } from '../../../../firebase/firebaseConfig'
+import useValue from '../../../../hooks/useValue'
 import Input from '../../../../Components/UI/Input/Input'
 import MainBtn from '../../../../Components/UI/MainBtn/MainBtn'
-import useValue from '../../../../hooks/useValue'
-import { useNavigate } from 'react-router-dom'
 
 const Registration = forwardRef(({ ...props }, ref) => {
   const [registration, setRegistration] = useValue({ Email: '', Password: '' })
@@ -30,7 +30,7 @@ const Registration = forwardRef(({ ...props }, ref) => {
   return (
     <form className='auth__form'>
       <Input
-        style={props.inputStyles}
+        className='auth__input'
         placeholder='E-mail'
         type='email'
         value={registration.Email}
@@ -40,7 +40,7 @@ const Registration = forwardRef(({ ...props }, ref) => {
       />
       <div className='inputPass__container'>
         <Input
-          style={props.inputStyles}
+          className='auth__input'
           placeholder='Create password'
           type={showPass ? 'text' : 'password'}
           value={registration.Password}

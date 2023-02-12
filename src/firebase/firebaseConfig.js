@@ -24,15 +24,9 @@ const auth = getAuth(app)
 const db = getDatabase(app)
 
 const addEmptyArrays = data => {
-  if (data) {
-    for (const obj of data) {
-      if (!obj.hasOwnProperty('data')) obj.data = []
-    }
-
-    return data
-  }
-
-  return []
+  return Array.isArray(data)
+    ? data.map(obj => (obj.hasOwnProperty('data') ? obj : { ...obj, data: [] }))
+    : data
 }
 
 // database
@@ -41,22 +35,20 @@ const database = {
   writeUserInfoData: userInfo => {
     const reference = ref(db, `users/${userInfo.uid}/user_info`)
 
-    if (userInfo.uid) {
-      return set(reference, {
-        uid: userInfo.uid,
-        username: userInfo.nick,
-        email: userInfo.email,
-        avatar: userInfo.photo,
-      })
+    const data = {
+      uid: userInfo.uid,
+      username: userInfo.nick,
+      email: userInfo.email,
+      avatar: userInfo.photo,
     }
+
+    return userInfo.uid && set(reference, data)
   },
   // send user tasks Data
   writeUserTasksData: (userId, date, tabItems) => {
     const reference = ref(db, `users/${userId}/user_tasks/${date}`)
 
-    if (userId) {
-      return set(reference, { ...tabItems.tasks })
-    }
+    return userId && set(reference, { ...tabItems.tasks })
   },
   // create/read new day
   writeNewDayData: (userId, date, setTabItem, setCategory, setTab) => {
@@ -85,17 +77,17 @@ const database = {
     const reference = ref(db, `users/${userId}`)
     const day = new Date().toLocaleDateString().split('.').join('')
 
-    if (userId) {
-      return set(reference, {
-        user_info: {
-          uid: userInfo.uid,
-          username: userInfo.nick,
-          email: userInfo.email,
-          avatar: userInfo.photo,
-        },
-        user_tasks: { [day]: tabItems.tasks },
-      })
+    const data = {
+      user_info: {
+        uid: userInfo.uid,
+        username: userInfo.nick,
+        email: userInfo.email,
+        avatar: userInfo.photo,
+      },
+      user_tasks: { [day]: tabItems.tasks },
     }
+
+    return userId && set(reference, data)
   },
   // reade user Data
   readUserData: (userId, setUserInfo, tabItems, setTabItem, setTab, setCategory) => {
@@ -148,6 +140,103 @@ const database = {
         text: `You don't have any tasks for this day`,
       })
     })
+  },
+  // Statistics
+  createStatistics: (userId, period, setStatistics) => {
+    const distanceRef = ref(db, `users/${userId}/user_tasks/`)
+    const date = new Date().toLocaleDateString().split('.').join('')
+
+    let categories = 0
+    let createdTasks = 0
+    let completedTasks = 0
+
+    const calculateTasks = data => {
+      return data.forEach(category => {
+        if (category.hasOwnProperty('data')) {
+          createdTasks += category.data.length
+
+          category.data.forEach(task => task.completed && completedTasks++)
+        }
+      })
+    }
+
+    const periods = {
+      Day: () => {
+        const distanceRefDay = ref(db, `users/${userId}/user_tasks/${date}`)
+
+        return get(distanceRefDay).then(snapshot => {
+          if (snapshot.exists()) {
+            const data = snapshot.val()
+
+            categories += data.length
+
+            calculateTasks(data)
+
+            setStatistics({
+              Categories: categories,
+              Created: createdTasks,
+              Completed: completedTasks,
+            })
+          } else {
+            setStatistics({
+              Categories: '--',
+              Created: '--',
+              Completed: '--',
+            })
+          }
+        })
+      },
+      Month: () => {
+        const currentMonth = date.split('').splice(2, 2).join('')
+
+        return get(distanceRef).then(snapshot => {
+          if (snapshot.exists()) {
+            const data = snapshot.val()
+
+            for (const day in data) {
+              const condition = day.split('').splice(2, 2).join('') === currentMonth
+
+              if (condition) {
+                categories += data[day].length
+                calculateTasks(data[day])
+              }
+            }
+
+            setStatistics({
+              Categories: categories,
+              Created: createdTasks,
+              Completed: completedTasks,
+            })
+          }
+        })
+      },
+      Year: () => {
+        const currentYear = date.split('').splice(4).join('')
+
+        return get(distanceRef).then(snapshot => {
+          if (snapshot.exists()) {
+            const data = snapshot.val()
+
+            for (const day in data) {
+              const condition = day.split('').splice(4).join('') === currentYear
+
+              if (condition) {
+                categories += data[day].length
+                calculateTasks(data[day])
+              }
+            }
+
+            setStatistics({
+              Categories: categories,
+              Created: createdTasks,
+              Completed: completedTasks,
+            })
+          }
+        })
+      },
+    }
+
+    return periods[period]()
   },
 }
 

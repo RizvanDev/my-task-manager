@@ -8,6 +8,16 @@
   margin: 20px 0;
 }
 
+.auth__input {
+  width: 310px;
+  padding: 10px 15px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.03em;
+  color: #0009;
+}
+
 .auth__acc {
   display: flex;
   justify-content: center;
@@ -47,5 +57,11 @@
     &:active {
       transform: scale(0.97);
     }
+  }
+}
+
+@media (max-width: 414px) {
+  .auth__input {
+    width: 260px;
   }
 }

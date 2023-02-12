@@ -49,3 +49,9 @@
 .react-calendar__tile:hover {
   background-color: #e5e5e5 !important;
 }
+
+@media (max-width: 414px) {
+  .calendar {
+    width: 80vw;
+  }
+}

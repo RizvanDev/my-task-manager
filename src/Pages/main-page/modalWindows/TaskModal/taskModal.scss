@@ -1,0 +1,46 @@
+.taskModal__inputsContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  margin: 30px 0 50px;
+}
+
+.taskModal__helpText {
+  display: block;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+
+.taskModal__btnContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskModal__input {
+  width: 600px;
+  padding: 8px 15px;
+  letter-spacing: 0.02em;
+  font-size: 16px;
+  color: #222831;
+}
+
+@media (max-width: 768px) {
+  .taskModal__input {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 768px) and (max-height: 400px) {
+  .taskModal__inputsContainer {
+    row-gap: 15px;
+    margin: 15px 0 25px;
+  }
+
+  .taskModal__helpText {
+    line-height: 12px;
+  }
+}

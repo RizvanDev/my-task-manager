@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Context } from '../../context'
 import { database } from '../../firebase/firebaseConfig'
@@ -24,18 +24,6 @@ const Profile = ({ darkMode }) => {
   }
 
   const styleObj = {
-    avatarInput: {
-      width: 0,
-      height: 0,
-      fontSize: 0,
-    },
-    input: {
-      width: '540px',
-      padding: '10px',
-      background: 'f9f9f9',
-      fontSize: '20px',
-      border: '1px solid grey',
-    },
     btnStyles: {
       marginTop: '20px',
       padding: '10px 25px',
@@ -46,15 +34,6 @@ const Profile = ({ darkMode }) => {
     },
   }
 
-  if (window.innerWidth <= 767) {
-    styleObj.input.width = '340px'
-  }
-
-  if (window.innerWidth <= 414) {
-    styleObj.input.width = '270px'
-    styleObj.input.fontSize = '16px'
-  }
-
   return (
     <div className={darkMode ? 'profile darkMode' : 'profile'}>
       <div className='profile__container'>
@@ -62,9 +41,9 @@ const Profile = ({ darkMode }) => {
           <div className='profile__avatar'>
             <img className='profile__avatar-img ' src={userInfo.photo} alt='avatar' />
             <Input
+              className='profile__avatarInput'
               type='file'
               id='avatar'
-              style={styleObj.avatarInput}
               onChange={chooseFile}
             />
             <label htmlFor='avatar' className='avatar__label'>
@@ -78,9 +57,9 @@ const Profile = ({ darkMode }) => {
                 Your nickname
               </label>
               <Input
+                className='profile__input'
                 type='text'
                 id='nickname'
-                style={styleObj.input}
                 value={userInfo.nick}
                 onChange={e => setUserInfo({ ...userInfo, nick: e.target.value })}
               />
@@ -90,9 +69,9 @@ const Profile = ({ darkMode }) => {
                 Your email
               </label>
               <Input
+                className='profile__input'
                 type='email'
                 id='email'
-                style={styleObj.input}
                 value={userInfo.email}
                 onChange={e => setUserInfo({ ...userInfo, email: e.target.value })}
                 readOnly

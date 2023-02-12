@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
+import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import Input from '../../../../Components/UI/Input/Input'
 import MainBtn from '../../../../Components/UI/MainBtn/MainBtn'
 import Select from '../../../../Components/UI/Select/Select'
 import MyModal from '../../../../Components/UI/MyModal/MyModal'
 import useValue from '../../../../hooks/useValue'
-import { Context } from '../../../../context'
-import cl from './taskModal.module.scss'
+import './taskModal.scss'
 
 const TaskModal = () => {
   const [inputValue, setInputValue, inputOnChange] = useValue('')
@@ -32,18 +32,6 @@ const TaskModal = () => {
   const closeTaskModal = () => openModals({ ...modals, taskModal: false })
 
   const styleObj = {
-    modalStyles: {
-      modal: {
-        backgroundColor: '#0007',
-        transition: 'all .0.2s ease 0s',
-      },
-      modalContainer: {
-        width: '700px',
-        padding: '20px',
-        borderRadius: '10px',
-        transition: 'all 0.5s ease 0.1s',
-      },
-    },
     selectStyles: {
       width: '200px',
       padding: '8px 15px',
@@ -57,13 +45,6 @@ const TaskModal = () => {
         fontSize: '16px',
         color: '#666',
       },
-    },
-    inputStyles: {
-      width: '100%',
-      padding: '8px 15px',
-      border: '1px solid rgba(40, 40, 70, 0.3)',
-      letterSpacing: '0.02em',
-      fontSize: '16px',
     },
     cancelBtnStyles: {
       padding: '10px 25px',
@@ -81,44 +62,14 @@ const TaskModal = () => {
     },
   }
 
-  if (window.innerWidth <= 1600) {
-    styleObj.modalStyles.modalContainer.width = '500px'
-  }
-
-  if (window.innerWidth <= 1024) {
-    styleObj.modalStyles.modalContainer.width = '430px'
-    styleObj.modalStyles.modalContainer.padding = '15px'
-    styleObj.modalStyles.modalContainer.borderRadius = '8px'
-    styleObj.cancelBtnStyles.padding = '8px 20px'
-    styleObj.addBtnStyles.padding = '8px 20px'
-  }
-
-  if (window.innerWidth <= 767) {
-    styleObj.modalStyles.modalContainer.width = '330px'
-    styleObj.cancelBtnStyles.padding = '6px 16px'
-    styleObj.addBtnStyles.padding = '6px 16px'
-    styleObj.addBtnStyles.fontSize = '15px'
-    styleObj.cancelBtnStyles.fontSize = '15px'
-  }
-
-  if (window.innerWidth <= 414) {
-    styleObj.modalStyles.modalContainer.width = '290px'
-    styleObj.cancelBtnStyles.padding = '8px 18px'
-    styleObj.addBtnStyles.padding = '8px 18px'
-  }
-
   return (
-    <MyModal
-      styles={styleObj.modalStyles}
-      darkMode={darkMode}
-      opened={modals.taskModal}
-      closeModal={closeTaskModal}>
+    <MyModal darkMode={darkMode} opened={modals.taskModal} closeModal={closeTaskModal}>
       <MyTitle fontWeight='700' fontSize='20px' lineHeight='27px' letterSpacing='0.02em'>
-        Add new task
+        New task
       </MyTitle>
-      <div className={cl.taskModal__inputsContainer}>
+      <div className='taskModal__inputsContainer'>
         <div>
-          <span className={cl.taskModal__helpText}>Category</span>
+          <span className='taskModal__helpText'>Category</span>
           <Select
             styles={styleObj.selectStyles}
             options={tabItems.tasks}
@@ -127,9 +78,9 @@ const TaskModal = () => {
           />
         </div>
         <div>
-          <span className={cl.taskModal__helpText}>Create new task</span>
+          <span className='taskModal__helpText'>Create new task</span>
           <Input
-            style={styleObj.inputStyles}
+            className='taskModal__input'
             placeholder='What should I do?'
             value={inputValue}
             onChange={inputOnChange}
@@ -137,7 +88,7 @@ const TaskModal = () => {
           />
         </div>
       </div>
-      <div className={cl.taskModal__btnContainer}>
+      <div className='taskModal__btnContainer'>
         <MainBtn type='button' styles={styleObj.cancelBtnStyles} onClick={closeTaskModal}>
           Cancel
         </MainBtn>
