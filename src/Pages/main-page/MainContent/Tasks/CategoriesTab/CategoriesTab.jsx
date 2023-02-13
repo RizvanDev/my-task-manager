@@ -1,10 +1,11 @@
-import React, { createRef, useContext } from 'react'
+import { createRef, useContext } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import useValue from '../../../../../hooks/useValue'
 import { Context } from '../../../../../context'
 import { database } from '../../../../../firebase/firebaseConfig'
+import useValue from '../../../../../hooks/useValue'
 import MyTitle from '../../../../../Components/MyTitle/MyTitle'
 import CategoriesConfig from '../CategoriesConfig/CategoriesConfig'
+import DeleteModal from '../../../modalWindows/DeletModal/DeleteModal'
 import Task from '../Task/Task'
 import './categoriesTab.scss'
 
@@ -25,6 +26,8 @@ const CategoriesTab = props => {
     timeLine,
     userInfo,
     calendarDate,
+    modals,
+    openModals,
   } = useContext(Context)
 
   const removeCategory = () => {
@@ -48,6 +51,8 @@ const CategoriesTab = props => {
     )
   }
 
+  const askDeleteCategory = () => openModals({ ...modals, deleteCategoryModal: true })
+
   const titleStyles = {
     fontSize: '18px',
     lineHeight: '25px',
@@ -69,14 +74,16 @@ const CategoriesTab = props => {
       <div className='category__title'>{props.category.title}</div>
       <div className='category__activeTasks'>
         <MyTitle {...titleStyles}>Active tasks</MyTitle>
+
         <CategoriesConfig
           modal={modal}
           timeLine={timeLine}
           category={props.category}
           setSortType={setSortType}
-          removeCategory={removeCategory}
+          askDeleteCategory={askDeleteCategory}
           darkMode={darkMode}
         />
+
         <TransitionGroup
           className={darkMode ? 'activeTasksContainer darkMode' : 'activeTasksContainer'}>
           {props.category.data
@@ -150,6 +157,8 @@ const CategoriesTab = props => {
         <span></span>
         <span></span>
       </button>
+
+      <DeleteModal removeCategory={removeCategory} />
     </div>
   )
 }

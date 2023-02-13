@@ -17,6 +17,7 @@ const withApp = Component => {
       taskModal: false,
       calendarModal: false,
       statisticsModal: false,
+      deleteCategoryModal: false,
     })
     const [authInfoModal, createAuthInfoModal] = useValue({
       show: false,

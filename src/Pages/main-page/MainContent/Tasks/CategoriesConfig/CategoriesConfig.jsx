@@ -1,12 +1,7 @@
-import React from 'react'
 import Select from '../../../../../Components/UI/Select/Select'
 import './categoriesConfig.scss'
 
 const CategoriesConfig = props => {
-  const clConfigBtn = ['category__configModal']
-
-  if (props.modal) clConfigBtn.push('open')
-
   const selectStyles = {
     padding: '3px',
     backgroundColor: 'transparent',
@@ -18,7 +13,7 @@ const CategoriesConfig = props => {
   }
 
   return (
-    <div className={clConfigBtn.join(' ')}>
+    <div className={props.modal ? 'category__configModal open' : 'category__configModal'}>
       <div className='category__filter'>
         {window.innerWidth >= 768 && <span>filter by:</span>}
         <Select
@@ -33,7 +28,7 @@ const CategoriesConfig = props => {
         style={{ display: !props.timeLine.past ? 'block' : 'none' }}
         className='category__removeBtn'
         title='remove this category'
-        onClick={props.removeCategory}>
+        onClick={props.askDeleteCategory}>
         Remove
       </button>
     </div>
