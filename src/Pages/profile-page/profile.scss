@@ -42,6 +42,7 @@
   font-weight: 300;
   letter-spacing: 0.4px;
 }
+
 .profile__avatar-img {
   position: absolute;
   top: 0;
@@ -103,5 +104,23 @@
     flex-direction: column;
     align-items: center;
     row-gap: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile__container {
+    margin-bottom: 20px;
+  }
+
+  .profile__input {
+    width: 340px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 414px) {
+  .profile__input {
+    width: 260px;
+    font-size: 16px;
   }
 }

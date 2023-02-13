@@ -7,14 +7,10 @@ import './info.scss'
 const Info = () => {
   const { authorization, modals, openModals } = useContext(Context)
 
-  const handleClick = whatModal => {
-    if (!authorization) {
-      return openModals({ ...modals, authModal: true })
-    }
-
-    return whatModal === 'Statistics'
-      ? openModals({ ...modals, statisticsModal: true })
-      : openModals({ ...modals, compareModal: true })
+  const handleClick = () => {
+    return !authorization
+      ? openModals({ ...modals, authModal: true })
+      : openModals({ ...modals, statisticsModal: true })
   }
 
   const titleStyles = {
@@ -32,7 +28,7 @@ const Info = () => {
     <div className='asideBar__info'>
       <MyTitle {...titleStyles}>My data</MyTitle>
       <ul className='info__list'>
-        <ListItem onClick={() => handleClick('Statistics')}>
+        <ListItem onClick={handleClick}>
           <svg width='18px' height='18px' fill='none'>
             <path
               d='M13.5 15V7.5'
@@ -57,25 +53,6 @@ const Info = () => {
             />
           </svg>
           <span>Statistics</span>
-        </ListItem>
-        <ListItem onClick={() => handleClick('Compare')}>
-          <svg width='18' height='18' fill='none'>
-            <path
-              d='M17.25 4.5L10.125 11.625L6.375 7.875L0.75 13.5'
-              stroke='#282846'
-              strokeWidth='1.5'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-            <path
-              d='M12.75 4.5H17.25V9'
-              stroke='#282846'
-              strokeWidth='1.5'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-          </svg>
-          <span>Compare</span>
         </ListItem>
       </ul>
     </div>

@@ -2,7 +2,7 @@
 
 .categoriesContainer {
   width: 190px;
-  max-height: 270px;
+  max-height: 170px;
   margin: 20px 0 30px;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -33,5 +33,12 @@
   }
   .category__list {
     row-gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .categoriesContainer {
+    max-height: 110px;
+    margin: 10px 0 20px;
   }
 }
