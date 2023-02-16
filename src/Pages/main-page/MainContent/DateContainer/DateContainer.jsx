@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import Time from './Time'
@@ -12,7 +12,7 @@ const DateContainer = () => {
     modals,
     openModals,
     userInfo,
-    setTabItem,
+    setTabItems,
     setCategory,
     setTab,
     setCalendarDate,
@@ -28,7 +28,7 @@ const DateContainer = () => {
       <div className='time__container'>
         <Time
           userInfo={userInfo}
-          setTabItem={setTabItem}
+          setTabItems={setTabItems}
           setCategory={setCategory}
           setTab={setTab}
           setCalendarDate={setCalendarDate}

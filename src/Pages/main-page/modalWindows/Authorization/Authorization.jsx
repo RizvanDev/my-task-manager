@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import { Context } from '../../../../context'
 import useValue from '../../../../hooks/useValue'
 import MyModal from '../../../../Components/UI/MyModal/MyModal'
@@ -14,12 +14,11 @@ const Authorization = () => {
     darkMode,
     modals,
     openModals,
-    setAuthorization,
     createAuthInfoModal,
     userInfo,
     setUserInfo,
     tabItems,
-    setTabItem,
+    setTabItems,
     setTab,
     setCategory,
   } = useContext(Context)
@@ -30,16 +29,14 @@ const Authorization = () => {
     setTimeout(() => inputRef.current.focus(), 500)
   }, [modals.authModal, authType])
 
-  const styleObj = {
-    btnStyles: {
-      padding: '10px 25px',
-      borderRadius: '8px',
-      backgroundColor: '#29A19C',
-      fontSize: '16px',
-      lineHeight: '22px',
-      letterSpacing: '0.01em',
-      color: '#FAFAFA',
-    },
+  const btnStyles = {
+    padding: '10px 25px',
+    borderRadius: '8px',
+    backgroundColor: '#29A19C',
+    fontSize: '16px',
+    lineHeight: '22px',
+    letterSpacing: '0.01em',
+    color: '#FAFAFA',
   }
 
   return (
@@ -56,11 +53,9 @@ const Authorization = () => {
       </MyTitle>
       {authType === 'Registration' ? (
         <Registration
-          inputStyles={styleObj.inputStyles}
-          btnStyles={styleObj.btnStyles}
+          btnStyles={btnStyles}
           modals={modals}
           openModals={openModals}
-          setAuthorization={setAuthorization}
           createAuthInfoModal={createAuthInfoModal}
           userInfo={userInfo}
           setUserInfo={setUserInfo}
@@ -69,16 +64,14 @@ const Authorization = () => {
         />
       ) : (
         <Login
-          inputStyles={styleObj.inputStyles}
-          btnStyles={styleObj.btnStyles}
+          btnStyles={btnStyles}
           modals={modals}
           openModals={openModals}
-          setAuthorization={setAuthorization}
           createAuthInfoModal={createAuthInfoModal}
           userInfo={userInfo}
           setUserInfo={setUserInfo}
           tabItems={tabItems}
-          setTabItem={setTabItem}
+          setTabItems={setTabItems}
           setTab={setTab}
           setCategory={setCategory}
           ref={inputRef}

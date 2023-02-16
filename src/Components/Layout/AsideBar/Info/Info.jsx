@@ -1,14 +1,14 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import ListItem from '../ListItem/ListItem'
 import './info.scss'
 
 const Info = () => {
-  const { authorization, modals, openModals } = useContext(Context)
+  const { userInfo, modals, openModals } = useContext(Context)
 
   const handleClick = () => {
-    return !authorization
+    return !userInfo.uid
       ? openModals({ ...modals, authModal: true })
       : openModals({ ...modals, statisticsModal: true })
   }
@@ -19,7 +19,7 @@ const Info = () => {
     letterSpacing: '0.03em',
   }
 
-  if (window.innerWidth <= 1400) {
+  if (window.matchMedia('(max-width: 1400px)').matches) {
     titleStyles.fontSize = '20px'
     titleStyles.lineHeight = '28px'
   }
@@ -27,7 +27,7 @@ const Info = () => {
   return (
     <div className='asideBar__info'>
       <MyTitle {...titleStyles}>My data</MyTitle>
-      <ul className='info__list'>
+      <div className='info__container'>
         <ListItem onClick={handleClick}>
           <svg width='18px' height='18px' fill='none'>
             <path
@@ -54,7 +54,7 @@ const Info = () => {
           </svg>
           <span>Statistics</span>
         </ListItem>
-      </ul>
+      </div>
     </div>
   )
 }

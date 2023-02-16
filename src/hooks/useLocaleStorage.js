@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import useValue from './useValue'
 
 const useLocaleStorage = (key, initialValue) => {
   const getValue = () => {
@@ -7,7 +7,7 @@ const useLocaleStorage = (key, initialValue) => {
     return storage ? JSON.parse(storage) : initialValue
   }
 
-  const [value, setValue] = useState(getValue)
+  const [value, setValue] = useValue(getValue)
 
   localStorage.setItem(key, JSON.stringify(value))
 

@@ -1,5 +1,3 @@
-import React from 'react'
-
 const DateButton = ({ calendarDate, openCalendar }) => {
   const selectText = () => {
     const selectedData = +calendarDate.toLocaleDateString().split('.').reverse().join('')

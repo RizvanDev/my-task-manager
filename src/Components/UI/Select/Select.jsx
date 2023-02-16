@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Select = ({ ...props }) => {
   return (
     <select value={props.value} onChange={props.onChange} style={props.styles}>

@@ -1,18 +1,10 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import LogOut from '../../../../../Components/UI/LogOut/LogOut'
 import moon from '../../../../../assets/icons/mode/moon.svg'
 import sun from '../../../../../assets/icons/mode/sun.svg'
 import cl from './userModal.module.scss'
 
-const UserModal = ({
-  darkMode,
-  setDarkMode,
-  userModal,
-  modals,
-  openModals,
-  authorization,
-}) => {
+const UserModal = props => {
   const logOutStyles = {
     fontFamily: 'Montserrat',
     fontSize: '12px',
@@ -21,13 +13,13 @@ const UserModal = ({
 
   const userModalClasses = [cl.userModal]
 
-  userModal && userModalClasses.push(cl.open)
-  darkMode && userModalClasses.push(cl.darkMode)
+  props.userModal && userModalClasses.push(cl.open)
+  props.darkMode && userModalClasses.push(cl.darkMode)
 
   return (
     <div className={userModalClasses.join(' ')}>
       <div className={cl.userModal__container}>
-        {authorization ? (
+        {props.userInfo.uid ? (
           <Link to='Profile.jsx' className={cl.userModal__item}>
             <svg width='18' height='18' fill='none'>
               <path
@@ -51,7 +43,7 @@ const UserModal = ({
           <button
             type='button'
             className={cl.userModal__item}
-            onClick={() => openModals({ ...modals, authModal: true })}>
+            onClick={() => props.openModals({ ...props.modals, authModal: true })}>
             <svg width='18' height='18' fill='none'>
               <path
                 d='M15 15.75V14.25C15 13.4544 14.6839 12.6913 14.1213 12.1287C13.5587 11.5661 12.7956 11.25 12 11.25H6C5.20435 11.25 4.44129 11.5661 3.87868 12.1287C3.31607 12.6913 3 13.4544 3 14.25V15.75'
@@ -74,9 +66,9 @@ const UserModal = ({
         <button
           type='button'
           className={cl.userModal__item}
-          onClick={() => setDarkMode(!darkMode)}>
-          <img src={darkMode ? sun : moon} alt='moon/sun' />
-          <span>{darkMode ? 'Light mode' : 'Dark mode'}</span>
+          onClick={() => props.setDarkMode(!props.darkMode)}>
+          <img src={props.darkMode ? sun : moon} alt='moon/sun' />
+          <span>{props.darkMode ? 'Light mode' : 'Dark mode'}</span>
         </button>
         <a href='#' className={cl.userModal__item}>
           <svg width='18' height='18' fill='none'>
@@ -102,7 +94,7 @@ const UserModal = ({
           </svg>
           <span>Settings</span>
         </a>
-        {authorization && <LogOut style={logOutStyles} />}
+        {props.userInfo.uid && <LogOut style={logOutStyles} />}
       </div>
     </div>
   )

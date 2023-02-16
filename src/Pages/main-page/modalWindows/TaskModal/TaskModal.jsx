@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import Input from '../../../../Components/UI/Input/Input'
@@ -13,7 +13,7 @@ const TaskModal = () => {
 
   const {
     darkMode,
-    createTask,
+    tasksMethods,
     modals,
     openModals,
     tabItems,
@@ -21,11 +21,11 @@ const TaskModal = () => {
     categorySelectOnChange,
   } = useContext(Context)
 
-  const addTask = () => inputValue && createTask(inputValue, setInputValue)
+  const addTask = () => inputValue && tasksMethods.createTask(inputValue, setInputValue)
 
   const onKeyUp = e => {
     if (e.code === 'Enter' && inputValue) {
-      return createTask(inputValue, setInputValue)
+      return tasksMethods.createTask(inputValue, setInputValue)
     }
   }
 

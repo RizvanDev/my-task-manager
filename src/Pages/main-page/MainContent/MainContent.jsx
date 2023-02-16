@@ -1,8 +1,7 @@
-import React from 'react'
-import './mainContent.scss'
 import MainTop from './MainTop/Main.top'
 import Tasks from './Tasks/Tasks'
 import DateContainer from './DateContainer/DateContainer'
+import './mainContent.scss'
 
 const MainContent = () => {
   return (

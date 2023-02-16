@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { authentication } from '../../../../firebase/firebaseConfig'
 import Input from '../../../../Components/UI/Input/Input'
 import MainBtn from '../../../../Components/UI/MainBtn/MainBtn'
@@ -14,11 +14,10 @@ const Login = forwardRef(({ ...props }, ref) => {
     return authentication.loginEmailPassword({
       login,
       setLogin,
-      setAuthorization: props.setAuthorization,
       userInfo: props.userInfo,
       setUserInfo: props.setUserInfo,
       tabItems: props.tabItems,
-      setTabItem: props.setTabItem,
+      setTabItems: props.setTabItems,
       setTab: props.setTab,
       setCategory: props.setCategory,
       modals: props.modals,

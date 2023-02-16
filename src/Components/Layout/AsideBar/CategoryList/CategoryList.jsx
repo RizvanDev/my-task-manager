@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
@@ -12,10 +12,10 @@ const CategoryList = () => {
   const navigate = useNavigate()
 
   const chooseCategory = e => {
-    if (location.pathname === '/Profile.jsx') navigate('/')
+    location.pathname === '/Profile.jsx' && navigate('/')
     setTab(e.target.innerText)
     setCategory(e.target.innerText)
-    setTimeout(() => window.innerWidth <= 1280 && openSideMenu(false), 330)
+    window.matchMedia('(max-width: 1280px)').matches && openSideMenu(false)
   }
 
   const titleStyles = {
@@ -24,7 +24,7 @@ const CategoryList = () => {
     letterSpacing: '0.03em',
   }
 
-  if (window.innerWidth <= 1400) {
+  if (window.matchMedia('(max-width: 1400px)').matches) {
     titleStyles.fontSize = '20px'
     titleStyles.lineHeight = '28px'
   }

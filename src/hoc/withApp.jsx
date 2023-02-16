@@ -28,7 +28,6 @@ const withApp = Component => {
     const [calendarDate, setCalendarDate] = useValue(new Date())
     const [timeLine, setTimeLine] = useValue({ past: false, future: false })
     // user information
-    const [authorization, setAuthorization] = useLocaleStorage('auth', false)
     const [userInfo, setUserInfo] = useLocaleStorage('userInfo', {
       photo: defaultPhoto,
       nick: 'username',
@@ -40,7 +39,7 @@ const withApp = Component => {
       date: new Date().toLocaleDateString().split('.').reverse().join(''),
       tasks: [],
     })
-    const [tabItems, setTabItem] = useValue(tabsStorage)
+    const [tabItems, setTabItems] = useValue(tabsStorage)
     // select tabs and category
     const [tab, setTab] = useValue(tabItems.tasks.length && tabItems.tasks[0].title)
     const [category, setCategory, categorySelectOnChange] = useValue(
@@ -50,11 +49,11 @@ const withApp = Component => {
     useEffect(() => {
       const date = new Date().toLocaleDateString().split('.').reverse().join('')
 
-      if (authorization && date !== tabItems.date) {
+      if (userInfo.uid && date !== tabItems.date) {
         database.writeNewDayData(
           userInfo.uid,
-          calendarDate.toLocaleDateString().split('.').join(''),
-          setTabItem,
+          calendarDate.toLocaleDateString().replaceAll('.', ''),
+          setTabItems,
           setCategory,
           setTab,
         )
@@ -76,7 +75,7 @@ const withApp = Component => {
           userInfo,
           date,
           tabItems,
-          setTabItem,
+          setTabItems,
           setCategory,
           setTab,
           modals,
@@ -90,8 +89,8 @@ const withApp = Component => {
         openModals({ ...modals, calendarModal: false })
         return database.writeNewDayData(
           userInfo.uid,
-          date.toLocaleDateString().split('.').join(''),
-          setTabItem,
+          date.toLocaleDateString().replaceAll('.', ''),
+          setTabItems,
           setCategory,
           setTab,
         )
@@ -99,7 +98,7 @@ const withApp = Component => {
 
       setTimeLine({ past: false, future: false })
       setCalendarDate(date)
-      setTabItem(tabsStorage)
+      setTabItems(tabsStorage)
       setCategory(tabsStorage.tasks.length && tabsStorage.tasks[0].title)
       setTab(tabsStorage.tasks.length && tabsStorage.tasks[0].title)
       openModals({ ...modals, calendarModal: false })
@@ -126,11 +125,11 @@ const withApp = Component => {
 
         database.writeUserTasksData(
           userInfo.uid,
-          calendarDate.toLocaleDateString().split('.').join(''),
+          calendarDate.toLocaleDateString().replaceAll('.', ''),
           tabItems,
         )
 
-        return setTabItem({ ...tabItems })
+        return setTabItems({ ...tabItems })
       },
       deleteTask: (title, currentTask) => {
         tabItems.tasks.forEach(tab => {
@@ -141,11 +140,11 @@ const withApp = Component => {
 
         database.writeUserTasksData(
           userInfo.uid,
-          calendarDate.toLocaleDateString().split('.').join(''),
+          calendarDate.toLocaleDateString().replaceAll('.', ''),
           tabItems,
         )
 
-        return setTabItem({ ...tabItems })
+        return setTabItems({ ...tabItems })
       },
       checkTask: (title, currentTask, complete) => {
         tabItems.tasks.forEach(tab => {
@@ -158,16 +157,14 @@ const withApp = Component => {
 
         database.writeUserTasksData(
           userInfo.uid,
-          calendarDate.toLocaleDateString().split('.').join(''),
+          calendarDate.toLocaleDateString().replaceAll('.', ''),
           tabItems,
         )
 
-        return setTabItem({ ...tabItems })
+        return setTabItems({ ...tabItems })
       },
       editTask: (event, title, currentTask, newValue) => {
-        event.target.style.borderBottom = `1px solid ${
-          event.target.value ? 'transparent' : 'red'
-        }`
+        event.target.style.borderBottom = `1px solid ${event.target.value ? 'transparent' : 'red'}`
         event.target.readOnly = event.code === 'Enter' && event.target.value
 
         tabItems.tasks.forEach(tab => {
@@ -180,11 +177,11 @@ const withApp = Component => {
 
         database.writeUserTasksData(
           userInfo.uid,
-          calendarDate.toLocaleDateString().split('.').join(''),
+          calendarDate.toLocaleDateString().replaceAll('.', ''),
           tabItems,
         )
 
-        return setTabItem({ ...tabItems })
+        return setTabItems({ ...tabItems })
       },
       setSortType: value => {
         tabItems.tasks.forEach(category => {
@@ -192,23 +189,21 @@ const withApp = Component => {
             category.sortingType = value
 
             category.data.sort((a, b) => {
-              const first = a.time.split(':').join('')
-              const second = b.time.split(':').join('')
+              const first = a.time.replaceAll(':', '')
+              const second = b.time.replaceAll(':', '')
 
-              return category.sortingType === 'newest first'
-                ? second - first
-                : first - second
+              return category.sortingType === 'newest first' ? second - first : first - second
             })
           }
         })
 
         database.writeUserTasksData(
           userInfo.uid,
-          calendarDate.toLocaleDateString().split('.').join(''),
+          calendarDate.toLocaleDateString().replaceAll('.', ''),
           tabItems,
         )
 
-        return setTabItem({ ...tabItems })
+        return setTabItems({ ...tabItems })
       },
     }
 
@@ -228,19 +223,17 @@ const withApp = Component => {
       setTimeLine,
       selectData,
       setDataInStorage,
-      authorization,
-      setAuthorization,
       userInfo,
       setUserInfo,
       tab,
       setTab,
       tabItems,
-      setTabItem,
+      setTabItems,
       defaultPhoto,
       category,
       setCategory,
       categorySelectOnChange,
-      ...tasksMethods,
+      tasksMethods,
     }
 
     return (

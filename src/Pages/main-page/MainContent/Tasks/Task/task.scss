@@ -8,6 +8,9 @@
   padding: 20px 15px 10px;
   border-radius: 10px;
   border: 1px solid rgba(40, 40, 70, 0.1);
+  &.darkMode {
+    border: 1px solid rgba(249, 249, 249, 0.2);
+  }
 }
 
 .taskCheckbox,

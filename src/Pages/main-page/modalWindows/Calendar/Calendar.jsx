@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Calendar from 'react-calendar'
 import { Context } from '../../../../context'
 import MyModal from '../../../../Components/UI/MyModal/MyModal'
@@ -6,13 +6,12 @@ import 'react-calendar/dist/Calendar.css'
 import './calendar.scss'
 
 const CalendarWindow = () => {
-  const { darkMode, authorization, modals, openModals, calendarDate, selectData } =
-    useContext(Context)
+  const { darkMode, userInfo, modals, openModals, calendarDate, selectData } = useContext(Context)
 
   const calendarHandleClick = e => {
-    !authorization && openModals({ ...modals, calendarModal: false, authModal: true })
-
-    return selectData(e)
+    return userInfo.uid
+      ? selectData(e)
+      : openModals({ ...modals, calendarModal: false, authModal: true })
   }
 
   return (

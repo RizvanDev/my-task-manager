@@ -1,9 +1,8 @@
-import React from 'react'
-import cl from './myTitle.module.scss'
+import './myTitle.scss'
 
 const MyTitle = ({ children, ...styles }) => {
   return (
-    <div className={cl.myTitle} style={styles}>
+    <div className='myTitle' style={styles}>
       {children}
     </div>
   )

@@ -1,12 +1,11 @@
 import { initializeApp } from 'firebase/app'
-
+import { getDatabase, ref, set, get } from 'firebase/database'
 import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
-import { getDatabase, ref, set, get } from 'firebase/database'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -23,17 +22,23 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const db = getDatabase(app)
 
+/* 
+ This is an auxiliary function that adds an empty array to the object for rendering,
+ since empty arrays cannot be stored in the database.
+*/
 const addEmptyArrays = data => {
-  return Array.isArray(data)
-    ? data.map(obj => (obj.hasOwnProperty('data') ? obj : { ...obj, data: [] }))
-    : data
+  return data.map(obj => (obj.hasOwnProperty('data') ? obj : { ...obj, data: [] }))
 }
+// Helper function for writing data in the database
+const writeToDataBase = (path, data) => set(ref(db, path), data)
+// Helper function for reading data from the database
+const readFromDatabase = path => get(ref(db, path))
 
 // database
 const database = {
   // send user information (email,avatar,nickname,id)
-  writeUserInfoData: userInfo => {
-    const reference = ref(db, `users/${userInfo.uid}/user_info`)
+  writeUserInfoData: async userInfo => {
+    const path = `users/${userInfo.uid}/user_info`
 
     const data = {
       uid: userInfo.uid,
@@ -42,40 +47,37 @@ const database = {
       avatar: userInfo.photo,
     }
 
-    return userInfo.uid && set(reference, data)
+    return userInfo.uid && (await writeToDataBase(path, data))
   },
   // send user tasks Data
-  writeUserTasksData: (userId, date, tabItems) => {
-    const reference = ref(db, `users/${userId}/user_tasks/${date}`)
-
-    return userId && set(reference, { ...tabItems.tasks })
+  writeUserTasksData: async (userId, date, tabItems) => {
+    const path = `users/${userId}/user_tasks/${date}`
+    return userId && (await writeToDataBase(path, { ...tabItems.tasks }))
   },
   // create/read new day
-  writeNewDayData: (userId, date, setTabItem, setCategory, setTab) => {
-    const distanceRef = ref(db, `users/${userId}/user_tasks/${date}`)
+  writeNewDayData: async (userId, date, setTabItems, setCategory, setTab) => {
+    const path = `users/${userId}/user_tasks/${date}`
+    const snapshot = await readFromDatabase(path)
 
-    return get(distanceRef).then(snapshot => {
-      if (snapshot.exists()) {
-        const tasks = snapshot.val()
+    const dataTabItems = {
+      date: new Date().toLocaleDateString().split('.').reverse().join(''),
+      tasks: [],
+    }
 
-        setCategory(tasks[0].title)
-        setTab(tasks[0].title)
-        setTabItem({
-          date: new Date().toLocaleDateString().split('.').reverse().join(''),
-          tasks: [...addEmptyArrays(tasks)],
-        })
-      } else {
-        setTabItem({
-          date: new Date().toLocaleDateString().split('.').reverse().join(''),
-          tasks: [],
-        })
-      }
-    })
+    if (snapshot.exists()) {
+      const tasks = snapshot.val()
+
+      setCategory(tasks[0].title)
+      setTab(tasks[0].title)
+      dataTabItems.tasks = addEmptyArrays(tasks)
+    }
+
+    return setTabItems(dataTabItems)
   },
   // create Data for new user
-  createUserData: (userId, userInfo, tabItems) => {
-    const reference = ref(db, `users/${userId}`)
-    const day = new Date().toLocaleDateString().split('.').join('')
+  createUserData: async (userId, userInfo, tabItems) => {
+    const day = new Date().toLocaleDateString().replaceAll('.', '')
+    const path = `users/${userId}`
 
     const data = {
       user_info: {
@@ -87,156 +89,111 @@ const database = {
       user_tasks: { [day]: tabItems.tasks },
     }
 
-    return userId && set(reference, data)
+    return userId && (await writeToDataBase(path, data))
   },
   // reade user Data
-  readUserData: (userId, setUserInfo, tabItems, setTabItem, setTab, setCategory) => {
-    const distanceRef = ref(db, `users/${userId}/`)
-    const date = new Date().toLocaleDateString().split('.').join('')
+  readUserData: async (userId, setUserInfo, tabItems, setTabItems, setTab, setCategory) => {
+    const date = new Date().toLocaleDateString().replaceAll('.', '')
+    const path = `users/${userId}/`
+    const snapshot = await readFromDatabase(path)
 
-    return get(distanceRef).then(snapshot => {
-      if (snapshot.exists()) {
-        const data = snapshot.val()
+    if (snapshot.exists()) {
+      const data = snapshot.val()
 
-        setUserInfo({
+      const condition = data.user_tasks && data.user_tasks[date]
+
+      const userData = {
+        info: {
           photo: data.user_info.avatar,
           nick: data.user_info.username,
           email: data.user_info.email,
           uid: data.user_info.uid,
-        })
-
-        const condition = data.user_tasks && data.user_tasks[date]
-
-        setTabItem({
+        },
+        tasks: {
           ...tabItems,
-          tasks: [...addEmptyArrays(condition ? data.user_tasks[date] : [])],
-        })
-        setCategory(condition ? data.user_tasks[date][0].title : '')
-        setTab(condition ? data.user_tasks[date][0].title : '')
+          tasks: addEmptyArrays(condition ? data.user_tasks[date] : []),
+        },
       }
-    })
+
+      setUserInfo(userData.info)
+      setTabItems(userData.tasks)
+      setCategory(condition ? data.user_tasks[date][0].title : '')
+      setTab(condition ? data.user_tasks[date][0].title : '')
+    }
   },
   // reading the data of the selected day
-  readPastData: ({ ...params }) => {
-    const date = params.date.toLocaleDateString().split('.').join('')
-    const distanceRef = ref(db, `users/${params.userInfo.uid}/user_tasks/${date}`)
+  readPastData: async ({ ...params }) => {
+    const date = params.date.toLocaleDateString().replaceAll('.', '')
+    const path = `users/${params.userInfo.uid}/user_tasks/${date}`
+    const snapshot = await readFromDatabase(path)
 
-    return get(distanceRef).then(snapshot => {
-      if (snapshot.exists()) {
-        const tasks = snapshot.val()
-        params.setCalendarDate(params.date)
-        setTimeout(() => {
-          params.setTabItem({ ...params.tabItems, tasks: [...addEmptyArrays(tasks)] })
-          params.setCategory(tasks[0].title)
-          params.setTab(tasks[0].title)
-          params.openModals({ ...params.modals, calendarModal: false })
-        }, 500)
-        return
-      }
+    if (snapshot.exists()) {
+      const tasks = snapshot.val()
 
-      return params.createAuthInfoModal({
+      params.setCalendarDate(params.date)
+      params.setCategory(tasks[0].title)
+      params.setTab(tasks[0].title)
+      params.setTabItems({ ...params.tabItems, tasks: addEmptyArrays(tasks) })
+      params.openModals({ ...params.modals, calendarModal: false })
+    } else {
+      params.createAuthInfoModal({
         show: true,
         type: 'Error',
         text: `You don't have any tasks for this day`,
       })
-    })
+    }
   },
   // Statistics
-  createStatistics: (userId, period, setStatistics) => {
-    const distanceRef = ref(db, `users/${userId}/user_tasks/`)
-    const date = new Date().toLocaleDateString().split('.').join('')
+  createStatistics: async (userId, period, setStatistics) => {
+    const date = new Date().toLocaleDateString().replaceAll('.', '')
+    const path = `users/${userId}/user_tasks/${period === 'Day' ? date : ''}`
+    const snapshot = await readFromDatabase(path)
 
-    let categories = 0
-    let createdTasks = 0
-    let completedTasks = 0
+    const statistics = { Categories: 0, Created: 0, Completed: 0 }
 
-    const calculateTasks = data => {
-      return data.forEach(category => {
-        if (category.hasOwnProperty('data')) {
-          createdTasks += category.data.length
+    if (snapshot.exists()) {
+      const data = snapshot.val()
 
-          category.data.forEach(task => task.completed && completedTasks++)
-        }
-      })
+      const updateStatistics = data => {
+        data.forEach(category => {
+          if (category.hasOwnProperty('data')) {
+            statistics.Created += category.data.length
+            statistics.Completed += category.data.filter(task => task.completed).length
+          }
+        })
+      }
+
+      const periods = {
+        Day: () => {
+          statistics.Categories = data.length
+          updateStatistics(data)
+        },
+        Month: () => {
+          const currentMonth = date.substring(2, 4)
+
+          for (const day in data) {
+            if (day.substring(2, 4) === currentMonth) {
+              statistics.Categories += data[day].length
+              updateStatistics(data[day])
+            }
+          }
+        },
+        Year: () => {
+          const currentYear = date.substring(4)
+
+          for (const day in data) {
+            if (day.substring(4) === currentYear) {
+              statistics.Categories += data[day].length
+              updateStatistics(data[day])
+            }
+          }
+        },
+      }
+
+      periods[period]()
     }
 
-    const periods = {
-      Day: () => {
-        const distanceRefDay = ref(db, `users/${userId}/user_tasks/${date}`)
-
-        return get(distanceRefDay).then(snapshot => {
-          if (snapshot.exists()) {
-            const data = snapshot.val()
-
-            categories += data.length
-
-            calculateTasks(data)
-
-            setStatistics({
-              Categories: categories,
-              Created: createdTasks,
-              Completed: completedTasks,
-            })
-          } else {
-            setStatistics({
-              Categories: '--',
-              Created: '--',
-              Completed: '--',
-            })
-          }
-        })
-      },
-      Month: () => {
-        const currentMonth = date.split('').splice(2, 2).join('')
-
-        return get(distanceRef).then(snapshot => {
-          if (snapshot.exists()) {
-            const data = snapshot.val()
-
-            for (const day in data) {
-              const condition = day.split('').splice(2, 2).join('') === currentMonth
-
-              if (condition) {
-                categories += data[day].length
-                calculateTasks(data[day])
-              }
-            }
-
-            setStatistics({
-              Categories: categories,
-              Created: createdTasks,
-              Completed: completedTasks,
-            })
-          }
-        })
-      },
-      Year: () => {
-        const currentYear = date.split('').splice(4).join('')
-
-        return get(distanceRef).then(snapshot => {
-          if (snapshot.exists()) {
-            const data = snapshot.val()
-
-            for (const day in data) {
-              const condition = day.split('').splice(4).join('') === currentYear
-
-              if (condition) {
-                categories += data[day].length
-                calculateTasks(data[day])
-              }
-            }
-
-            setStatistics({
-              Categories: categories,
-              Created: createdTasks,
-              Completed: completedTasks,
-            })
-          }
-        })
-      },
-    }
-
-    return periods[period]()
+    return setStatistics(statistics)
   },
 }
 
@@ -253,7 +210,6 @@ const authentication = {
         )
 
         if (userCredential) {
-          params.setAuthorization(true)
           params.setLogin({ Email: '', Password: '' })
           params.createAuthInfoModal({
             show: true,
@@ -270,7 +226,7 @@ const authentication = {
             userCredential.user.uid,
             params.setUserInfo,
             params.tabItems,
-            params.setTabItem,
+            params.setTabItems,
             params.setTab,
             params.setCategory,
           )
@@ -295,10 +251,9 @@ const authentication = {
         )
 
         if (userCredential) {
-          params.setAuthorization(true)
           params.setRegistration({ Email: '', Password: '' })
           params.createAuthInfoModal({
-            modal: true,
+            show: true,
             type: 'Success',
             text: 'Registration successfully',
           })
@@ -309,11 +264,7 @@ const authentication = {
             uid: userCredential.user.uid,
           })
 
-          database.createUserData(
-            userCredential.user.uid,
-            params.userInfo,
-            params.tabItems,
-          )
+          database.createUserData(userCredential.user.uid, params.userInfo, params.tabItems)
 
           setTimeout(() => {
             params.openModals({ ...params.modals, authModal: false })
@@ -321,25 +272,28 @@ const authentication = {
           }, 1000)
         }
       } catch (Error) {
-        console.log(Error)
-        params.createAuthInfoModal({ modal: true, type: 'Error', text: Error.code })
+        params.createAuthInfoModal({ show: true, type: 'Error', text: Error.code })
       }
     }
   },
   // Logout
-  logOut: ({ ...params }) => {
-    return signOut(auth).then(() => {
-      params.setAuthorization(false)
-      params.setUserInfo({
+  logOut: async ({ ...params }) => {
+    const userData = {
+      info: {
         photo: params.defaultPhoto,
         nick: 'username',
         email: '',
         uid: '',
-      })
-      params.setCalendarDate(new Date())
-      params.setTimeLine({ past: false, future: false })
-      params.setTabItem({ ...params.tabItems, tasks: [] })
-    })
+      },
+      tasks: { ...params.tabItems, tasks: [] },
+    }
+
+    params.setCalendarDate(new Date())
+    params.setTimeLine({ past: false, future: false })
+    params.setUserInfo(userData.info)
+    params.setTabItems(userData.tasks)
+
+    return await signOut(auth)
   },
 }
 

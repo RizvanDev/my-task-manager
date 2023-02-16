@@ -1,4 +1,3 @@
-import React from 'react'
 import './mainBtn.scss'
 
 const MainBtn = ({ children, type, styles, onClick }) => {

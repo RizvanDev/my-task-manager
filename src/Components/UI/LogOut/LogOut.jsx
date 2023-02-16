@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { authentication } from '../../../firebase/firebaseConfig'
 import { Context } from '../../../context'
-import cl from './logout.module.scss'
+import './logout.scss'
 
 const LogOut = ({ darkMode, style }) => {
   const {
@@ -10,7 +10,7 @@ const LogOut = ({ darkMode, style }) => {
     defaultPhoto,
     setUserInfo,
     tabItems,
-    setTabItem,
+    setTabItems,
     setCalendarDate,
     setTimeLine,
   } = useContext(Context)
@@ -27,7 +27,7 @@ const LogOut = ({ darkMode, style }) => {
       defaultPhoto,
       setUserInfo,
       tabItems,
-      setTabItem,
+      setTabItems,
       setCalendarDate,
       setTimeLine,
     })
@@ -38,7 +38,7 @@ const LogOut = ({ darkMode, style }) => {
       type='button'
       title='log out of your account'
       style={style}
-      className={darkMode ? [cl.logOut, cl.darkMode].join(' ') : cl.logOut}
+      className={darkMode ? 'logOut darkMode' : 'logOut'}
       onClick={exitAcc}>
       <svg fill='none'>
         <path

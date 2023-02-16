@@ -23,7 +23,7 @@ const Statistics = () => {
   }
 
   useEffect(() => {
-    database.createStatistics(userInfo.uid, selected, setStatistics)
+    userInfo.uid && database.createStatistics(userInfo.uid, selected, setStatistics)
   }, [modals.statisticsModal])
 
   const styleObj = {

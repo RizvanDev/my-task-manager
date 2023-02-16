@@ -1,5 +1,3 @@
-import React from 'react'
-
 const InfoAuthModal = ({ authInfoModal, createAuthInfoModal }) => {
   const styleObj = {
     position: 'absolute',

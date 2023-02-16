@@ -7,11 +7,11 @@ import LogOut from '../../../Components/UI/LogOut/LogOut'
 import './asideBar.scss'
 
 const AsideBar = ({ darkMode }) => {
-  const { sideMenu, openSideMenu, authorization } = useContext(Context)
+  const { sideMenu, openSideMenu, userInfo } = useContext(Context)
   const ref = useRef(null)
 
   useEffect(() => {
-    if (window.innerWidth <= 1280) {
+    if (window.matchMedia('(max-width: 1280px)').matches) {
       const handleClick = e => !ref.current.contains(e.target) && openSideMenu(false)
 
       document.addEventListener('click', handleClick, { passive: true })
@@ -33,7 +33,7 @@ const AsideBar = ({ darkMode }) => {
     lineHeight: '22px',
   }
 
-  const conditionLogOut = authorization && window.matchMedia('(min-width: 768px)').matches
+  const conditionLogOut = userInfo.uid && window.matchMedia('(min-width: 768px)').matches
 
   if (window.matchMedia('(max-width:1400)').matches) {
     logOutStyles.fontSize = '14px'

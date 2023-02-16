@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { database } from '../../../../firebase/firebaseConfig'
 import useValue from '../../../../hooks/useValue'
 
-const Time = ({ userInfo, setTabItem, setCategory, setTab, setCalendarDate }) => {
+const Time = ({ userInfo, setTabItems, setCategory, setTab, setCalendarDate }) => {
   const [today, setToday] = useValue(new Date())
 
   useEffect(() => {
@@ -14,8 +14,8 @@ const Time = ({ userInfo, setTabItem, setCategory, setTab, setCalendarDate }) =>
   if (userInfo.uid && today.toLocaleTimeString() === '00:00:00') {
     database.writeNewDayData(
       userInfo.uid,
-      today.toLocaleDateString().split('.').join(''),
-      setTabItem,
+      today.toLocaleDateString().replaceAll('.', ''),
+      setTabItems,
       setTab,
       setCategory,
     )

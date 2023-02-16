@@ -32,22 +32,22 @@
   color: grey;
 }
 
-.category__activeTasks,
-.category__completedTasks {
+.activeTasks__block,
+.completedTasks__block {
   margin-top: 15px;
   padding: 0 15px;
 }
 
-.category__activeTasks {
+.activeTasks__block {
   flex: 1 1 55%s;
 }
 
-.category__completedTasks {
+.completedTasks__block {
   flex: 1 1 35%;
 }
 
-.activeTasksContainer,
-.completedTasksContainer {
+.activeTasks__container,
+.completedTasks__container {
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -66,22 +66,12 @@
     background-color: $main-color;
   }
 }
-.activeTasksContainer {
+.activeTasks__container {
   max-height: 320px;
 }
 
-.completedTasksContainer {
+.completedTasks__container {
   max-height: 250px;
-}
-
-.activeTasksContainer.darkMode,
-.completedTasksContainer.darkMode {
-  .task {
-    border: 1px solid rgba(249, 249, 249, 0.2);
-  }
-  .taskEdit svg path {
-    fill: #f9f9f9;
-  }
 }
 
 .category__configBtn {
@@ -141,8 +131,8 @@
 }
 
 @media (max-width: 1400px) {
-  .category__activeTasks,
-  .category__completedTasks {
+  .activeTasks__block,
+  .completedTasks__block {
     padding: 0 10px;
   }
 
@@ -159,16 +149,16 @@
 }
 
 @media (max-width: 1024px) {
-  .category__activeTasks,
-  .category__completedTasks {
+  .activeTasks__block,
+  .completedTasks__block {
     padding: 0 0px;
   }
 
-  .activeTasksContainer {
+  .activeTasks__container {
     min-height: 320px;
   }
 
-  .completedTasksContainer {
+  .completedTasks__container {
     min-height: 250px;
   }
 }
@@ -178,13 +168,13 @@
     padding: 18px 12px;
   }
 
-  .activeTasksContainer {
+  .activeTasks__container {
     min-height: 320px;
     margin-top: 20px;
   }
 
   .category__configBtn {
-    top: 50px;
+    top: 16px;
     column-gap: 6px;
     padding: 6px 8px;
     span {

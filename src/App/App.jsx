@@ -1,4 +1,3 @@
-import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { withApp } from '../hoc/withApp'
 import Layout from '../Components/Layout/Layout'

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react'
+import { useContext, useRef, useEffect } from 'react'
 import { Context } from '../../../../context'
 import './listItem.scss'
 

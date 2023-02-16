@@ -1,23 +1,16 @@
-import React, { useState, useContext } from 'react'
+import { useContext } from 'react'
 import { Context } from '../../../../context'
+import useValue from '../../../../hooks/useValue'
 import MainBtn from '../../../../Components/UI/MainBtn/MainBtn'
 import UserMenu from './UserMenu/UserMenu'
 import UserModal from './UserModal/UserModal'
 import './mainTop.scss'
 
 const MainTop = () => {
-  const [userModal, setUserModal] = useState(false)
+  const [userModal, setUserModal] = useValue(false)
 
-  const {
-    tabItems,
-    darkMode,
-    setDarkMode,
-    modals,
-    openModals,
-    authorization,
-    userInfo,
-    timeLine,
-  } = useContext(Context)
+  const { tabItems, darkMode, setDarkMode, modals, openModals, userInfo, timeLine } =
+    useContext(Context)
 
   const btnStyles = {
     padding: '10px 25px',
@@ -32,7 +25,7 @@ const MainTop = () => {
     visibility: tabItems.tasks.length && !timeLine.past ? 'visible' : 'hidden',
   }
 
-  if (window.innerWidth <= 767) {
+  if (window.matchMedia('(max-width: 768px)').matches) {
     btnStyles.padding = '12px 30px'
   }
 
@@ -65,8 +58,9 @@ const MainTop = () => {
             strokeLinejoin='round'
           />
         </svg>
-        {window.innerWidth >= 767 && <span>New task</span>}
+        {window.matchMedia('(min-width: 768px)').matches && <span>New task</span>}
       </MainBtn>
+
       <div>
         {darkMode ? (
           <svg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -146,6 +140,7 @@ const MainTop = () => {
           </svg>
         )}
       </div>
+
       <UserMenu
         darkMode={darkMode}
         userModal={userModal}
@@ -158,7 +153,7 @@ const MainTop = () => {
         userModal={userModal}
         modals={modals}
         openModals={openModals}
-        authorization={authorization}
+        userInfo={userInfo}
       />
     </div>
   )

@@ -12,15 +12,8 @@ const AddItem = () => {
   })
   const [inputValue, setInputValue, onChange] = useValue('')
   const inputRef = useRef(null)
-  const {
-    tabItems,
-    setTabItem,
-    setCategory,
-    setTab,
-    userInfo,
-    calendarDate,
-    openSideMenu,
-  } = useContext(Context)
+  const { tabItems, setTabItems, setCategory, setTab, userInfo, calendarDate, openSideMenu } =
+    useContext(Context)
 
   const showInputContainer = (invisible, visible) => {
     inputValue && setInputValue('')
@@ -34,29 +27,21 @@ const AddItem = () => {
     if (inputValue && !desiredElement) {
       setInputValue('')
 
-      setTabItem({
+      const newTabItems = {
         ...tabItems,
-        tasks: [
-          ...tabItems.tasks,
-          { title: inputValue, sortingType: 'newest first', data: [] },
-        ],
-      })
+        tasks: [...tabItems.tasks, { title: inputValue, sortingType: 'newest first', data: [] }],
+      }
 
+      setTabItems(newTabItems)
       setInputContainer({ invisible: false, visible: false })
       setCategory(inputValue)
       setTab(inputValue)
       openSideMenu(false)
 
-      database.writeUserTasksData(
+      return database.writeUserTasksData(
         userInfo.uid,
-        calendarDate.toLocaleDateString().split('.').join(''),
-        {
-          ...tabItems,
-          tasks: [
-            ...tabItems.tasks,
-            { title: inputValue, sortingType: 'newest first', data: [] },
-          ],
-        },
+        calendarDate.toLocaleDateString().replaceAll('.', ''),
+        newTabItems,
       )
     }
   }

@@ -29,7 +29,7 @@ const Task = React.forwardRef((props, nodeRef) => {
   }
 
   return (
-    <div className='task' ref={nodeRef}>
+    <div className={props.darkMode ? 'task darkMode' : 'task'} ref={nodeRef}>
       <button
         type='button'
         style={showUI.checkTask}

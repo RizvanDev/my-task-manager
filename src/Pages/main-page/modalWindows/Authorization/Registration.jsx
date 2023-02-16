@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authentication } from '../../../../firebase/firebaseConfig'
 import useValue from '../../../../hooks/useValue'
@@ -17,7 +17,6 @@ const Registration = forwardRef(({ ...props }, ref) => {
       registration,
       setRegistration,
       navigate,
-      setAuthorization: props.setAuthorization,
       userInfo: props.userInfo,
       setUserInfo: props.setUserInfo,
       tabItems: props.tabItems,
