@@ -11,6 +11,8 @@ const withApp = Component => {
     const [darkMode, setDarkMode] = useLocaleStorage('darkMode', false)
     // side menu viewport < 1280
     const [sideMenu, openSideMenu] = useValue(false)
+    // container for adding categories
+    const [containerAddCategory, showContainerAddCategory] = useValue(false)
     // modal windows
     const [modals, openModals] = useValue({
       authModal: false,
@@ -37,13 +39,13 @@ const withApp = Component => {
     // data
     const [tabsStorage, setDataInStorage] = useLocaleStorage('data', {
       date: new Date().toLocaleDateString().split('.').reverse().join(''),
-      tasks: [],
+      tabs: [],
     })
     const [tabItems, setTabItems] = useValue(tabsStorage)
     // select tabs and category
-    const [tab, setTab] = useValue(tabItems.tasks.length && tabItems.tasks[0].title)
+    const [tab, setTab] = useValue(tabItems.tabs.length && tabItems.tabs[0].title)
     const [category, setCategory, categorySelectOnChange] = useValue(
-      tabItems.tasks.length && tabItems.tasks[0].title,
+      tabItems.tabs.length && tabItems.tabs[0].title,
     )
 
     useEffect(() => {
@@ -99,8 +101,8 @@ const withApp = Component => {
       setTimeLine({ past: false, future: false })
       setCalendarDate(date)
       setTabItems(tabsStorage)
-      setCategory(tabsStorage.tasks.length && tabsStorage.tasks[0].title)
-      setTab(tabsStorage.tasks.length && tabsStorage.tasks[0].title)
+      setCategory(tabsStorage.tabs.length && tabsStorage.tabs[0].title)
+      setTab(tabsStorage.tabs.length && tabsStorage.tabs[0].title)
       openModals({ ...modals, calendarModal: false })
     }
 
@@ -110,81 +112,99 @@ const withApp = Component => {
         openModals({ ...modals, taskModal: false })
         setTab(category)
 
-        tabItems.tasks.forEach(tab => {
-          if (tab.title === category) {
-            tab.data = [
-              {
-                task: inputValue,
-                time: new Date().toLocaleTimeString(),
-                completed: false,
-              },
-              ...tab.data,
-            ]
-          }
+        const newTask = {
+          task: inputValue,
+          time: new Date().toLocaleTimeString(),
+          completed: false,
+        }
+
+        const updatedTabItems = tabItems.tabs.map(tab => {
+          return tab.title === category ? { ...tab, data: [...tab.data, newTask] } : tab
         })
 
         database.writeUserTasksData(
           userInfo.uid,
           calendarDate.toLocaleDateString().replaceAll('.', ''),
-          tabItems,
+          updatedTabItems,
         )
 
-        return setTabItems({ ...tabItems })
+        return setTabItems({ ...tabItems, tabs: updatedTabItems })
       },
       deleteTask: (title, currentTask) => {
-        tabItems.tasks.forEach(tab => {
-          if (title === tab.title) {
-            tab.data = tab.data.filter(task => task.time !== currentTask.time)
-          }
+        const filteredTasks = tasks => tasks.filter(task => task.time !== currentTask.time)
+
+        const updatedTabItems = tabItems.tabs.map(tab => {
+          return title === tab.title ? { ...tab, data: filteredTasks(tab.data) } : tab
         })
 
         database.writeUserTasksData(
           userInfo.uid,
           calendarDate.toLocaleDateString().replaceAll('.', ''),
-          tabItems,
+          updatedTabItems,
         )
 
-        return setTabItems({ ...tabItems })
+        return setTabItems({ ...tabItems, tabs: updatedTabItems })
       },
-      checkTask: (title, currentTask, complete) => {
-        tabItems.tasks.forEach(tab => {
+      completeTask: (title, currentTask, complete) => {
+        const updatedTabItems = { ...tabItems }
+
+        let updated = false
+
+        for (const tab of updatedTabItems.tabs) {
           if (title === tab.title) {
-            tab.data.forEach(task => {
-              if (currentTask.time === task.time) task.completed = !complete
-            })
+            for (const task of tab.data) {
+              if (currentTask.time === task.time) {
+                task.completed = !complete
+                updated = true
+                break
+              }
+            }
+
+            if (updated) break
           }
-        })
+        }
 
         database.writeUserTasksData(
           userInfo.uid,
           calendarDate.toLocaleDateString().replaceAll('.', ''),
-          tabItems,
+          updatedTabItems.tabs,
         )
 
-        return setTabItems({ ...tabItems })
+        return setTabItems(updatedTabItems)
       },
-      editTask: (event, title, currentTask, newValue) => {
-        event.target.style.borderBottom = `1px solid ${event.target.value ? 'transparent' : 'red'}`
-        event.target.readOnly = event.code === 'Enter' && event.target.value
+      editTask: (e, title, currentTask, newValue) => {
+        e.target.style.borderBottom = `1px solid ${e.target.value ? 'transparent' : 'red'}`
+        e.target.readOnly = e.code === 'Enter' && e.target.value
 
-        tabItems.tasks.forEach(tab => {
+        const updatedTabItems = { ...tabItems }
+
+        let updated = false
+
+        for (const tab of updatedTabItems.tabs) {
           if (title === tab.title) {
-            tab.data.forEach(task => {
-              if (currentTask.task === task.task) task.task = newValue
-            })
+            for (const task of tab.data) {
+              if (currentTask.time === task.time) {
+                task.task = newValue
+                updated = true
+                break
+              }
+            }
+            if (updated) break
           }
-        })
+        }
 
         database.writeUserTasksData(
           userInfo.uid,
           calendarDate.toLocaleDateString().replaceAll('.', ''),
-          tabItems,
+          updatedTabItems.tabs,
         )
 
-        return setTabItems({ ...tabItems })
+        return setTabItems(updatedTabItems)
       },
       setSortType: value => {
-        tabItems.tasks.forEach(category => {
+        const updatedTabItems = { ...tabItems }
+
+        updatedTabItems.tabs.forEach(category => {
           if (category.title === tab) {
             category.sortingType = value
 
@@ -200,10 +220,10 @@ const withApp = Component => {
         database.writeUserTasksData(
           userInfo.uid,
           calendarDate.toLocaleDateString().replaceAll('.', ''),
-          tabItems,
+          updatedTabItems.tabs,
         )
 
-        return setTabItems({ ...tabItems })
+        return setTabItems({ ...updatedTabItems })
       },
     }
 
@@ -211,6 +231,8 @@ const withApp = Component => {
     const contextValues = {
       darkMode,
       setDarkMode,
+      containerAddCategory,
+      showContainerAddCategory,
       modals,
       openModals,
       authInfoModal,

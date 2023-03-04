@@ -9,32 +9,30 @@ import './mainTop.scss'
 const MainTop = () => {
   const [userModal, setUserModal] = useValue(false)
 
-  const { tabItems, darkMode, setDarkMode, modals, openModals, userInfo, timeLine } =
-    useContext(Context)
+  const {
+    tabItems,
+    darkMode,
+    setDarkMode,
+    modals,
+    openModals,
+    showContainerAddCategory,
+    userInfo,
+    timeLine,
+  } = useContext(Context)
 
-  const btnStyles = {
-    padding: '10px 25px',
-    background: '#29a19c',
-    color: '#fafafa',
-    columnGap: '10px',
-    borderRadius: '8px',
-    fontWeight: 600,
-    fontSize: '16px',
-    lineHeight: '22px',
-    letterSpacing: '0.01em',
-    visibility: tabItems.tasks.length && !timeLine.past ? 'visible' : 'hidden',
-  }
-
-  if (window.matchMedia('(max-width: 768px)').matches) {
-    btnStyles.padding = '12px 30px'
+  const handleClickModal = () => {
+    return tabItems.tabs.length
+      ? openModals({ ...modals, taskModal: true })
+      : showContainerAddCategory(true)
   }
 
   return (
     <div className='mainContent__top'>
       <MainBtn
+        className='mainContent__top-btn'
         type='button'
-        styles={btnStyles}
-        onClick={() => openModals({ ...modals, taskModal: true })}>
+        onClick={handleClickModal}
+        disabled={timeLine.past}>
         <svg width='20' height='20' fill='none'>
           <path
             d='M10 19C14.9706 19 19 14.9706 19 10C19 5.02944 14.9706 1 10 1C5.02944 1 1 5.02944 1 10C1 14.9706 5.02944 19 10 19Z'

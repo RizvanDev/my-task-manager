@@ -17,14 +17,13 @@ const ListItem = ({ children, onClick }) => {
   const fontSize = `calc(${children.length > 16 ? '9px' : '12px'} + 5 * (100vw / 1920))`
 
   return (
-    <button
+    <span
+      className={darkMode ? 'listItem darkMode' : 'listItem'}
       style={{ fontSize }}
       ref={ref}
-      type='button'
-      className={darkMode ? 'listItem darkMode' : 'listItem'}
       onClick={onClick}>
       {children}
-    </button>
+    </span>
   )
 }
 

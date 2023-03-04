@@ -18,20 +18,9 @@ const Profile = ({ darkMode }) => {
     reader.readAsDataURL(file)
   }
 
-  const sendUserInfo = () => {
+  const handleSendUserInfo = () => {
     database.writeUserInfoData(userInfo)
     navigate('/')
-  }
-
-  const styleObj = {
-    btnStyles: {
-      marginTop: '20px',
-      padding: '10px 25px',
-      borderRadius: '8px',
-      backgroundColor: '#29a19c',
-      fontSize: '18px',
-      color: '#fafafa',
-    },
   }
 
   return (
@@ -40,12 +29,7 @@ const Profile = ({ darkMode }) => {
         <form className='profile__form'>
           <div className='profile__avatar'>
             <img className='profile__avatar-img ' src={userInfo.photo} alt='avatar' />
-            <Input
-              className='profile__avatarInput'
-              type='file'
-              id='avatar'
-              onChange={chooseFile}
-            />
+            <Input className='profile__avatarInput' type='file' id='avatar' onChange={chooseFile} />
             <label htmlFor='avatar' className='avatar__label'>
               edit the photo
             </label>
@@ -77,7 +61,7 @@ const Profile = ({ darkMode }) => {
                 readOnly
               />
             </div>
-            <MainBtn type='submit' styles={styleObj.btnStyles} onClick={sendUserInfo}>
+            <MainBtn className='profile__form-btn' type='submit' onClick={handleSendUserInfo}>
               save changes
             </MainBtn>
           </div>

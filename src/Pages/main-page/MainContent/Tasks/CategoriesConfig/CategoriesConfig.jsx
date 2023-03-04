@@ -1,14 +1,11 @@
 import Select from '../../../../../Components/UI/Select/Select'
+import MainBtn from '../../../../../Components/UI/MainBtn/MainBtn'
 import './categoriesConfig.scss'
 
-const CategoriesConfig = ({
-  darkMode,
-  categoryConfigModal,
-  category,
-  setSortType,
-  timeLine,
-  handleDeleteCategory,
-}) => {
+const CategoriesConfig = props => {
+  const { darkMode, categoryConfigModal, category, setSortType, timeLine, handleDeleteCategory } =
+    props
+
   const selectStyles = {
     padding: '3px',
     backgroundColor: 'transparent',
@@ -30,14 +27,14 @@ const CategoriesConfig = ({
           onChange={e => setSortType(e.target.value)}
         />
       </div>
-      <button
-        type='button'
-        style={{ display: !timeLine.past ? 'block' : 'none' }}
+      <MainBtn
         className='category__removeBtn'
+        type='button'
+        style={{ display: !timeLine.past ? 'flex' : 'none' }}
         title='remove this category'
         onClick={handleDeleteCategory}>
         Remove
-      </button>
+      </MainBtn>
     </div>
   )
 }

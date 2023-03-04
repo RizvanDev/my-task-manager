@@ -6,10 +6,10 @@ import './tasks.scss'
 const Tasks = () => {
   const { tabItems, darkMode } = useContext(Context)
 
-  return tabItems.tasks.length ? (
+  return tabItems.tabs.length ? (
     <div
       className={darkMode ? 'mainContent__tabsContainer darkMode' : 'mainContent__tabsContainer'}>
-      {tabItems.tasks.map((category, idx) => (
+      {tabItems.tabs.map((category, idx) => (
         <CategoriesTab key={category.title} category={category} idx={idx} />
       ))}
     </div>

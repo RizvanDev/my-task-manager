@@ -4,19 +4,19 @@ import Logo from './Logo/Logo'
 import CategoryList from './CategoryList/CategoryList'
 import Info from './Info/Info'
 import LogOut from '../../../Components/UI/LogOut/LogOut'
+import MainBtn from '../../UI/MainBtn/MainBtn'
 import './asideBar.scss'
 
 const AsideBar = ({ darkMode }) => {
   const { sideMenu, openSideMenu, userInfo } = useContext(Context)
   const ref = useRef(null)
 
+  const handleClickOutside = e => !ref.current.contains(e.target) && openSideMenu(false)
+
   useEffect(() => {
     if (window.matchMedia('(max-width: 1280px)').matches) {
-      const handleClick = e => !ref.current.contains(e.target) && openSideMenu(false)
-
-      document.addEventListener('click', handleClick, { passive: true })
-
-      return () => document.removeEventListener('click', handleClick)
+      document.addEventListener('click', handleClickOutside, { passive: true })
+      return () => document.removeEventListener('click', handleClickOutside)
     }
   }, [])
 
@@ -25,20 +25,7 @@ const AsideBar = ({ darkMode }) => {
   darkMode && sideMenuCl.push('darkMode')
   sideMenu && sideMenuCl.push('open')
 
-  const logOutStyles = {
-    position: 'absolute',
-    bottom: '20px',
-    left: '20px',
-    fontSize: '16px',
-    lineHeight: '22px',
-  }
-
   const conditionLogOut = userInfo.uid && window.matchMedia('(min-width: 768px)').matches
-
-  if (window.matchMedia('(max-width:1400)').matches) {
-    logOutStyles.fontSize = '14px'
-    logOutStyles.lineHeight = '20px'
-  }
 
   return (
     <aside className={sideMenuCl.join(' ')} ref={ref}>
@@ -46,14 +33,15 @@ const AsideBar = ({ darkMode }) => {
         <Logo />
         <CategoryList />
         <Info darkMode={darkMode} />
-        {conditionLogOut && <LogOut style={logOutStyles} darkMode={darkMode} />}
+        {conditionLogOut && (
+          <div className='asideBar__logOut'>
+            <LogOut />
+          </div>
+        )}
         {window.matchMedia('(max-width: 1280px)').matches && (
-          <button
-            type='button'
-            className='asideBar__menu'
-            onClick={() => openSideMenu(!sideMenu)}>
+          <MainBtn className='asideBar__menu' type='button' onClick={() => openSideMenu(!sideMenu)}>
             <span className='asideBar__menu-item'></span>
-          </button>
+          </MainBtn>
         )}
       </div>
     </aside>

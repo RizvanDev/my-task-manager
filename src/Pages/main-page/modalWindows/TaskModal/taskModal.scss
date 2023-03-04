@@ -1,3 +1,5 @@
+@import '../../../../helpStyles/variables.scss';
+
 .taskModal__inputsContainer {
   display: flex;
   flex-direction: column;
@@ -18,6 +20,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.taskModal__btn {
+  padding: 10px 25px;
+  border: 1px solid $main-color;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  &.--close {
+    background-color: transparent;
+  }
+  &.--add {
+    background-color: $main-color;
+  }
+  &:active {
+    transform: scale(0.96);
+  }
+  &.--add:disabled:active {
+    transform: scale(1);
+  }
 }
 
 .taskModal__input {

@@ -1,8 +1,8 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
-import AddItem from './AddItem/AddItem'
+import AddCategory from './AddCategory/AddCategory'
 import ListItem from '../ListItem/ListItem'
 import './categoryList.scss'
 
@@ -34,14 +34,14 @@ const CategoryList = () => {
       <MyTitle {...titleStyles}>Category</MyTitle>
       <div className='categoriesContainer'>
         <ul className='category__list'>
-          {tabItems.tasks.map(element => (
+          {tabItems.tabs.map(element => (
             <li key={element.title}>
               <ListItem onClick={chooseCategory}>{element.title}</ListItem>
             </li>
           ))}
         </ul>
       </div>
-      {!timeLine.past && <AddItem />}
+      {!timeLine.past && <AddCategory />}
     </div>
   )
 }

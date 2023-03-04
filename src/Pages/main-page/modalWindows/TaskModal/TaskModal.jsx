@@ -11,17 +11,10 @@ import './taskModal.scss'
 const TaskModal = () => {
   const [inputValue, setInputValue, inputOnChange] = useValue('')
 
-  const {
-    darkMode,
-    tasksMethods,
-    modals,
-    openModals,
-    tabItems,
-    category,
-    categorySelectOnChange,
-  } = useContext(Context)
+  const { darkMode, tasksMethods, modals, openModals, tabItems, category, categorySelectOnChange } =
+    useContext(Context)
 
-  const addTask = () => inputValue && tasksMethods.createTask(inputValue, setInputValue)
+  const handleAddTask = () => tasksMethods.createTask(inputValue, setInputValue)
 
   const onKeyUp = e => {
     if (e.code === 'Enter' && inputValue) {
@@ -29,41 +22,25 @@ const TaskModal = () => {
     }
   }
 
-  const closeTaskModal = () => openModals({ ...modals, taskModal: false })
+  const handleCloseModal = () => openModals(prev => ({ ...prev, taskModal: false }))
 
-  const styleObj = {
-    selectStyles: {
-      width: '200px',
-      padding: '8px 15px',
-      border: '1px solid rgba(40, 40, 70, 0.3)',
-      borderRadius: '8px',
-      fontWeight: '400',
-      fontSize: '14px',
-      lineHeight: '19px',
-      letterSpacing: '0.02em',
-      option: {
-        fontSize: '16px',
-        color: '#666',
-      },
-    },
-    cancelBtnStyles: {
-      padding: '10px 25px',
-      backgroundColor: 'transparent',
-      border: '1px solid  #29a19c',
-      borderRadius: '8px',
+  const selectStyles = {
+    width: '200px',
+    padding: '8px 15px',
+    border: '1px solid rgba(40, 40, 70, 0.3)',
+    borderRadius: '8px',
+    fontWeight: '400',
+    fontSize: '14px',
+    lineHeight: '19px',
+    letterSpacing: '0.02em',
+    option: {
       fontSize: '16px',
-    },
-    addBtnStyles: {
-      backgroundColor: '#29a19c',
-      padding: '10px 25px',
-      color: '#fafafa',
-      borderRadius: '8px',
-      fontSize: '16px',
+      color: '#666',
     },
   }
 
   return (
-    <MyModal darkMode={darkMode} opened={modals.taskModal} closeModal={closeTaskModal}>
+    <MyModal darkMode={darkMode} opened={modals.taskModal} closeModal={handleCloseModal}>
       <MyTitle fontWeight='700' fontSize='20px' lineHeight='27px' letterSpacing='0.02em'>
         New task
       </MyTitle>
@@ -71,8 +48,8 @@ const TaskModal = () => {
         <div>
           <span className='taskModal__helpText'>Category</span>
           <Select
-            styles={styleObj.selectStyles}
-            options={tabItems.tasks}
+            styles={selectStyles}
+            options={tabItems.tabs}
             value={category}
             onChange={categorySelectOnChange}
           />
@@ -89,10 +66,14 @@ const TaskModal = () => {
         </div>
       </div>
       <div className='taskModal__btnContainer'>
-        <MainBtn type='button' styles={styleObj.cancelBtnStyles} onClick={closeTaskModal}>
+        <MainBtn className='taskModal__btn --close' type='button' onClick={handleCloseModal}>
           Cancel
         </MainBtn>
-        <MainBtn type='button' styles={styleObj.addBtnStyles} onClick={addTask}>
+        <MainBtn
+          className='taskModal__btn --add'
+          type='button'
+          onClick={handleAddTask}
+          disabled={!inputValue}>
           Add
         </MainBtn>
       </div>

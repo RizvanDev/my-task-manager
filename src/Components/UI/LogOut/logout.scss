@@ -1,12 +1,10 @@
 @import '../../../helpStyles/variables.scss';
 
 .logOut {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   column-gap: 10px;
   background-color: transparent;
   font-weight: 400;
+  font-size: inherit;
   letter-spacing: 0.025em;
   transition: all 0.3s linear 0s;
   svg {
@@ -16,8 +14,7 @@
       transition: all 0.3s linear 0s;
     }
   }
-}
-
-.darkMode svg path {
-  stroke: #f9f9f9;
+  &.darkMode svg path {
+    stroke: #f9f9f9;
+  }
 }

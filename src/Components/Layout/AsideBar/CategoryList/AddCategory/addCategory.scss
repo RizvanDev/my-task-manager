@@ -1,0 +1,79 @@
+@import '../../../../../helpStyles/variables.scss';
+
+.addCategory__container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.6s ease 0s;
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+    max-height: 20px;
+  }
+}
+
+.addCategory__input {
+  width: 90%;
+  padding: 7px 5px;
+  font-size: 16px;
+  color: #222831;
+}
+
+.addCategory__btn {
+  column-gap: 10px;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.025em;
+  color: $main-color;
+  &.invisible {
+    visibility: hidden;
+  }
+}
+
+.btn__container {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+  margin-top: 10px;
+  margin-right: 20px;
+}
+
+.addCategory__add {
+  padding: 5px;
+  border: 1px solid $main-color;
+  border-radius: 6px;
+  background-color: transparent;
+  letter-spacing: 0.4px;
+  color: $main-color;
+}
+
+.addCategory__close {
+  background-color: transparent;
+  font-size: 16px;
+  color: $main-color;
+}
+
+.addCategory__add,
+.addCategory__close {
+  transition: all 0.1s ease 0s;
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.addCategory__add:disabled:active {
+  transform: scale(1);
+}
+
+@media (max-width: 1400px) {
+  .addCategory__btn {
+    column-gap: 8px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

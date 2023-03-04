@@ -2,10 +2,12 @@ import { useContext } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { authentication } from '../../../firebase/firebaseConfig'
 import { Context } from '../../../context'
+import MainBtn from '../MainBtn/MainBtn'
 import './logout.scss'
 
-const LogOut = ({ darkMode, style }) => {
+const LogOut = () => {
   const {
+    darkMode,
     setAuthorization,
     defaultPhoto,
     setUserInfo,
@@ -20,8 +22,9 @@ const LogOut = ({ darkMode, style }) => {
 
   const redirectOnMainPage = () => location.pathname === '/Profile.jsx' && navigate('/')
 
-  const exitAcc = () => {
+  const handleExitAcc = () => {
     redirectOnMainPage()
+
     return authentication.logOut({
       setAuthorization,
       defaultPhoto,
@@ -34,12 +37,11 @@ const LogOut = ({ darkMode, style }) => {
   }
 
   return (
-    <button
+    <MainBtn
+      className={darkMode ? 'logOut darkMode' : 'logOut'}
       type='button'
       title='log out of your account'
-      style={style}
-      className={darkMode ? 'logOut darkMode' : 'logOut'}
-      onClick={exitAcc}>
+      onClick={handleExitAcc}>
       <svg fill='none'>
         <path
           d='M11.25 2.25H14.25C14.6478 2.25 15.0294 2.40804 15.3107 2.68934C15.592 2.97064 15.75 3.35218 15.75 3.75V14.25C15.75 14.6478 15.592 15.0294 15.3107 15.3107C15.0294 15.592 14.6478 15.75 14.25 15.75H11.25'
@@ -63,8 +65,8 @@ const LogOut = ({ darkMode, style }) => {
           strokeLinejoin='round'
         />
       </svg>
-      <span>Exit</span>
-    </button>
+      <span>Log out</span>
+    </MainBtn>
   )
 }
 

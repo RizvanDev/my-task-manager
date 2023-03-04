@@ -50,9 +50,9 @@ const database = {
     return userInfo.uid && (await writeToDataBase(path, data))
   },
   // send user tasks Data
-  writeUserTasksData: async (userId, date, tabItems) => {
+  writeUserTasksData: async (userId, date, updatedTabItems) => {
     const path = `users/${userId}/user_tasks/${date}`
-    return userId && (await writeToDataBase(path, { ...tabItems.tasks }))
+    return userId && (await writeToDataBase(path, { ...updatedTabItems }))
   },
   // create/read new day
   writeNewDayData: async (userId, date, setTabItems, setCategory, setTab) => {
@@ -61,15 +61,15 @@ const database = {
 
     const dataTabItems = {
       date: new Date().toLocaleDateString().split('.').reverse().join(''),
-      tasks: [],
+      tabs: [],
     }
 
     if (snapshot.exists()) {
-      const tasks = snapshot.val()
+      const data = snapshot.val()
 
-      setCategory(tasks[0].title)
-      setTab(tasks[0].title)
-      dataTabItems.tasks = addEmptyArrays(tasks)
+      setCategory(data[0].title)
+      setTab(data[0].title)
+      dataTabItems.tabs = addEmptyArrays(data)
     }
 
     return setTabItems(dataTabItems)
@@ -86,7 +86,7 @@ const database = {
         email: userInfo.email,
         avatar: userInfo.photo,
       },
-      user_tasks: { [day]: tabItems.tasks },
+      user_tasks: { [day]: tabItems.tabs },
     }
 
     return userId && (await writeToDataBase(path, data))
@@ -109,34 +109,47 @@ const database = {
           email: data.user_info.email,
           uid: data.user_info.uid,
         },
-        tasks: {
+        tabs: {
           ...tabItems,
-          tasks: addEmptyArrays(condition ? data.user_tasks[date] : []),
+          tabs: addEmptyArrays(condition ? data.user_tasks[date] : []),
         },
       }
 
       setUserInfo(userData.info)
-      setTabItems(userData.tasks)
+      setTabItems(userData.tabs)
       setCategory(condition ? data.user_tasks[date][0].title : '')
       setTab(condition ? data.user_tasks[date][0].title : '')
     }
   },
   // reading the data of the selected day
-  readPastData: async ({ ...params }) => {
-    const date = params.date.toLocaleDateString().replaceAll('.', '')
-    const path = `users/${params.userInfo.uid}/user_tasks/${date}`
+  readPastData: async params => {
+    const {
+      date,
+      userInfo,
+      setCalendarDate,
+      setCategory,
+      setTab,
+      tabItems,
+      setTabItems,
+      modals,
+      openModals,
+      createAuthInfoModal,
+    } = params
+
+    const pastDate = date.toLocaleDateString().replaceAll('.', '')
+    const path = `users/${userInfo.uid}/user_tasks/${pastDate}`
     const snapshot = await readFromDatabase(path)
 
     if (snapshot.exists()) {
       const tasks = snapshot.val()
 
-      params.setCalendarDate(params.date)
-      params.setCategory(tasks[0].title)
-      params.setTab(tasks[0].title)
-      params.setTabItems({ ...params.tabItems, tasks: addEmptyArrays(tasks) })
-      params.openModals({ ...params.modals, calendarModal: false })
+      setCalendarDate(date)
+      setCategory(tasks[0].title)
+      setTab(tasks[0].title)
+      setTabItems({ ...tabItems, tabs: addEmptyArrays(tasks) })
+      openModals({ ...modals, calendarModal: false })
     } else {
-      params.createAuthInfoModal({
+      createAuthInfoModal({
         show: true,
         type: 'Error',
         text: `You don't have any tasks for this day`,
@@ -144,30 +157,23 @@ const database = {
     }
   },
   // Statistics
-  createStatistics: async (userId, period, setStatistics) => {
+  createStatistics: async (userId, period, setStatistics, tabItems) => {
     const date = new Date().toLocaleDateString().replaceAll('.', '')
-    const path = `users/${userId}/user_tasks/${period === 'Day' ? date : ''}`
-    const snapshot = await readFromDatabase(path)
+    const path = `users/${userId}/user_tasks/`
 
     const statistics = { Categories: 0, Created: 0, Completed: 0 }
 
-    if (snapshot.exists()) {
-      const data = snapshot.val()
+    const updateStatistics = data => {
+      data.forEach(category => {
+        if (category.hasOwnProperty('data')) {
+          statistics.Created += category.data.length
+          statistics.Completed += category.data.filter(task => task.completed).length
+        }
+      })
+    }
 
-      const updateStatistics = data => {
-        data.forEach(category => {
-          if (category.hasOwnProperty('data')) {
-            statistics.Created += category.data.length
-            statistics.Completed += category.data.filter(task => task.completed).length
-          }
-        })
-      }
-
+    const selectPeriod = data => {
       const periods = {
-        Day: () => {
-          statistics.Categories = data.length
-          updateStatistics(data)
-        },
         Month: () => {
           const currentMonth = date.substring(2, 4)
 
@@ -190,7 +196,15 @@ const database = {
         },
       }
 
-      periods[period]()
+      return periods[period]()
+    }
+
+    if (period === 'Day') {
+      statistics.Categories = tabItems.tabs.length
+      updateStatistics(tabItems.tabs)
+    } else {
+      const snapshot = await readFromDatabase(path)
+      snapshot.exists() && selectPeriod(snapshot.val())
     }
 
     return setStatistics(statistics)
@@ -200,98 +214,129 @@ const database = {
 // Authentication methods
 const authentication = {
   // Login
-  loginEmailPassword: async ({ ...params }) => {
-    if (params.login.Password) {
+  loginEmailPassword: async params => {
+    const {
+      login,
+      setLogin,
+      createAuthInfoModal,
+      userInfo,
+      setUserInfo,
+      tabItems,
+      setTabItems,
+      setTab,
+      setCategory,
+      modals,
+      openModals,
+    } = params
+
+    if (login.Password) {
       try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          params.login.Email,
-          params.login.Password,
-        )
+        const userCredential = await signInWithEmailAndPassword(auth, login.Email, login.Password)
 
         if (userCredential) {
-          params.setLogin({ Email: '', Password: '' })
-          params.createAuthInfoModal({
+          setLogin({ Email: '', Password: '' })
+          createAuthInfoModal({
             show: true,
             type: 'Success',
             text: 'Authorization successfully',
           })
 
-          params.setUserInfo({
-            ...params.userInfo,
+          setUserInfo({
+            ...userInfo,
             uid: userCredential.user.uid,
           })
 
           database.readUserData(
             userCredential.user.uid,
-            params.setUserInfo,
-            params.tabItems,
-            params.setTabItems,
-            params.setTab,
-            params.setCategory,
+            setUserInfo,
+            tabItems,
+            setTabItems,
+            setTab,
+            setCategory,
           )
 
-          setTimeout(() => {
-            params.openModals({ ...params.modals, authModal: false })
-          }, 1500)
+          setTimeout(() => openModals({ ...modals, authModal: false }), 1500)
         }
       } catch (Error) {
-        params.createAuthInfoModal({ show: true, type: 'Error', text: Error.code })
+        createAuthInfoModal({
+          show: true,
+          type: 'Error',
+          text: Error.code.substring(5).replaceAll('-', ' '),
+        })
       }
     }
   },
   // Registration
-  registrationEmailPassword: async ({ ...params }) => {
-    if (params.registration.Password) {
+  registrationEmailPassword: async params => {
+    const {
+      registration,
+      setRegistration,
+      navigate,
+      createAuthInfoModal,
+      userInfo,
+      setUserInfo,
+      tabItems,
+      modals,
+      openModals,
+    } = params
+
+    if (registration.Password) {
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
-          params.registration.Email,
-          params.registration.Password,
+          registration.Email,
+          registration.Password,
         )
 
         if (userCredential) {
-          params.setRegistration({ Email: '', Password: '' })
-          params.createAuthInfoModal({
+          setRegistration({ Email: '', Password: '' })
+          createAuthInfoModal({
             show: true,
             type: 'Success',
             text: 'Registration successfully',
           })
 
-          params.setUserInfo({
-            ...params.userInfo,
+          setUserInfo({
+            ...userInfo,
             email: userCredential.user.email,
             uid: userCredential.user.uid,
           })
 
-          database.createUserData(userCredential.user.uid, params.userInfo, params.tabItems)
+          database.createUserData(userCredential.user.uid, userInfo, tabItems)
 
           setTimeout(() => {
-            params.openModals({ ...params.modals, authModal: false })
-            params.navigate('Profile.jsx')
+            openModals({ ...modals, authModal: false })
+            navigate('Profile.jsx')
           }, 1000)
         }
       } catch (Error) {
-        params.createAuthInfoModal({ show: true, type: 'Error', text: Error.code })
+        createAuthInfoModal({
+          show: true,
+          type: 'Error',
+          text: Error.code.substring(5).replaceAll('-', ' '),
+        })
       }
     }
   },
   // Logout
-  logOut: async ({ ...params }) => {
+  logOut: async params => {
+    const { defaultPhoto, setCalendarDate, setTimeLine, setUserInfo, tabItems, setTabItems } =
+      params
+
     const userData = {
       info: {
-        photo: params.defaultPhoto,
+        photo: defaultPhoto,
         nick: 'username',
         email: '',
         uid: '',
       },
-      tasks: { ...params.tabItems, tasks: [] },
+      tabs: { ...tabItems, tabs: [] },
     }
 
-    params.setCalendarDate(new Date())
-    params.setTimeLine({ past: false, future: false })
-    params.setUserInfo(userData.info)
-    params.setTabItems(userData.tasks)
+    setCalendarDate(new Date())
+    setTimeLine({ past: false, future: false })
+    setUserInfo(userData.info)
+    setTabItems(userData.tabs)
 
     return await signOut(auth)
   },

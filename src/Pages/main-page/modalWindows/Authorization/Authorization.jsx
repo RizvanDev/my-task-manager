@@ -3,8 +3,8 @@ import { Context } from '../../../../context'
 import useValue from '../../../../hooks/useValue'
 import MyModal from '../../../../Components/UI/MyModal/MyModal'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
-import Login from './Login'
-import Registration from './Registration'
+import LoginForm from './LoginForm'
+import RegistrationForm from './RegistrationForm'
 import './authorization.scss'
 
 const Authorization = () => {
@@ -29,31 +29,17 @@ const Authorization = () => {
     setTimeout(() => inputRef.current.focus(), 500)
   }, [modals.authModal, authType])
 
-  const btnStyles = {
-    padding: '10px 25px',
-    borderRadius: '8px',
-    backgroundColor: '#29A19C',
-    fontSize: '16px',
-    lineHeight: '22px',
-    letterSpacing: '0.01em',
-    color: '#FAFAFA',
-  }
-
   return (
     <MyModal
       darkMode={darkMode}
       opened={modals.authModal}
       closeModal={() => openModals({ ...modals, authModal: false })}>
-      <MyTitle
-        fontSize='18px'
-        lineHeight='25px'
-        letterSpacing='0.02em'
-        textAlign='center'>
+      <MyTitle fontSize='18px' lineHeight='25px' letterSpacing='0.02em' textAlign='center'>
         {authType === 'Login' ? 'Log in to your account' : 'Create new account'}
       </MyTitle>
+
       {authType === 'Registration' ? (
-        <Registration
-          btnStyles={btnStyles}
+        <RegistrationForm
           modals={modals}
           openModals={openModals}
           createAuthInfoModal={createAuthInfoModal}
@@ -63,8 +49,7 @@ const Authorization = () => {
           ref={inputRef}
         />
       ) : (
-        <Login
-          btnStyles={btnStyles}
+        <LoginForm
           modals={modals}
           openModals={openModals}
           createAuthInfoModal={createAuthInfoModal}

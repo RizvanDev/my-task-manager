@@ -1,9 +1,15 @@
-import './mainBtn.scss'
+const MainBtn = props => {
+  const defaultBtnStyles = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: props.disabled && 0.5,
+    cursor: props.disabled && 'not-allowed',
+  }
 
-const MainBtn = ({ children, type, styles, onClick }) => {
   return (
-    <button className='mainBtn' type={type} style={styles} onClick={onClick}>
-      {children}
+    <button style={defaultBtnStyles} {...props}>
+      {props.children}
     </button>
   )
 }

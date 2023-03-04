@@ -1,0 +1,30 @@
+@import '../../../../helpStyles/variables.scss';
+
+.deleteCategoryModal__title {
+  display: block;
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.deleteCategoryModal__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 25px;
+}
+
+.deleteCategoryModal__btn {
+  padding: 10px 25px;
+  background-color: transparent;
+  border: 1px solid $main-color;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .deleteCategoryModal__title {
+    font-size: 16px;
+  }
+}

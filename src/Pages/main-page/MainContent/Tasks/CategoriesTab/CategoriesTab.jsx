@@ -5,7 +5,7 @@ import useValue from '../../../../../hooks/useValue'
 import CategoryHeader from './CategoryHeader'
 import TasksContainer from './TasksContainer'
 import CategoriesConfig from '../CategoriesConfig/CategoriesConfig'
-import DeleteModal from '../../../modalWindows/DeleteModal/DeleteModal'
+import DeleteCategoryModal from '../../../modalWindows/DeleteCategoryModal/DeleteCategoryModal'
 import './categoriesTab.scss'
 
 const CategoriesTab = ({ category, idx }) => {
@@ -27,17 +27,14 @@ const CategoriesTab = ({ category, idx }) => {
   } = useContext(Context)
 
   const removeCategory = () => {
-    const newTabItems = {
-      ...tabItems,
-      tasks: tabItems.tasks.filter(task => task.title !== category.title),
-    }
+    const newTabItems = tabItems.tabs.filter(task => task.title !== category.title)
 
-    const tab = tabItems.tasks.length > 1 && (tabItems.tasks[idx - 1] || tabItems.tasks[1])
+    const tab = tabItems.tabs.length > 1 && (tabItems.tabs[idx - 1] || tabItems.tabs[1])
 
     setTab(tab.title)
     setCategory(tab.title)
 
-    setTabItems(newTabItems)
+    setTabItems({ ...tabItems, tabs: newTabItems })
 
     return database.writeUserTasksData(
       userInfo.uid,
@@ -77,9 +74,9 @@ const CategoriesTab = ({ category, idx }) => {
       />
 
       <TasksContainer type='Active' {...tasksContainerProps} />
-      <TasksContainer type='Completed' {...tasksContainerProps} />
+      {!timeLine.future && <TasksContainer type='Completed' {...tasksContainerProps} />}
 
-      <DeleteModal removeCategory={removeCategory} />
+      <DeleteCategoryModal removeCategory={removeCategory} />
     </div>
   )
 }

@@ -1,9 +1,6 @@
 @import '../../../../../helpStyles/variables.scss';
 
 .userMenu__container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   column-gap: 20px;
   background-color: transparent;
 }
@@ -33,15 +30,10 @@
   svg {
     transition: all 0.3s linear 0s;
   }
-}
-
-.darkModeBtn {
-  box-shadow: none;
-  background-color: $darkModeBgElement;
-}
-
-.darkModeText {
-  color: $darkModeColorText;
+  &.darkMode {
+    box-shadow: none;
+    background-color: $darkModeBgElement;
+  }
 }
 
 .rotate {

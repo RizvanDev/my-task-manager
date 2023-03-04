@@ -91,6 +91,20 @@
   letter-spacing: 0.03em;
 }
 
+.profile__form-btn {
+  margin-top: 20px;
+  padding: 10px 25px;
+  border-radius: 8px;
+  background-color: $main-color;
+  font-size: 18px;
+  color: #fafafa;
+  &:active {
+    transform: scale(0.97);
+  }
+  &:disabled:active {
+    transform: scale(1);
+  }
+}
 @media (max-width: 1024px) {
   .profile__container {
     max-width: 1024px;

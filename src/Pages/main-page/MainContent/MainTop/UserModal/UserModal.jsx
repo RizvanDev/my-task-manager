@@ -1,26 +1,23 @@
 import { Link } from 'react-router-dom'
 import LogOut from '../../../../../Components/UI/LogOut/LogOut'
+import MainBtn from '../../../../../Components/UI/MainBtn/MainBtn'
 import moon from '../../../../../assets/icons/mode/moon.svg'
 import sun from '../../../../../assets/icons/mode/sun.svg'
-import cl from './userModal.module.scss'
+import './userModal.scss'
 
 const UserModal = props => {
-  const logOutStyles = {
-    fontFamily: 'Montserrat',
-    fontSize: '12px',
-    lineHeight: '15px',
-  }
+  const { userModal, darkMode, setDarkMode, userInfo, modals, openModals } = props
 
-  const userModalClasses = [cl.userModal]
+  const userModalClasses = ['userModal']
 
-  props.userModal && userModalClasses.push(cl.open)
-  props.darkMode && userModalClasses.push(cl.darkMode)
+  userModal && userModalClasses.push('open')
+  darkMode && userModalClasses.push('darkMode')
 
   return (
     <div className={userModalClasses.join(' ')}>
-      <div className={cl.userModal__container}>
-        {props.userInfo.uid ? (
-          <Link to='Profile.jsx' className={cl.userModal__item}>
+      <div className='userModal__container'>
+        {userInfo.uid ? (
+          <Link to='Profile.jsx' className='userModal__item link'>
             <svg width='18' height='18' fill='none'>
               <path
                 d='M15 15.75V14.25C15 13.4544 14.6839 12.6913 14.1213 12.1287C13.5587 11.5661 12.7956 11.25 12 11.25H6C5.20435 11.25 4.44129 11.5661 3.87868 12.1287C3.31607 12.6913 3 13.4544 3 14.25V15.75'
@@ -40,10 +37,10 @@ const UserModal = props => {
             Profile
           </Link>
         ) : (
-          <button
+          <MainBtn
             type='button'
-            className={cl.userModal__item}
-            onClick={() => props.openModals({ ...props.modals, authModal: true })}>
+            className='userModal__item'
+            onClick={() => openModals({ ...modals, authModal: true })}>
             <svg width='18' height='18' fill='none'>
               <path
                 d='M15 15.75V14.25C15 13.4544 14.6839 12.6913 14.1213 12.1287C13.5587 11.5661 12.7956 11.25 12 11.25H6C5.20435 11.25 4.44129 11.5661 3.87868 12.1287C3.31607 12.6913 3 13.4544 3 14.25V15.75'
@@ -61,16 +58,15 @@ const UserModal = props => {
               />
             </svg>
             <span>Login/Registration</span>
-          </button>
+          </MainBtn>
         )}
-        <button
-          type='button'
-          className={cl.userModal__item}
-          onClick={() => props.setDarkMode(!props.darkMode)}>
-          <img src={props.darkMode ? sun : moon} alt='moon/sun' />
-          <span>{props.darkMode ? 'Light mode' : 'Dark mode'}</span>
-        </button>
-        <a href='#' className={cl.userModal__item}>
+
+        <MainBtn type='button' className='userModal__item' onClick={() => setDarkMode(!darkMode)}>
+          <img src={darkMode ? sun : moon} alt='moon/sun' />
+          <span>{darkMode ? 'Light mode' : 'Dark mode'}</span>
+        </MainBtn>
+
+        <MainBtn className='userModal__item'>
           <svg width='18' height='18' fill='none'>
             <path
               d='M9 11.25C10.2426 11.25 11.25 10.2426 11.25 9C11.25 7.75736 10.2426 6.75 9 6.75C7.75736 6.75 6.75 7.75736 6.75 9C6.75 10.2426 7.75736 11.25 9 11.25Z'
@@ -93,8 +89,13 @@ const UserModal = props => {
             </defs>
           </svg>
           <span>Settings</span>
-        </a>
-        {props.userInfo.uid && <LogOut style={logOutStyles} />}
+        </MainBtn>
+
+        {userInfo.uid && (
+          <div className='userModal__logOut'>
+            <LogOut />
+          </div>
+        )}
       </div>
     </div>
   )

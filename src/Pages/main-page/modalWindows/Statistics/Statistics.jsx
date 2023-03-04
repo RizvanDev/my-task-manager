@@ -15,15 +15,15 @@ const Statistics = () => {
     Created: '',
     Completed: '',
   })
-  const { darkMode, modals, openModals, userInfo } = useContext(Context)
+  const { darkMode, modals, openModals, userInfo, tabItems } = useContext(Context)
 
   const changePeriod = e => {
     selectOnchange(e)
-    database.createStatistics(userInfo.uid, e.target.value, setStatistics)
+    database.createStatistics(userInfo.uid, e.target.value, setStatistics, tabItems)
   }
 
   useEffect(() => {
-    userInfo.uid && database.createStatistics(userInfo.uid, selected, setStatistics)
+    userInfo.uid && database.createStatistics(userInfo.uid, selected, setStatistics, tabItems)
   }, [modals.statisticsModal])
 
   const styleObj = {

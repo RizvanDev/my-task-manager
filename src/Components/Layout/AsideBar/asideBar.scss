@@ -85,6 +85,21 @@
   }
 }
 
+.asideBar__logOut {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+@media (max-width: 1400px) {
+  .asideBar__logOut {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
 @media (max-height: 500px) {
   .asideBar__container {
     overflow-y: scroll !important;

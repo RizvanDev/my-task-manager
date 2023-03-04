@@ -17,8 +17,6 @@
 .taskEdit,
 .taskDelete {
   flex: 0 1 0;
-  justify-content: center;
-  align-items: center;
   visibility: hidden;
   opacity: 0;
 }
@@ -37,6 +35,9 @@
 }
 
 .taskCheckbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 20px;
   margin-right: 10px;
   background-color: transparent;
