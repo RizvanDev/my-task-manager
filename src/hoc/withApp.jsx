@@ -43,9 +43,9 @@ const withApp = Component => {
     })
     const [tabItems, setTabItems] = useValue(tabsStorage)
     // select tabs and category
-    const [tab, setTab] = useValue(tabItems.tabs.length ? tabItems.tabs[0].title : '')
+    const [tab, setTab] = useValue(tabItems.tabs.length && tabItems.tabs[0].title)
     const [category, setCategory, categorySelectOnChange] = useValue(
-      tabItems.tabs.length ? tabItems.tabs[0].title : '',
+      tabItems.tabs.length && tabItems.tabs[0].title,
     )
 
     useEffect(() => {

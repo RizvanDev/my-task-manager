@@ -1,7 +1,7 @@
 @import '../../../../helpStyles/variables.scss';
 
 .mainContent__time {
-  flex: 0 1 35%;
+  width: 100%;
   padding: 20px;
   border-radius: 10px;
   background-color: #fff;
@@ -66,10 +66,6 @@
 }
 
 @media (max-width: 1600px) {
-  .mainContent__time {
-    flex: 0 1 28%;
-  }
-
   .time__container {
     flex-direction: column;
     row-gap: 25px;

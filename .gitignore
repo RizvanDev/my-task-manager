@@ -11,3 +11,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+node_modules/.cache/default-development/20.pack

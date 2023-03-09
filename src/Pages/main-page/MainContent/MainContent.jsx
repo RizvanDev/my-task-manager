@@ -1,6 +1,7 @@
 import MainTop from './MainTop/Main.top'
 import Tasks from './Tasks/Tasks'
 import DateContainer from './DateContainer/DateContainer'
+import Chart from './Chart/Chart'
 import './mainContent.scss'
 
 const MainContent = () => {
@@ -9,7 +10,10 @@ const MainContent = () => {
       <MainTop />
       <main className='mainContent__main'>
         <Tasks />
-        <DateContainer />
+        <div className='mainContent__others'>
+          <DateContainer />
+          <Chart />
+        </div>
       </main>
     </div>
   )
