@@ -8,31 +8,23 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts'
+
 import { Context } from '../../../../context'
 import MyTitle from '../../../../Components/MyTitle/MyTitle'
 import CustomTooltip from './CustomTooltip'
 import './chart.scss'
 
 const Chart = () => {
-  const { darkMode } = useContext(Context)
-
-  const data = [
-    { day: 'Mon', completed: 2 },
-    { day: 'Tue', completed: 7 },
-    { day: 'Wed', completed: 13 },
-    { day: 'Thu', completed: 4 },
-    { day: 'Fri', completed: 5 },
-    { day: 'Sat', completed: 15 },
-    { day: 'Sun', completed: 9 },
-  ]
+  const { darkMode, dataChart } = useContext(Context)
 
   const chartNotify = {
     ResponsiveContainer: { width: '100%', height: 200, ariaLabel: 'Progress chart' },
-    CartesianGrid: { strokeDasharray: 1, stroke: '#6669' },
-    LineChart: { data: data, margin: { top: 10, right: 12 } },
+    CartesianGrid: { strokeDasharray: 0.5, stroke: '#6669' },
+    LineChart: { data: dataChart, margin: { top: 10, right: 12 } },
     XAxis: {
       dataKey: 'day',
       tickSize: 0,
+      tick: { fontSize: '14px' },
       axisLine: false,
       tickMargin: 15,
       stroke: darkMode ? '#e5e5e5' : '#283846',
@@ -40,6 +32,7 @@ const Chart = () => {
     YAxis: {
       width: 34,
       tickSize: 0,
+      tick: { fontSize: '14px' },
       axisLine: false,
       tickMargin: 10,
       stroke: darkMode ? '#e5e5e5' : '#282846',
@@ -49,22 +42,48 @@ const Chart = () => {
       cursor: { stroke: darkMode ? 'lightgreen' : 'green', strokeWidth: 1 },
       active: true,
     },
-    Line: {
-      type: 'natural',
+    LineActive: {
+      type: 'monotone',
+      dataKey: 'created',
+      strokeWidth: 1,
+      isAnimationActive: true,
+      animationDuration: 1000,
+      animationEasing: 'ease-out',
+      stroke: ' rgba(39, 164, 213, 0.3)',
+    },
+    LineCompleted: {
+      type: 'monotone',
       dataKey: 'completed',
       strokeWidth: 3,
-      activeDot: {
-        strokeWidth: 0,
-        r: 10,
-      },
+      dot: { strokeWidth: 1 },
+      activeDot: { strokeWidth: 0, r: 10 },
       isAnimationActive: true,
+      animationDuration: 1000,
+      animationEasing: 'ease-out',
       stroke: '#29A19C',
     },
   }
 
   if (window.matchMedia('(max-width: 1600px)').matches) {
     chartNotify.ResponsiveContainer.height = 170
-    chartNotify.Line.strokeWidth = 2
+    chartNotify.LineCompleted.strokeWidth = 2
+    chartNotify.XAxis.tick.fontSize = '13px'
+    chartNotify.YAxis.tick.fontSize = '13px'
+  }
+
+  if (window.matchMedia('(max-width: 1280px)').matches) {
+    chartNotify.XAxis.tick.fontSize = '12px'
+    chartNotify.YAxis.tick.fontSize = '12px'
+  }
+
+  if (window.matchMedia('(max-width: 1024px)').matches) {
+    chartNotify.XAxis.tick.fontSize = '15px'
+    chartNotify.YAxis.tick.fontSize = '15px'
+  }
+
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    chartNotify.XAxis.tick.fontSize = '12px'
+    chartNotify.YAxis.tick.fontSize = '12px'
   }
 
   return (
@@ -78,7 +97,8 @@ const Chart = () => {
           <XAxis {...chartNotify.XAxis} />
           <YAxis {...chartNotify.YAxis} />
           <Tooltip {...chartNotify.Tooltip} />
-          <Line {...chartNotify.Line} />
+          <Line {...chartNotify.LineActive} />
+          <Line {...chartNotify.LineCompleted} />
         </LineChart>
       </ResponsiveContainer>
     </div>

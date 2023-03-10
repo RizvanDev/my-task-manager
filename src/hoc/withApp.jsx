@@ -5,6 +5,16 @@ import useValue from '../hooks/useValue'
 import useLocaleStorage from '../hooks/useLocaleStorage'
 import defaultPhoto from '../assets/img/default-profile-picture.jpg'
 
+const defaultChartData = [
+  { day: 'Mon', created: 0, completed: 0 },
+  { day: 'Tue', created: 0, completed: 0 },
+  { day: 'Wed', created: 0, completed: 0 },
+  { day: 'Thu', created: 0, completed: 0 },
+  { day: 'Fri', created: 0, completed: 0 },
+  { day: 'Sat', created: 0, completed: 0 },
+  { day: 'Sun', created: 0, completed: 0 },
+]
+
 const withApp = Component => {
   return () => {
     // dark mode
@@ -42,6 +52,8 @@ const withApp = Component => {
       tabs: [],
     })
     const [tabItems, setTabItems] = useValue(tabsStorage)
+    const [dataChart, setDataChart] = useValue(defaultChartData)
+
     // select tabs and category
     const [tab, setTab] = useValue(tabItems.tabs.length && tabItems.tabs[0].title)
     const [category, setCategory, categorySelectOnChange] = useValue(
@@ -64,6 +76,7 @@ const withApp = Component => {
 
     useEffect(() => {
       timeLine.past === timeLine.future && setDataInStorage(tabItems)
+      userInfo.uid && database.getWeeklyTaskCompletionData(userInfo.uid, setDataChart)
     }, [tabItems])
 
     // select calendar value
@@ -251,7 +264,10 @@ const withApp = Component => {
       setTab,
       tabItems,
       setTabItems,
+      dataChart,
+      setDataChart,
       defaultPhoto,
+      defaultChartData,
       category,
       setCategory,
       categorySelectOnChange,
