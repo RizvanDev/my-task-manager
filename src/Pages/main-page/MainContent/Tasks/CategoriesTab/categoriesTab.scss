@@ -5,7 +5,7 @@
   display: none;
   flex-direction: column;
   height: 100%;
-  padding: 20px;
+  padding: 20px 20px 0;
   transition: all 0.3s ease 0.2s;
   &.active {
     display: flex;
@@ -34,12 +34,11 @@
 
 .activeTasks__block,
 .completedTasks__block {
-  margin-top: 15px;
-  padding: 0 15px;
+  margin-top: 10px;
 }
 
 .activeTasks__block {
-  flex: 1 1 55%s;
+  flex: 1 1 55%;
 }
 
 .completedTasks__block {
@@ -51,7 +50,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  margin: 20px 0;
+  margin: 10px 0;
   padding-right: 10px;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -67,11 +66,11 @@
   }
 }
 .activeTasks__container {
-  max-height: 320px;
+  max-height: 340px;
 }
 
 .completedTasks__container {
-  max-height: 250px;
+  max-height: 270px;
 }
 
 .category__configBtn {
@@ -131,11 +130,6 @@
 }
 
 @media (max-width: 1400px) {
-  .activeTasks__block,
-  .completedTasks__block {
-    padding: 0 10px;
-  }
-
   .category__configBtn {
     top: 24px;
     right: 16px;
@@ -149,11 +143,6 @@
 }
 
 @media (max-width: 1024px) {
-  .activeTasks__block,
-  .completedTasks__block {
-    padding: 0 0px;
-  }
-
   .activeTasks__container {
     min-height: 320px;
   }

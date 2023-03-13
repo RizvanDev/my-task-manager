@@ -33,7 +33,7 @@ const SearchTasks = ({ darkMode, searchQuery, setSearchQuery, searchOnChange, fi
         <ul className='search__autoCompleteTags'>
           {filteredTasks.map(task => (
             <li
-              key={task.task}
+              key={task.time}
               className='search__autoCompleteTag'
               onClick={() => handleClickSetAndCloseTags(task.task)}>
               {task.task}
