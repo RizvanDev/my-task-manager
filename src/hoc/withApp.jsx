@@ -6,13 +6,13 @@ import useLocaleStorage from '../hooks/useLocaleStorage'
 import defaultPhoto from '../assets/img/default-profile-picture.jpg'
 
 const defaultChartData = [
+  { day: 'Sun', created: 0, completed: 0 },
   { day: 'Mon', created: 0, completed: 0 },
   { day: 'Tue', created: 0, completed: 0 },
   { day: 'Wed', created: 0, completed: 0 },
   { day: 'Thu', created: 0, completed: 0 },
   { day: 'Fri', created: 0, completed: 0 },
   { day: 'Sat', created: 0, completed: 0 },
-  { day: 'Sun', created: 0, completed: 0 },
 ]
 
 const withApp = Component => {

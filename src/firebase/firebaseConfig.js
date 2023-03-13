@@ -215,13 +215,13 @@ const database = {
     const snapshot = await readFromDatabase(path)
 
     const data = [
+      { day: 'Sun', created: 0, completed: 0 },
       { day: 'Mon', created: 0, completed: 0 },
       { day: 'Tue', created: 0, completed: 0 },
       { day: 'Wed', created: 0, completed: 0 },
       { day: 'Thu', created: 0, completed: 0 },
       { day: 'Fri', created: 0, completed: 0 },
       { day: 'Sat', created: 0, completed: 0 },
-      { day: 'Sun', created: 0, completed: 0 },
     ]
 
     const updateWeakData = week => {
@@ -249,13 +249,13 @@ const database = {
       const currentMonth = currentDate.toLocaleDateString().substring(3, 5)
 
       const firstDayOfWeek = new Date(
-        currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1),
+        new Date().setDate(currentDate.getDate() - currentDate.getDay()),
       )
         .toLocaleDateString()
         .replaceAll('.', '')
 
       const lastDayOfWeek = new Date(
-        currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 7),
+        new Date().setDate(currentDate.getDate() - currentDate.getDay() + 6),
       )
         .toLocaleDateString()
         .replaceAll('.', '')
