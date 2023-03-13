@@ -6,46 +6,41 @@
   align-items: center;
   column-gap: 10px;
   width: 100%;
-  background-color: transparent;
+  padding: 8px;
+  border-radius: 8px;
   font-weight: 700;
   line-height: 22px;
   letter-spacing: 0.4px;
   text-overflow: ellipsis;
   cursor: pointer;
-  transition: all 0.3s linear 0s;
+  transition: all 0.1s linear 0s;
   & svg path {
     transition: all 0.3s linear 0s;
   }
-  &.darkMode svg path {
-    stroke: #f9f9f9;
+  &.darkMode {
+    &.selected {
+      background-color: #222831;
+    }
+    svg path {
+      stroke: #f9f9f9;
+    }
   }
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 1px;
-    background-color: rgba(97, 96, 96);
-  }
+
   &.selected {
-    transform: scale(0.97);
-    transition: all 0.3s ease 0s;
-  }
-  &.selected::before {
-    width: 80%;
-    transition: all 0.3s ease 0s;
+    background-color: #e1e1e1;
   }
 }
 
 @media (min-width: 1024px) {
-  .listItem:hover {
-    transform: scale(0.97);
-    transition: all 0.3s ease 0s;
-  }
-  .listItem:hover::before {
-    width: 80%;
-    transition: all 0.3s ease 0s;
+  .listItem {
+    &:hover {
+      background-color: #e1e1e1;
+    }
+    &.darkMode {
+      &:hover {
+        background-color: #222831;
+      }
+    }
   }
 }
 
