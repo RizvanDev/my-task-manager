@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
+import { setDefaultState } from '../store/chartReducer'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -209,74 +210,6 @@ const database = {
 
     return setStatistics(statistics)
   },
-  // Chart
-  getWeeklyTaskCompletionData: async (userId, setDataChart) => {
-    const path = `users/${userId}/user_tasks/`
-    const snapshot = await readFromDatabase(path)
-
-    const data = [
-      { day: 'Sun', created: 0, completed: 0 },
-      { day: 'Mon', created: 0, completed: 0 },
-      { day: 'Tue', created: 0, completed: 0 },
-      { day: 'Wed', created: 0, completed: 0 },
-      { day: 'Thu', created: 0, completed: 0 },
-      { day: 'Fri', created: 0, completed: 0 },
-      { day: 'Sat', created: 0, completed: 0 },
-    ]
-
-    const updateWeakData = week => {
-      const updatedData = data.slice()
-
-      for (const day of Object.keys(week)) {
-        for (const tab of week[day]) {
-          if (tab.data) {
-            for (const task of tab.data) {
-              const desiredObj = updatedData.findIndex(obj => obj.day === day)
-              updatedData[desiredObj].created++
-              task.completed && desiredObj !== -1 && updatedData[desiredObj].completed++
-            }
-          }
-        }
-      }
-
-      return setDataChart(updatedData)
-    }
-
-    const getWeekDataFromSnapshot = data => {
-      const weekData = {}
-
-      const currentDate = new Date()
-      const currentMonth = currentDate.toLocaleDateString().substring(3, 5)
-
-      const firstDayOfWeek = new Date(
-        new Date().setDate(currentDate.getDate() - currentDate.getDay()),
-      )
-        .toLocaleDateString()
-        .replaceAll('.', '')
-
-      const lastDayOfWeek = new Date(
-        new Date().setDate(currentDate.getDate() - currentDate.getDay() + 6),
-      )
-        .toLocaleDateString()
-        .replaceAll('.', '')
-
-      for (const day in data) {
-        const monthCondition = day.substring(2, 4) === currentMonth
-        const weekCondition = day >= firstDayOfWeek && day <= lastDayOfWeek
-
-        if (monthCondition && weekCondition) {
-          const date = new Date(day.replace(/(\d{2})(\d{2})(\d{4})/, '$2/$1/$3'))
-          const dayOfWeekName = date.toDateString().substring(0, 3)
-
-          weekData[dayOfWeekName] = data[day]
-        }
-      }
-
-      return updateWeakData(weekData)
-    }
-
-    return snapshot.exists && getWeekDataFromSnapshot(snapshot.val())
-  },
 }
 
 // Authentication methods
@@ -388,16 +321,8 @@ const authentication = {
   },
   // Logout
   logOut: async params => {
-    const {
-      defaultPhoto,
-      defaultChartData,
-      setCalendarDate,
-      setTimeLine,
-      setUserInfo,
-      setDataChart,
-      tabItems,
-      setTabItems,
-    } = params
+    const { defaultPhoto, setCalendarDate, setTimeLine, setUserInfo, tabItems, setTabItems } =
+      params
 
     const userData = {
       info: {
@@ -412,11 +337,10 @@ const authentication = {
     setCalendarDate(new Date())
     setTimeLine({ past: false, future: false })
     setUserInfo(userData.info)
-    setDataChart(defaultChartData)
     setTabItems(userData.tabs)
 
     return await signOut(auth)
   },
 }
 
-export { authentication, database }
+export { authentication, database, readFromDatabase }

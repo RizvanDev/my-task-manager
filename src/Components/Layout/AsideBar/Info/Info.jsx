@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { Context } from '../../../../context'
-import MyTitle from '../../../../Components/MyTitle/MyTitle'
+import MyTitle from '../../../UI/MyTitle/MyTitle'
 import ListItem from '../ListItem/ListItem'
 import './info.scss'
 

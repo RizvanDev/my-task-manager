@@ -1,0 +1,140 @@
+@import '../../../helpStyles/variables.scss';
+
+.profile {
+  min-height: 100vh;
+  background-color: #e5e5e5;
+  font-family: 'Nunito', sans-serif;
+  color: $lightModeColorText;
+  &.darkMode {
+    background-color: #222831;
+    color: $darkModeColorText;
+    .profile__container {
+      background-color: $darkModeBgElement;
+    }
+    .profile__avatar {
+      background-color: $darkModeColorText;
+    }
+  }
+}
+
+.profile__container {
+  max-width: 1024px;
+  padding: 20px;
+  margin-top: 40px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.profile__form {
+  display: flex;
+  justify-content: center;
+  column-gap: 50px;
+}
+
+.profile__avatar {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-top: 20px;
+  background-color: #222831;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.4px;
+}
+
+.profile__avatar-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.avatar__label {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.profile__inputsContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  margin-top: 0px;
+}
+
+.profile__avatarInput {
+  width: 0;
+  height: 0;
+  font-size: 0;
+}
+
+.profile__input {
+  width: 540px;
+  padding: 10px;
+  background: f9f9f9;
+  font-size: 20px;
+  border: 1px solid grey;
+  color: #222831;
+}
+
+.profile__label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.profile__form-btn {
+  margin-top: 20px;
+  padding: 10px 25px;
+  border-radius: 8px;
+  background-color: $main-color;
+  font-size: 18px;
+  color: #fafafa;
+  &:active {
+    transform: scale(0.97);
+  }
+  &:disabled:active {
+    transform: scale(1);
+  }
+}
+@media (max-width: 1024px) {
+  .profile__container {
+    max-width: 1024px;
+    padding: 20px 0 40px;
+    margin-top: 40px;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+
+  .profile__form {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile__container {
+    margin-bottom: 20px;
+  }
+
+  .profile__input {
+    width: 340px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 414px) {
+  .profile__input {
+    width: 260px;
+    font-size: 16px;
+  }
+}

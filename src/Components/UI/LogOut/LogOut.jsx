@@ -2,6 +2,8 @@ import { useContext } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { authentication } from '../../../firebase/firebaseConfig'
 import { Context } from '../../../context'
+import { useDispatch } from 'react-redux'
+import { setDefaultChart } from '../../../store/chartReducer'
 import MainBtn from '../MainBtn/MainBtn'
 import './logout.scss'
 
@@ -19,6 +21,7 @@ const LogOut = () => {
     setTimeLine,
   } = useContext(Context)
 
+  const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -26,6 +29,7 @@ const LogOut = () => {
 
   const handleExitAcc = () => {
     redirectOnMainPage()
+    dispatch(setDefaultChart())
 
     return authentication.logOut({
       setAuthorization,

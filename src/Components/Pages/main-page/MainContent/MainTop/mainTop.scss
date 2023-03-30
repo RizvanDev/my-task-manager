@@ -1,0 +1,48 @@
+.mainContent__top {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainContent__top-btn {
+  column-gap: 10px;
+  padding: 10px 25px;
+  background: #29a19c;
+  color: #fafafa;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+  &:active {
+    transform: scale(0.97);
+  }
+  &:disabled:active {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainContent__top {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    padding: 15px 5%;
+    background-color: #e5e5e5;
+    z-index: 2;
+  }
+
+  .App.darkMode .mainContent__top {
+    background-color: #222831;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContent__top {
+    padding: 12px 30px;
+  }
+}

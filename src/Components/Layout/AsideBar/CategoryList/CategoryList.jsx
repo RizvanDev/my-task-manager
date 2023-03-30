@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Context } from '../../../../context'
-import MyTitle from '../../../../Components/MyTitle/MyTitle'
+import MyTitle from '../../../UI/MyTitle/MyTitle'
 import AddCategory from './AddCategory/AddCategory'
 import ListItem from '../ListItem/ListItem'
 import './categoryList.scss'
