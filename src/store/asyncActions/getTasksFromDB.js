@@ -7,7 +7,10 @@ export const getTasksFromDB = (userId, action) => {
         const path = `users/${userId}/user_tasks/`
         const snapshot = await readFromDatabase(path)
 
-        return snapshot.exists() && dispatch(action(snapshot.val()))
+        if (snapshot.exists()) {
+          const tasks = snapshot.val()
+          return dispatch(action(tasks))
+        }
       } catch (error) {
         console.log(`Error getting tasks - ${error}`)
         return null

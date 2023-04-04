@@ -10,7 +10,7 @@ import {
 } from 'recharts'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTasksFromDB } from '../../../../../store/asyncActions/getTasksFromDB'
-import { createWeeklyCompletionData } from '../../../../../store/chartReducer'
+import { actions } from '../../../../../store/chartReducer'
 import { Context } from '../../../../../context'
 import MyTitle from '../../../../../Components/UI/MyTitle/MyTitle'
 import CustomTooltip from './CustomTooltip'
@@ -22,27 +22,27 @@ const Chart = () => {
   const { darkMode, userInfo, tabItems } = useContext(Context)
 
   useEffect(() => {
-    dispatch(getTasksFromDB(userInfo.uid, createWeeklyCompletionData))
+    dispatch(getTasksFromDB(userInfo.uid, actions.createWeeklyCompletionData))
   }, [tabItems])
 
   const chartNotify = {
     ResponsiveContainer: { width: '100%', height: 200, ariaLabel: 'Progress chart' },
     CartesianGrid: { strokeDasharray: 0.5, stroke: '#6669' },
-    LineChart: { data: chartData, margin: { top: 10, right: 12 } },
+    LineChart: { data: chartData, margin: { top: 10, right: 10 } },
     XAxis: {
       dataKey: 'day',
       tickSize: 0,
       tick: { fontSize: '14px' },
       axisLine: false,
-      tickMargin: 15,
+      tickMargin: 12,
       stroke: darkMode ? '#e5e5e5' : '#283846',
     },
     YAxis: {
-      width: 34,
+      width: 40,
       tickSize: 0,
       tick: { fontSize: '14px' },
       axisLine: false,
-      tickMargin: 10,
+      tickMargin: 12,
       stroke: darkMode ? '#e5e5e5' : '#282846',
     },
     Tooltip: {
@@ -62,7 +62,7 @@ const Chart = () => {
     LineCompleted: {
       type: 'monotone',
       dataKey: 'completed',
-      strokeWidth: 3,
+      strokeWidth: 2,
       dot: { strokeWidth: 1 },
       activeDot: { strokeWidth: 0, r: 10 },
       isAnimationActive: true,
