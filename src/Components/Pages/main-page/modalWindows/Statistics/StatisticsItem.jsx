@@ -5,7 +5,7 @@ const StatisticsItem = ({ itemName, quantity }) => {
   let [count, setCount] = useValue(0)
 
   useEffect(() => {
-    count < quantity && setTimeout(() => setCount(count + 1), 30)
+    count < quantity && setTimeout(() => setCount(count + 1), 20)
   })
 
   useEffect(() => setCount(0), [quantity])

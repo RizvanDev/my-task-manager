@@ -10,7 +10,7 @@ import {
 } from 'recharts'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTasksFromDB } from '../../../../../store/asyncActions/getTasksFromDB'
-import { actions } from '../../../../../store/chartReducer'
+import { chartActions } from '../../../../../store/reducers/chartReducer'
 import { Context } from '../../../../../context'
 import MyTitle from '../../../../../Components/UI/MyTitle/MyTitle'
 import CustomTooltip from './CustomTooltip'
@@ -22,7 +22,7 @@ const Chart = () => {
   const { darkMode, userInfo, tabItems } = useContext(Context)
 
   useEffect(() => {
-    dispatch(getTasksFromDB(userInfo.uid, actions.createWeeklyCompletionData))
+    dispatch(getTasksFromDB(userInfo.uid, chartActions.createWeeklyCompletionData))
   }, [tabItems])
 
   const chartNotify = {

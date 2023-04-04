@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { authentication } from '../../../firebase/firebaseConfig'
 import { Context } from '../../../context'
 import { useDispatch } from 'react-redux'
-import { actions } from '../../../store/chartReducer'
+import { chartActions } from '../../../store/reducers/chartReducer'
 import MainBtn from '../MainBtn/MainBtn'
 import './logout.scss'
 
@@ -29,7 +29,7 @@ const LogOut = () => {
 
   const handleExitAcc = () => {
     redirectOnMainPage()
-    dispatch(actions.setDefaultChart())
+    dispatch(chartActions.setDefaultChart())
 
     return authentication.logOut({
       setAuthorization,

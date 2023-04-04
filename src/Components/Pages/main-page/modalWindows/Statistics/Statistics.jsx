@@ -1,6 +1,8 @@
 import { useContext, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTasksFromDB } from '../../../../../store/asyncActions/getTasksFromDB'
+import { statisticsActions } from '../../../../../store/reducers/statisticsReducer'
 import { Context } from '../../../../../context'
-import { database } from '../../../../../firebase/firebaseConfig'
 import useValue from '../../../../../hooks/useValue'
 import MyModal from '../../../../../Components/UI/MyModal/MyModal'
 import MyTitle from '../../../../../Components/UI/MyTitle/MyTitle'
@@ -9,21 +11,26 @@ import StatisticsItem from './StatisticsItem'
 import './statistics.scss'
 
 const Statistics = () => {
-  const [selected, , selectOnchange] = useValue('Day')
-  const [statistics, setStatistics] = useValue({
-    Categories: '',
-    Created: '',
-    Completed: '',
-  })
+  const dispatch = useDispatch()
+  const statistics = useSelector(state => state.statisticsReducer)
   const { darkMode, modals, openModals, userInfo, tabItems } = useContext(Context)
+  const [selected, , selectOnchange] = useValue('Day')
+
+  const selectPeriod = selected => {
+    return {
+      Day: () => dispatch(statisticsActions.createDayStatistics(tabItems)),
+      Month: () => dispatch(getTasksFromDB(userInfo.uid, statisticsActions.createMonthStatistics)),
+      Year: () => dispatch(getTasksFromDB(userInfo.uid, statisticsActions.createYearStatistics)),
+    }[selected]()
+  }
 
   const changePeriod = e => {
     selectOnchange(e)
-    database.createStatistics(userInfo.uid, e.target.value, setStatistics, tabItems)
+    selectPeriod(e.target.value)
   }
 
   useEffect(() => {
-    userInfo.uid && database.createStatistics(userInfo.uid, selected, setStatistics, tabItems)
+    selectPeriod(selected)
   }, [modals.statisticsModal])
 
   const styleObj = {
@@ -66,9 +73,9 @@ const Statistics = () => {
       </div>
 
       <div className='statistics__container'>
-        <StatisticsItem quantity={statistics.Categories} />
-        <StatisticsItem itemName='Created' quantity={statistics.Created} />
-        <StatisticsItem itemName='Completed' quantity={statistics.Completed} />
+        <StatisticsItem quantity={statistics.categories} />
+        <StatisticsItem itemName='Created' quantity={statistics.createdTasks} />
+        <StatisticsItem itemName='Completed' quantity={statistics.completedTasks} />
       </div>
     </MyModal>
   )

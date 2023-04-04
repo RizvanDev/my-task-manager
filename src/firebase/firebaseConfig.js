@@ -156,59 +156,6 @@ const database = {
       })
     }
   },
-  // Statistics
-  createStatistics: async (userId, period, setStatistics, tabItems) => {
-    const date = new Date().toLocaleDateString().replaceAll('.', '')
-    const path = `users/${userId}/user_tasks/`
-
-    const statistics = { Categories: 0, Created: 0, Completed: 0 }
-
-    const updateStatistics = data => {
-      data.forEach(category => {
-        if (category.hasOwnProperty('data')) {
-          statistics.Created += category.data.length
-          statistics.Completed += category.data.filter(task => task.completed).length
-        }
-      })
-    }
-
-    const selectPeriod = data => {
-      const periods = {
-        Month: () => {
-          const currentMonth = date.substring(2, 4)
-
-          for (const day in data) {
-            if (day.substring(2, 4) === currentMonth) {
-              statistics.Categories += data[day].length
-              updateStatistics(data[day])
-            }
-          }
-        },
-        Year: () => {
-          const currentYear = date.substring(4)
-
-          for (const day in data) {
-            if (day.substring(4) === currentYear) {
-              statistics.Categories += data[day].length
-              updateStatistics(data[day])
-            }
-          }
-        },
-      }
-
-      return periods[period]()
-    }
-
-    if (period === 'Day') {
-      statistics.Categories = tabItems.tabs.length
-      updateStatistics(tabItems.tabs)
-    } else {
-      const snapshot = await readFromDatabase(path)
-      snapshot.exists() && selectPeriod(snapshot.val())
-    }
-
-    return setStatistics(statistics)
-  },
 }
 
 // Authentication methods
