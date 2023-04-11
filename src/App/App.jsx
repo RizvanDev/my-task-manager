@@ -3,16 +3,21 @@ import { withApp } from '../hoc/withApp'
 import Layout from '../Components/Layout/Layout'
 import Main from '../Components/Pages/main-page/Main'
 import Profile from '../Components/Pages/profile-page/Profile'
+import Auth from '../Components/Pages/auth-page/Auth'
 import './App.scss'
 
-const App = ({ darkMode }) => {
+const App = ({ darkMode, uid }) => {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Layout darkMode={darkMode} />}>
-          <Route index element={<Main />} />
-          <Route path='Profile.jsx' element={<Profile darkMode={darkMode} />} />
-        </Route>
+        {uid ? (
+          <Route path='/' element={<Layout darkMode={darkMode} />}>
+            <Route index element={<Main />} />
+            <Route path='Profile.jsx' element={<Profile darkMode={darkMode} />} />
+          </Route>
+        ) : (
+          <Route path='/' element={<Auth />} />
+        )}
       </Routes>
     </>
   )

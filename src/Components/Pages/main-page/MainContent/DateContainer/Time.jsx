@@ -11,7 +11,7 @@ const Time = ({ userInfo, setTabItems, setCategory, setTab, setCalendarDate }) =
     return () => clearInterval(interval)
   }, [today])
 
-  if (userInfo.uid && today.toLocaleTimeString() === '00:00:00') {
+  if (today.toLocaleTimeString() === '00:00:00') {
     database.writeNewDayData(
       userInfo.uid,
       today.toLocaleDateString().replaceAll('.', ''),

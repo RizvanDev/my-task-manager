@@ -1,10 +1,10 @@
-const Select = ({ ...props }) => {
+const Select = props => {
+  const { options, value, onChange, className } = props
+
   return (
-    <select value={props.value} onChange={props.onChange} style={props.styles}>
-      {props.options.map(item => (
-        <option style={props.styles.option} key={item.title}>
-          {item.title}
-        </option>
+    <select className={className} value={value} onChange={onChange}>
+      {options.map(item => (
+        <option key={item.title}>{item.title}</option>
       ))}
     </select>
   )

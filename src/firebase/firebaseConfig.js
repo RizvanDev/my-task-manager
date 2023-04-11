@@ -47,12 +47,12 @@ const database = {
       avatar: userInfo.photo,
     }
 
-    return userInfo.uid && (await writeToDataBase(path, data))
+    return await writeToDataBase(path, data)
   },
   // send user tasks Data
   writeUserTasksData: async (userId, date, updatedTabItems) => {
     const path = `users/${userId}/user_tasks/${date}`
-    return userId && (await writeToDataBase(path, { ...updatedTabItems }))
+    return await writeToDataBase(path, { ...updatedTabItems })
   },
   // create/read new day
   writeNewDayData: async (userId, date, setTabItems, setCategory, setTab) => {
@@ -89,7 +89,7 @@ const database = {
       user_tasks: { [day]: tabItems.tabs },
     }
 
-    return userId && (await writeToDataBase(path, data))
+    return await writeToDataBase(path, data)
   },
   // reade user Data
   readUserData: async (userId, setUserInfo, tabItems, setTabItems, setTab, setCategory) => {

@@ -8,7 +8,7 @@ import defaultPhoto from '../assets/img/default-profile-picture.jpg'
 const withApp = Component => {
   return () => {
     // dark mode
-    const [darkMode, setDarkMode] = useLocaleStorage('darkMode', false)
+    const [darkMode, setDarkMode] = useLocaleStorage('darkMode', true)
     // side menu viewport < 1280
     const [sideMenu, openSideMenu] = useValue(false)
     // container for adding categories
@@ -52,7 +52,7 @@ const withApp = Component => {
     useEffect(() => {
       const date = new Date().toLocaleDateString().split('.').reverse().join('')
 
-      if (userInfo.uid && date !== tabItems.date) {
+      if (date !== tabItems.date) {
         database.writeNewDayData(
           userInfo.uid,
           calendarDate.toLocaleDateString().replaceAll('.', ''),
@@ -261,7 +261,7 @@ const withApp = Component => {
 
     return (
       <Context.Provider value={contextValues}>
-        <Component darkMode={darkMode} />
+        <Component darkMode={darkMode} uid={userInfo.uid} />
       </Context.Provider>
     )
   }

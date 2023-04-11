@@ -1,0 +1,81 @@
+@import '../../../../../helpStyles/variables.scss';
+
+.inputsContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  margin: 30px 0 50px;
+}
+
+.helpText {
+  display: block;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+
+.select {
+  width: 200px;
+  padding: 8px 15px;
+  border: 1px solid rgba(40, 40, 70, 0.3);
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.02em;
+  color: #222831;
+  cursor: pointer;
+}
+
+.input {
+  width: 600px;
+  padding: 8px 15px;
+  letter-spacing: 0.02em;
+  font-size: 16px;
+  color: #222831;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 10px 25px;
+  border: 1px solid $main-color;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  &.close {
+    background-color: transparent;
+  }
+  &.add {
+    background-color: $main-color;
+  }
+  &:active {
+    transform: scale(0.96);
+  }
+  &.add:disabled:active {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .input {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 768px) and (max-height: 400px) {
+  .inputsContainer {
+    row-gap: 15px;
+    margin: 15px 0 25px;
+  }
+
+  .helpText {
+    line-height: 12px;
+  }
+}

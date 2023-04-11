@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import useValue from '../../../../../hooks/useValue'
+import cl from './statistics.module.scss'
 
 const StatisticsItem = ({ itemName, quantity }) => {
   let [count, setCount] = useValue(0)
@@ -11,10 +12,10 @@ const StatisticsItem = ({ itemName, quantity }) => {
   useEffect(() => setCount(0), [quantity])
 
   return (
-    <div className='statistics__item'>
+    <div className={cl.item}>
       <span>{itemName}</span>
-      <div className='statistics__item-info'>
-        <div className='statistics__item-count'>{count}</div>
+      <div className={cl.itemInfo}>
+        <div className={cl.count}>{count}</div>
         <span>{itemName ? 'Tasks' : 'Categories'}</span>
       </div>
     </div>

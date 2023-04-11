@@ -6,7 +6,7 @@ import MainBtn from '../../../../../Components/UI/MainBtn/MainBtn'
 import Select from '../../../../../Components/UI/Select/Select'
 import MyModal from '../../../../../Components/UI/MyModal/MyModal'
 import useValue from '../../../../../hooks/useValue'
-import './taskModal.scss'
+import cl from './taskModal.module.scss'
 
 const TaskModal = () => {
   const [inputValue, setInputValue, inputOnChange] = useValue('')
@@ -24,40 +24,25 @@ const TaskModal = () => {
 
   const handleCloseModal = () => openModals(prev => ({ ...prev, taskModal: false }))
 
-  const selectStyles = {
-    width: '200px',
-    padding: '8px 15px',
-    border: '1px solid rgba(40, 40, 70, 0.3)',
-    borderRadius: '8px',
-    fontWeight: '400',
-    fontSize: '14px',
-    lineHeight: '19px',
-    letterSpacing: '0.02em',
-    option: {
-      fontSize: '16px',
-      color: '#666',
-    },
-  }
-
   return (
     <MyModal darkMode={darkMode} opened={modals.taskModal} closeModal={handleCloseModal}>
       <MyTitle fontWeight='700' fontSize='20px' lineHeight='27px' letterSpacing='0.02em'>
         New task
       </MyTitle>
-      <div className='taskModal__inputsContainer'>
+      <div className={cl.inputsContainer}>
         <div>
-          <span className='taskModal__helpText'>Category</span>
+          <span className={cl.helpText}>Category</span>
           <Select
-            styles={selectStyles}
+            className={cl.select}
             options={tabItems.tabs}
             value={category}
             onChange={categorySelectOnChange}
           />
         </div>
         <div>
-          <span className='taskModal__helpText'>Create new task</span>
+          <span className={cl.helpText}>Create new task</span>
           <Input
-            className='taskModal__input'
+            className={cl.input}
             placeholder='What should I do?'
             value={inputValue}
             onChange={inputOnChange}
@@ -65,12 +50,12 @@ const TaskModal = () => {
           />
         </div>
       </div>
-      <div className='taskModal__btnContainer'>
-        <MainBtn className='taskModal__btn --close' type='button' onClick={handleCloseModal}>
+      <div className={cl.btnContainer}>
+        <MainBtn className={[cl.btn, cl.close].join(' ')} type='button' onClick={handleCloseModal}>
           Cancel
         </MainBtn>
         <MainBtn
-          className='taskModal__btn --add'
+          className={[cl.btn, cl.add].join(' ')}
           type='button'
           onClick={handleAddTask}
           disabled={!inputValue}>

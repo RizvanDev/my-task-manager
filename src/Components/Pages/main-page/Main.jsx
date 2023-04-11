@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import { Context } from '../../../context'
 import MainContent from './MainContent/MainContent'
 import TaskModal from './modalWindows/TaskModal/TaskModal'
-import Authorization from './modalWindows/Authorization/Authorization'
 import CalendarWindow from './modalWindows/Calendar/Calendar'
 import InfoAuthModal from './modalWindows/InfoAuthModal/InfoAuthModal'
 import Statistics from './modalWindows/Statistics/Statistics'
@@ -14,7 +13,6 @@ const Main = () => {
     <div>
       <MainContent />
       <TaskModal />
-      <Authorization />
       <CalendarWindow />
       <Statistics />
       {authInfoModal.show && (
